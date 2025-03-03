@@ -11,8 +11,6 @@ import { fretboard } from '@app/config/global_variables/fretboard';
 export class FretboardComponent {
   public currentFretboard = fretboard;
   public sound(note: any) {
-    console.log(note);
-
     let fretNote = note.note;
     if (note.note.includes('#')) fretNote = note.note.replace('#', 'sh');
 
