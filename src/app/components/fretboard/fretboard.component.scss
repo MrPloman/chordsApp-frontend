@@ -1,0 +1,29 @@
+#fretboard {
+  border: 1px black;
+  display: flex;
+  flex-direction: column;
+  .stringBoard {
+    display: flex;
+    flex-direction: row;
+    .fret {
+      border: 1px solid black;
+      width: 150px;
+      height: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+    }
+  }
+  .positions {
+    display: flex;
+    flex-direction: row;
+    .fretPosition {
+      display: flex;
+      width: 150px;
+      height: 30px;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

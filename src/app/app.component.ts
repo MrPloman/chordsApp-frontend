@@ -2,10 +2,11 @@ import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
+import { FretboardComponent } from './components/fretboard/fretboard.component';
 
 @Component({
   selector: 'app-root',
-  imports: [MatSliderModule, FormsModule],
+  imports: [MatSliderModule, FormsModule, FretboardComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })

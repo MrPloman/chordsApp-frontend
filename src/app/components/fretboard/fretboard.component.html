@@ -1,0 +1,12 @@
+<div id="fretboard">
+  <div class="stringBoard" *ngFor="let string of currentFretboard">
+    <div class="fret" (click)="sound(note)" *ngFor="let note of string">
+      {{ note.note }}
+    </div>
+  </div>
+  <div class="positions">
+    <div *ngFor="let item of currentFretboard[0]" class="fretPosition">
+      {{ item.position }}
+    </div>
+  </div>
+</div>
