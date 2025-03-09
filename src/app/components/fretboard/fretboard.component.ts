@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { fretboard } from '@app/config/global_variables/fretboard';
+import { dots } from '@app/config/global_variables/dots';
 
 @Component({
   selector: 'app-fretboard',
@@ -10,7 +11,8 @@ import { fretboard } from '@app/config/global_variables/fretboard';
 })
 export class FretboardComponent {
   public currentFretboard = fretboard;
-  public sound(note: any) {
+  public currentDots = dots;
+  public makeItSound(note: any) {
     let fretNote = note.note;
     if (note.note.includes('#')) fretNote = note.note.replace('#', 'sh');
 
@@ -19,5 +21,12 @@ export class FretboardComponent {
     );
     noteAudio.load();
     noteAudio.play();
+  }
+  public topDotChecker(note: any) {
+    return false;
+  }
+
+  public bottomDotChecker(note: any) {
+    return false;
   }
 }

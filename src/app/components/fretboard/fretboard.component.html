@@ -1,12 +1,26 @@
 <div id="fretboard">
+  <img
+    *ngFor="let dot of currentDots"
+    class="dot"
+    [src]="dot.src"
+    alt="dot"
+    [style.left]="dot.left"
+    [style.top]="dot.top"
+  />
   <div class="stringBoard" *ngFor="let string of currentFretboard">
-    <div class="fret" (click)="sound(note)" *ngFor="let note of string">
-      {{ note.note }}
+    <div class="fret" (click)="makeItSound(note)" *ngFor="let note of string">
+      <!-- <span class="dot" *ngIf="topDotChecker(note)"></span> -->
+      <span class="noteName">{{ note.note }}</span>
+      <hr class="stringLine" />
+
+      <!-- <span *ngIf="bottomDotChecker(note)" class="dot"></span> -->
     </div>
   </div>
   <div class="positions">
     <div *ngFor="let item of currentFretboard[0]" class="fretPosition">
-      {{ item.position }}
+      <span>
+        {{ item.position }}
+      </span>
     </div>
   </div>
 </div>

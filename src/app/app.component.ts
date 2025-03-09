@@ -3,10 +3,16 @@ import { RouterOutlet } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
+import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 
 @Component({
   selector: 'app-root',
-  imports: [MatSliderModule, FormsModule, FretboardComponent],
+  imports: [
+    MatSliderModule,
+    FormsModule,
+    FretboardComponent,
+    FunctionSelectorComponent,
+  ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
@@ -19,10 +25,4 @@ export class AppComponent {
     // Use the updated volume value as needed (e.g., set audio volume)
   }
   ngOnInit(): void {}
-  public sound() {
-    const audio = new Audio(this.soundSrc);
-    audio.load();
-    audio.play();
-  }
-  constructor() {}
 }
