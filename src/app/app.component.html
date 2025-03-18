@@ -1,3 +1,9 @@
 <h1>Chords Genius</h1>
 <app-fretboard></app-fretboard>
-<app-function-selector></app-function-selector>
+<div [ngSwitch]="selection">
+  <app-function-selector *ngSwitchCase="undefined"></app-function-selector>
+  <app-chords-guesser *ngSwitchCase="'guesser'"></app-chords-guesser>
+  <app-chords-progression
+    *ngSwitchCase="'progression'"
+  ></app-chords-progression>
+</div>

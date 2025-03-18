@@ -8,14 +8,12 @@ import {
 export const functionSelectedReducer = createReducer(
   functionSelectionInitialState,
   on(selectOptionAction, (state, props) => {
-    return { ...state, functionSelected: props.option };
+    const option = props.option;
+    return { option: option };
   }),
 
   on(resetSelectionAction, (state) => {
-    state.functionSelected = undefined;
+    state.option = undefined;
     return state;
   })
 );
-export function reducer(state = functionSelectionInitialState, action: Action) {
-  return functionSelectedReducer(state, action);
-}
