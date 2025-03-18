@@ -1,13 +1,9 @@
-import { createAction } from '@ngrx/store';
+import { createAction, props } from '@ngrx/store';
 
 // Action to initiate login
-export const guessChordAction = createAction(
-  '[Function Selection] Guess Chord Action'
-);
-
-// Action to handle successful login
-export const createProgressionAction = createAction(
-  '[Function Selection] Create Chord Progression'
+export const selectOptionAction = createAction(
+  '[Function Selection] Select Function Action',
+  props<{ option: 'guesser' | 'progression' }>()
 );
 
 // Action to handle failed login

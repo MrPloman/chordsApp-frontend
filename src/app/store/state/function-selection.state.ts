@@ -1,4 +1,4 @@
-interface IFunctionSelectionState {
+export interface IFunctionSelectionState {
   functionSelected: undefined | 'guesser' | 'progression';
 }
 

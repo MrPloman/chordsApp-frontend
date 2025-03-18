@@ -1,25 +1,21 @@
-import { Action, createReducer, on } from '@ngrx/store';
+import { Action, createReducer, on, props } from '@ngrx/store';
 import { functionSelectionInitialState } from '../state/function-selection.state';
 import {
-  createProgressionAction,
-  guessChordAction,
+  resetSelectionAction,
+  selectOptionAction,
 } from '../actions/function-selection.actions';
 
 export const functionSelectedReducer = createReducer(
   functionSelectionInitialState,
-  on(guessChordAction, (state) => {
-    state.functionSelected = 'guesser';
-    return state;
+  on(selectOptionAction, (state, props) => {
+    return { ...state, functionSelected: props.option };
   }),
-  on(createProgressionAction, (state) => {
-    state.functionSelected = 'progression';
-    return state;
-  }),
-  on(createProgressionAction, (state) => {
+
+  on(resetSelectionAction, (state) => {
     state.functionSelected = undefined;
     return state;
   })
 );
-// export function reducer(state = functionSelectionInitialState, action: Action) {
-//   return functionSelectedReducer(state, action);
-// }
+export function reducer(state = functionSelectionInitialState, action: Action) {
+  return functionSelectedReducer(state, action);
+}
