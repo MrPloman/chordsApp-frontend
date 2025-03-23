@@ -1,6 +1,7 @@
 <h1>Chords Genius</h1>
 <app-fretboard></app-fretboard>
 <div [ngSwitch]="selection">
+  <button (click)="resetFunctionSelection()" *ngIf="selection">Go Back</button>
   <app-function-selector *ngSwitchCase="undefined"></app-function-selector>
   <app-chords-guesser *ngSwitchCase="'guesser'"></app-chords-guesser>
   <app-chords-progression

@@ -1,7 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { fretboard } from '@app/config/global_variables/fretboard';
 import { dots } from '@app/config/global_variables/dots';
+import { Observable } from 'rxjs';
+import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
+import { select, Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-fretboard',
@@ -12,6 +15,23 @@ import { dots } from '@app/config/global_variables/dots';
 export class FretboardComponent {
   public currentFretboard = fretboard;
   public currentDots = dots;
+  private store = inject(Store);
+
+  private functionSelectedStore: Observable<any>;
+
+  constructor() {
+    this.functionSelectedStore = this.store.pipe(
+      select(selectFunctionSelectedState)
+    );
+  }
+
+  public selectNote(note: any) {
+    this.functionSelectedStore.subscribe(({ functionSelected }) => {
+      console.log(functionSelected);
+    });
+    this.makeItSound(note);
+  }
+
   public makeItSound(note: any) {
     let fretNote = note.note;
     if (note.note.includes('#')) fretNote = note.note.replace('#', 'sh');
@@ -21,12 +41,5 @@ export class FretboardComponent {
     );
     noteAudio.load();
     noteAudio.play();
-  }
-  public topDotChecker(note: any) {
-    return false;
-  }
-
-  public bottomDotChecker(note: any) {
-    return false;
   }
 }

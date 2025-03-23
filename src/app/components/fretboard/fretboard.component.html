@@ -8,12 +8,9 @@
     [style.top]="dot.top"
   />
   <div class="stringBoard" *ngFor="let string of currentFretboard">
-    <div class="fret" (click)="makeItSound(note)" *ngFor="let note of string">
-      <!-- <span class="dot" *ngIf="topDotChecker(note)"></span> -->
+    <div class="fret" (click)="selectNote(note)" *ngFor="let note of string">
       <span class="noteName">{{ note.note }}</span>
       <hr class="stringLine" />
-
-      <!-- <span *ngIf="bottomDotChecker(note)" class="dot"></span> -->
     </div>
   </div>
   <div class="positions">

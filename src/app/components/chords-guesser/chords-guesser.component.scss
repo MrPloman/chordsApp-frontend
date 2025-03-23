@@ -1,0 +1,25 @@
+#chordGuesser-container {
+  max-width: 50%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-self: center;
+  #chords {
+    margin: 10px;
+    border: 2px solid grey;
+    padding: 10px;
+    border-radius: 10px;
+
+    #chordFigure {
+      display: flex;
+      flex-direction: row;
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+  }
+  .selected {
+    border: 2px solid red !important;
+  }
+}

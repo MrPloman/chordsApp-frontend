@@ -13,7 +13,6 @@ export const functionSelectedReducer = createReducer(
   }),
 
   on(resetSelectionAction, (state) => {
-    state.option = undefined;
-    return state;
+    return { option: undefined };
   })
 );

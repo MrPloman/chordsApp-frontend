@@ -15,6 +15,10 @@ import { IFunctionSelectionState } from './store/state/function-selection.state'
 import { Observable, Subscription } from 'rxjs';
 import { ChordsGuesserComponent } from './components/chords-guesser/chords-guesser.component';
 import { ChordsProgressionComponent } from './components/chords-progression/chords-progression.component';
+import {
+  resetSelectionAction,
+  selectOptionAction,
+} from './store/actions/function-selection.actions';
 
 @Component({
   selector: 'app-root',
@@ -41,8 +45,6 @@ export class AppComponent {
     );
     this.subscriptionStore = this.functionSelectedStore.subscribe(
       (value: { functionSelected: IFunctionSelectionState }) => {
-        if (!value || !value.functionSelected || !value.functionSelected.option)
-          return;
         this.selection = value.functionSelected.option;
       }
     );
@@ -57,9 +59,8 @@ export class AppComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
   }
-  ngOnChanges(changes: any): void {
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-    console.log(this.functionSelectedStore);
+
+  public resetFunctionSelection() {
+    this.store.dispatch(resetSelectionAction());
   }
 }
