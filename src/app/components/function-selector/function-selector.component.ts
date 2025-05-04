@@ -6,6 +6,7 @@ import {
   selectFunctionSelectedState,
 } from '@app/store/selectors/function-selection.selector';
 import { selectOptionAction } from '@app/store/actions/function-selection.actions';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-function-selector',
@@ -16,11 +17,19 @@ import { selectOptionAction } from '@app/store/actions/function-selection.action
 })
 export class FunctionSelectorComponent {
   private store = inject(Store);
+  private functionSelectedStoreSubscription: Subscription = new Subscription();
+
   public functionSelectedStore = this.store.select(selectFunctionSelectedState);
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.functionSelectedStore.subscribe((state) => {});
+    this.functionSelectedStoreSubscription =
+      this.functionSelectedStore.subscribe((state) => {});
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.functionSelectedStoreSubscription.unsubscribe();
   }
 
   public selectOption(option: 'progression' | 'guesser') {

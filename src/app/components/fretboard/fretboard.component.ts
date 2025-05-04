@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { fretboard } from '@app/config/global_variables/fretboard';
 import { dots } from '@app/config/global_variables/dots';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
 import { select, Store } from '@ngrx/store';
 
@@ -16,6 +16,7 @@ export class FretboardComponent {
   public currentFretboard = fretboard;
   public currentDots = dots;
   private store = inject(Store);
+  private functionSelectedStoreSubscription: Subscription = new Subscription();
 
   private functionSelectedStore: Observable<any>;
 
@@ -23,12 +24,18 @@ export class FretboardComponent {
     this.functionSelectedStore = this.store.pipe(
       select(selectFunctionSelectedState)
     );
+    this.functionSelectedStoreSubscription =
+      this.functionSelectedStore.subscribe(({ functionSelected }) => {
+        console.log(functionSelected);
+      });
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.functionSelectedStoreSubscription.unsubscribe();
   }
 
   public selectNote(note: any) {
-    this.functionSelectedStore.subscribe(({ functionSelected }) => {
-      console.log(functionSelected);
-    });
     this.makeItSound(note);
   }
 

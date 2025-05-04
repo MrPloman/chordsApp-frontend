@@ -10,6 +10,7 @@ import {
 import { selectChordGuesserState } from '@app/store/selectors/chords-guesser.selector';
 import { IChordsGuesserState } from '@app/store/state/chords-guesser.state';
 import { select, Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 
 @Component({
@@ -23,14 +24,24 @@ export class ChordsGuesserComponent {
   public chordSelected: number = 0;
   private store = inject(Store);
   private chordsGuesserStore: Observable<any> = new Observable();
+  private chordsGuesserStoreSubscription: Subscription = new Subscription();
   constructor() {
     this.chordsGuesserStore = this.store.pipe(select(selectChordGuesserState));
-    this.chordsGuesserStore.subscribe((chordsState: IChordsGuesserState) => {
-      this.chords = chordsState.currentChords ? chordsState.currentChords : [];
-      this.chordSelected = chordsState.chordSelected
-        ? chordsState.chordSelected
-        : 0;
-    });
+    this.chordsGuesserStoreSubscription = this.chordsGuesserStore.subscribe(
+      (chordsState: IChordsGuesserState) => {
+        this.chords = chordsState.currentChords
+          ? chordsState.currentChords
+          : [];
+        this.chordSelected = chordsState.chordSelected
+          ? chordsState.chordSelected
+          : 0;
+      }
+    );
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.chordsGuesserStoreSubscription.unsubscribe();
   }
 
   public addNewChord() {
