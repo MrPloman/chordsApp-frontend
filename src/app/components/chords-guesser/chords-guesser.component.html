@@ -5,6 +5,7 @@
     [ngClass]="{ selected: chordIndex === chordSelected }"
     (click)="selectChord(chordIndex)"
   >
+    <span (click)="deleteChord(chordIndex)">X</span>
     <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
     <span
       id="chordFigure"

@@ -1,5 +1,4 @@
 import { createSelector } from '@ngrx/store';
-import { IFunctionSelectionState } from '../state/function-selection.state';
 
 export const selectFunctionSelectedState = (state: { option: string }) => state;
 

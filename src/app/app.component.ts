@@ -5,11 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
 import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 import { select, State, Store } from '@ngrx/store';
-import {
-  selectFunctionSelected,
-  selectFunctionSelectedState,
-} from './store/selectors/function-selection.selector';
-import { BrowserModule } from '@angular/platform-browser';
+import { selectFunctionSelectedState } from './store/selectors/function-selection.selector';
 import { CommonModule } from '@angular/common';
 import { IFunctionSelectionState } from './store/state/function-selection.state';
 import { Observable, Subscription } from 'rxjs';

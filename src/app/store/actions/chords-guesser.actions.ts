@@ -11,5 +11,13 @@ export const setCurrentChords = createAction(
 
 export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
-  props<{ chordSelected: Chord }>()
+  props<{ chordSelected: number }>()
+);
+export const removeChord = createAction(
+  '[Remove Chord] Remove Chord',
+  props<{ chordToRemove: number }>()
+);
+export const removeNoteFromChord = createAction(
+  '[Remove Note From Chord] Remove Note From Chord',
+  props<{ noteToRemove: number; chordPosition: number }>()
 );
