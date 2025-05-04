@@ -1,5 +1,6 @@
 import { Action, createReducer, on, props } from '@ngrx/store';
 import {
+  editNoteFromChord,
   removeChord,
   removeNoteFromChord,
   setChordSelected,
@@ -49,5 +50,52 @@ export const chordsGuesserReducer = createReducer(
     );
 
     return { ...state, currentChords: newChords };
+  }),
+  on(editNoteFromChord, (state, props) => {
+    if (!state.currentChords || state.chordSelected === undefined)
+      return { ...state };
+    const notesModified = state.currentChords[state.chordSelected].notes.map(
+      (notePosition: NotePosition) => {
+        if (notePosition.stringNumber === props.notePosition.stringNumber) {
+          notePosition = props.notePosition;
+        }
+        return notePosition;
+      }
+    );
+    console.log(notesModified);
+    const chordsLeft = state.currentChords.filter((chord, index) => {
+      if (index !== state.chordSelected) return chord;
+      else return;
+    });
+    return {
+      ...state,
+      currentChords: [...chordsLeft, new Chord(notesModified, '')],
+    };
+    console.log(chordsLeft);
+    // const chordModified = chordToModify.notes.forEach(
+    //   (notePosition: NotePosition) => {
+    //     if (notePosition.stringNumber === props.notePosition.stringNumber) {
+    //       notePosition = props.notePosition;
+    //     }
+    //     return notePosition;
+    //   }
+    // );
+    // const newChordsArray = state.currentChords.filter((chord, index) => {
+    //   if (index !== state.chordSelected) return chord;
+    // });
+    // if (!notesModified) return { ...state };
+    // else {
+    //   return {
+    //     ...state,
+    //     currentChords: [
+    //       ...chordsLeft,
+    //       {
+    //         name: state.currentChords[state.chordSelected].name,
+    //         notes: notesModified,
+    //       },
+    //     ],
+    //   };
+    // }
+    return state;
   })
 );

@@ -21,3 +21,7 @@ export const removeNoteFromChord = createAction(
   '[Remove Note From Chord] Remove Note From Chord',
   props<{ noteToRemove: number; chordPosition: number }>()
 );
+export const editNoteFromChord = createAction(
+  '[Edit Note From Chord] Edit Note From Chord',
+  props<{ notePosition: NotePosition }>()
+);

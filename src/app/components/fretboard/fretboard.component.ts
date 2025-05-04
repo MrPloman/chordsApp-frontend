@@ -8,6 +8,10 @@ import { select, Store } from '@ngrx/store';
 import { selectChordGuesserState } from '@app/store/selectors/chords-guesser.selector';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { IChordsGuesserState } from '@app/store/state/chords-guesser.state';
+import {
+  editNoteFromChord,
+  setCurrentChords,
+} from '@app/store/actions/chords-guesser.actions';
 
 @Component({
   selector: 'app-fretboard',
@@ -61,18 +65,28 @@ export class FretboardComponent {
     this.chordsGuesserStoreSubscription.unsubscribe();
   }
 
-  public selectNote(note: any) {
+  public selectNote(note: NotePosition) {
     this.makeItSound(note);
+    if (!this.selectionMode) return;
+    else {
+      switch (this.selectionMode) {
+        case 'guesser':
+          this.store.dispatch(editNoteFromChord({ notePosition: note }));
+          break;
+
+        default:
+          break;
+      }
+    }
   }
 
   public isThisNoteSelected = (note: NotePosition) => {
     if (!this.selectionMode || !note || !this.chordsGuesserSelectedChord) {
       return false;
     } else {
-      if (this.selectionMode === 'guesser') {
-        if (this.chordsGuesserSelectedChord.notes.length === 0) return false;
-        else {
-          const inside = this.chordsGuesserSelectedChord.notes.forEach(
+      switch (this.selectionMode) {
+        case 'guesser':
+          return this.chordsGuesserSelectedChord.notes.find(
             (notePosition: NotePosition) => {
               if (
                 notePosition.stringNumber === note.stringNumber &&
@@ -82,9 +96,12 @@ export class FretboardComponent {
               } else return false;
             }
           );
-          return inside;
-        }
-      } else return false;
+          break;
+
+        default:
+          return false;
+          break;
+      }
     }
   };
 
