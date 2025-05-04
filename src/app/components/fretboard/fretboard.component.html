@@ -9,7 +9,11 @@
   />
   <div class="stringBoard" *ngFor="let string of currentFretboard">
     <div class="fret" (click)="selectNote(note)" *ngFor="let note of string">
-      <span class="noteName">{{ note.note }}</span>
+      <span
+        class="noteName"
+        [ngClass]="{ selected: isThisNoteSelected(note) }"
+        >{{ note.name }}</span
+      >
       <hr class="stringLine" />
     </div>
   </div>
