@@ -8,6 +8,7 @@ import {
 } from '../actions/chords-guesser.actions';
 import { chordsGuesserInitialState } from '../state/chords-guesser.state';
 import { Chord, NotePosition } from '@app/models/chord.model';
+import { sortNotePosition } from '../../services/chordsService.service';
 
 export const chordsGuesserReducer = createReducer(
   chordsGuesserInitialState,
@@ -36,14 +37,14 @@ export const chordsGuesserReducer = createReducer(
     if (!state.currentChords) return state;
     const newChords = state.currentChords.map(
       (chordElement: Chord, chordIndex: number) => {
-        if (chordIndex !== props.chordPosition) {
+        if (chordIndex !== props.chordSelected) {
           return chordElement;
         }
-        const notes = chordElement.notes.filter(
-          (note: NotePosition, index: number) => {
+        const notes: NotePosition[] = sortNotePosition(
+          chordElement.notes.filter((note: NotePosition, index: number) => {
             if (props.noteToRemove !== index) return note;
             else return;
-          }
+          })
         );
         return { name: chordElement.name, notes };
       }
@@ -54,48 +55,45 @@ export const chordsGuesserReducer = createReducer(
   on(editNoteFromChord, (state, props) => {
     if (!state.currentChords || state.chordSelected === undefined)
       return { ...state };
-    const notesModified = state.currentChords[state.chordSelected].notes.map(
+
+    // Setting variable add a note in a missing string
+    let noteNotFound = true;
+
+    // Iteration inside all the chords finding which is the chord to modify its notes
+    let notesModified = state.currentChords[state.chordSelected].notes.map(
       (notePosition: NotePosition) => {
+        // checking every string if they are the string to modify
         if (notePosition.stringNumber === props.notePosition.stringNumber) {
           notePosition = props.notePosition;
+          noteNotFound = false;
         }
-        return notePosition;
+
+        // it is required to create new NotePosition EVERYTIME, in order to avoid mutability of elements in NGRX
+        return new NotePosition(
+          notePosition.stringNumber,
+          notePosition.position,
+          notePosition.name
+        );
       }
     );
-    console.log(notesModified);
-    const chordsLeft = state.currentChords.filter((chord, index) => {
-      if (index !== state.chordSelected) return chord;
-      else return;
+
+    // If we did not find the note to modify we have to add the new one nad sort it
+    if (noteNotFound) {
+      notesModified = sortNotePosition([...notesModified, props.notePosition]);
+    }
+
+    // time to infer these notes inside the notes value of the desired chord.
+    const chordsLeft = state.currentChords.map((chord: Chord, index) => {
+      if (index === props.chordSelected) {
+        return new Chord(notesModified, chord.name);
+      }
+      return chord;
     });
+
     return {
       ...state,
-      currentChords: [...chordsLeft, new Chord(notesModified, '')],
+      chordSelected: props.chordSelected,
+      currentChords: [...chordsLeft],
     };
-    console.log(chordsLeft);
-    // const chordModified = chordToModify.notes.forEach(
-    //   (notePosition: NotePosition) => {
-    //     if (notePosition.stringNumber === props.notePosition.stringNumber) {
-    //       notePosition = props.notePosition;
-    //     }
-    //     return notePosition;
-    //   }
-    // );
-    // const newChordsArray = state.currentChords.filter((chord, index) => {
-    //   if (index !== state.chordSelected) return chord;
-    // });
-    // if (!notesModified) return { ...state };
-    // else {
-    //   return {
-    //     ...state,
-    //     currentChords: [
-    //       ...chordsLeft,
-    //       {
-    //         name: state.currentChords[state.chordSelected].name,
-    //         notes: notesModified,
-    //       },
-    //     ],
-    //   };
-    // }
-    return state;
   })
 );

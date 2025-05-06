@@ -29,6 +29,7 @@ export class FretboardComponent {
   private chordsGuesserStoreSubscription: Subscription = new Subscription();
   private chordsGuesserSelectedChord: Chord = new Chord([], '');
   private selectionMode: boolean | string = false;
+  private chordPosition: number = 0;
 
   constructor() {
     this.chordsGuesserStore = this.store.pipe(select(selectChordGuesserState));
@@ -37,14 +38,12 @@ export class FretboardComponent {
     );
     this.functionSelectedStoreSubscription =
       this.functionSelectedStore.subscribe(({ functionSelected }) => {
-        console.log(functionSelected);
         if (!functionSelected || !functionSelected.option)
           this.selectionMode = false;
         else this.selectionMode = functionSelected.option;
       });
     this.chordsGuesserStoreSubscription = this.chordsGuesserStore.subscribe(
       (chordGuesserState: IChordsGuesserState) => {
-        console.log(chordGuesserState);
         if (
           !chordGuesserState ||
           !chordGuesserState.currentChords ||
@@ -52,9 +51,9 @@ export class FretboardComponent {
         ) {
           return;
         }
+        this.chordPosition = chordGuesserState.chordSelected;
         this.chordsGuesserSelectedChord =
           chordGuesserState.currentChords[chordGuesserState.chordSelected];
-        console.log(this.chordsGuesserSelectedChord);
       }
     );
   }
@@ -71,7 +70,12 @@ export class FretboardComponent {
     else {
       switch (this.selectionMode) {
         case 'guesser':
-          this.store.dispatch(editNoteFromChord({ notePosition: note }));
+          this.store.dispatch(
+            editNoteFromChord({
+              notePosition: note,
+              chordSelected: this.chordPosition,
+            })
+          );
           break;
 
         default:

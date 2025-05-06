@@ -74,7 +74,7 @@ export class ChordsGuesserComponent {
     this.store.dispatch(
       removeNoteFromChord({
         noteToRemove: notePosition,
-        chordPosition: chordPosition,
+        chordSelected: chordPosition,
       })
     );
   }
