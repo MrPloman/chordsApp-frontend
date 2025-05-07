@@ -9,13 +9,19 @@
     border: 2px solid grey;
     padding: 10px;
     border-radius: 10px;
+    .deleteButton {
+      cursor: pointer;
+    }
+    .chordStructure {
+      cursor: pointer;
 
-    #chordFigure {
-      display: flex;
-      flex-direction: row;
-      span {
-        margin-left: 10px;
-        margin-right: 10px;
+      #chordFigure {
+        display: flex;
+        flex-direction: row;
+        span {
+          margin-left: 10px;
+          margin-right: 10px;
+        }
       }
     }
   }

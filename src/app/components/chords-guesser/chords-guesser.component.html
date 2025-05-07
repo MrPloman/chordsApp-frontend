@@ -3,19 +3,21 @@
     id="chords"
     *ngFor="let chord of chords; let chordIndex = index"
     [ngClass]="{ selected: chordIndex === chordSelected }"
-    (click)="selectChord(chordIndex)"
   >
-    <span (click)="deleteChord(chordIndex)">X</span>
-    <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
-    <span
-      id="chordFigure"
-      *ngFor="let note of chord.notes; let noteIndex = index"
-    >
-      <span id="stringNumber">{{ note.stringNumber }}th</span> -
-      <span id="notePosition">{{ note.position }}</span> -
-      <span id="noteName">{{ note.name }}</span>
-      <button (click)="removeNote(noteIndex, chordIndex)">X</button> <br
-    /></span>
+    <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
+
+    <div class="chordStructure" (click)="selectChord(chordIndex)">
+      <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
+      <span
+        id="chordFigure"
+        *ngFor="let note of chord.notes; let noteIndex = index"
+      >
+        <span id="stringNumber">{{ note.stringNumber }}th</span> -
+        <span id="notePosition">{{ note.position }}</span> -
+        <span id="noteName">{{ note.name }}</span>
+        <button (click)="removeNote(noteIndex, chordIndex)">X</button> <br
+      /></span>
+    </div>
   </div>
 </div>
 <button (click)="addNewChord()">+</button>

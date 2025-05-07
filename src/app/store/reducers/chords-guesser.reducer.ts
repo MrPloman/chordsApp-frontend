@@ -25,11 +25,13 @@ export const chordsGuesserReducer = createReducer(
     };
   }),
   on(removeChord, (state, props) => {
-    const chords = state.currentChords?.filter(
+    if (!state.currentChords) return { ...state };
+    const chords = state.currentChords.filter(
       (chord: Chord, index: number) => index !== props.chordToRemove && chord
     );
     return {
       ...state,
+      chordSelected: 0,
       currentChords: chords,
     };
   }),
