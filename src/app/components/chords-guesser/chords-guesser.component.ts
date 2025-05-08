@@ -94,4 +94,18 @@ export class ChordsGuesserComponent {
       })
     );
   }
+  public makeChordSound(chord: Chord) {
+    chord.notes.forEach((note: NotePosition) => {
+      let fretNote = note.name;
+      if (note.name.includes('#')) fretNote = note.name.replace('#', 'sh');
+
+      const noteAudio = new Audio(
+        `./assets/audios/${note.stringNumber.toString()}/${note.stringNumber.toString()}_${
+          note.position
+        }_${fretNote}.mp3`
+      );
+      noteAudio.load();
+      noteAudio.play();
+    });
+  }
 }
