@@ -1,5 +1,6 @@
 import { Action, createReducer, on, props } from '@ngrx/store';
 import {
+  changeChordsOrder,
   editNoteFromChord,
   removeChord,
   removeNoteFromChord,
@@ -96,6 +97,37 @@ export const chordsGuesserReducer = createReducer(
       ...state,
       chordSelected: props.chordSelected,
       currentChords: [...chordsLeft],
+    };
+  }),
+  on(changeChordsOrder, (state, props) => {
+    console.log(props);
+    if (!state.currentChords) return { ...state };
+    let copyOfCurrentChords = Object.assign([], state.currentChords);
+    const chordToMove = copyOfCurrentChords.splice(
+      props.originChordPosition,
+      1
+    )[0];
+    copyOfCurrentChords.splice(props.destinationChordPosition, 0, chordToMove);
+
+    // const selectedChord = state.currentChords.find(
+    //   (chord: Chord, index: number) =>
+    //     props.originChordPosition === index &&
+    //     new Chord(chord.notes, chord.name)
+    // );
+    // if (!selectedChord) return { ...state };
+    // console.log(selectedChord);
+    // copyOfCurrentChords = copyOfCurrentChords.filter(
+    //   (chord: Chord, index: number) => index === props.originChordPosition
+    // );
+    // copyOfCurrentChords.splice(
+    //   props.destinationChordPosition,
+    //   0,
+    //   selectedChord
+    // );
+    return {
+      ...state,
+      chordSelected: props.destinationChordPosition,
+      currentChords: copyOfCurrentChords,
     };
   })
 );

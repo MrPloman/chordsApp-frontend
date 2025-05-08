@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import {
+  changeChordsOrder,
   removeChord,
   removeNoteFromChord,
   setChordSelected,
@@ -12,10 +13,16 @@ import { IChordsGuesserState } from '@app/store/state/chords-guesser.state';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
+import {
+  CdkDragDrop,
+  CdkDropList,
+  CdkDrag,
+  moveItemInArray,
+} from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-chords-guesser',
-  imports: [CommonModule],
+  imports: [CommonModule, CdkDropList, CdkDrag],
   templateUrl: './chords-guesser.component.html',
   styleUrl: './chords-guesser.component.scss',
 })
@@ -75,6 +82,15 @@ export class ChordsGuesserComponent {
       removeNoteFromChord({
         noteToRemove: notePosition,
         chordSelected: chordPosition,
+      })
+    );
+  }
+  public drop(event: CdkDragDrop<any[]>) {
+    console.log(event.previousIndex, event.currentIndex);
+    this.store.dispatch(
+      changeChordsOrder({
+        originChordPosition: event.previousIndex,
+        destinationChordPosition: event.currentIndex,
       })
     );
   }

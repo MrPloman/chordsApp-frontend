@@ -25,3 +25,8 @@ export const editNoteFromChord = createAction(
   '[Edit Note From Chord] Edit Note From Chord',
   props<{ notePosition: NotePosition; chordSelected: number }>()
 );
+
+export const changeChordsOrder = createAction(
+  '[Change Chords Order] Change Chords Order',
+  props<{ originChordPosition: number; destinationChordPosition: number }>()
+);
