@@ -12,6 +12,7 @@ import {
   editNoteFromChord,
   setCurrentChords,
 } from '@app/store/actions/chords-guesser.actions';
+import { makeNoteSound } from '@app/services/chordsService.service';
 
 @Component({
   selector: 'app-fretboard',
@@ -110,15 +111,6 @@ export class FretboardComponent {
   };
 
   public makeItSound(note: NotePosition) {
-    let fretNote = note.name;
-    if (note.name.includes('#')) fretNote = note.name.replace('#', 'sh');
-
-    const noteAudio = new Audio(
-      `./assets/audios/${note.stringNumber.toString()}/${note.stringNumber.toString()}_${
-        note.position
-      }_${fretNote}.mp3`
-    );
-    noteAudio.load();
-    noteAudio.play();
+    makeNoteSound(note);
   }
 }
