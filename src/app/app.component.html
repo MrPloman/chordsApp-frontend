@@ -2,7 +2,10 @@
 <app-fretboard></app-fretboard>
 <div [ngSwitch]="selection">
   <button (click)="resetFunctionSelection()" *ngIf="selection">Go Back</button>
+
   <app-function-selector *ngSwitchCase="undefined"></app-function-selector>
+  <app-input-instruction *ngSwitchCase="'progression'"></app-input-instruction>
+
   <app-chords-guesser *ngSwitchCase="'guesser'"></app-chords-guesser>
   <app-chords-progression
     *ngSwitchCase="'progression'"

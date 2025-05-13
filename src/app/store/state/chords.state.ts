@@ -6,7 +6,7 @@ export interface IChordsGuesserState {
   chordSelected: number | undefined;
 }
 
-export const chordsGuesserInitialState: IChordsGuesserState = {
+export const chordsInitialState: IChordsGuesserState = {
   lastNoteSelected: undefined,
   currentChords: undefined,
   chordSelected: undefined,

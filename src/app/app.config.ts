@@ -10,7 +10,7 @@ import { provideState, provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { functionSelectedReducer } from './store/reducers/function-selection.reducer';
-import { chordsGuesserReducer } from './store/reducers/chords-guesser.reducer';
+import { chordsReducer } from './store/reducers/chords.reducer';
 import { appState } from './store/state';
 
 export const appConfig: ApplicationConfig = {
@@ -19,7 +19,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideStore({
       functionSelected: functionSelectedReducer,
-      chordsGuesser: chordsGuesserReducer,
+      chords: chordsReducer,
     }),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),

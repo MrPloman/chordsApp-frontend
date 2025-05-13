@@ -5,13 +5,13 @@ import { dots } from '@app/config/global_variables/dots';
 import { Observable, Subscription } from 'rxjs';
 import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
 import { select, Store } from '@ngrx/store';
-import { selectChordGuesserState } from '@app/store/selectors/chords-guesser.selector';
+import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { IChordsGuesserState } from '@app/store/state/chords-guesser.state';
+import { IChordsGuesserState } from '@app/store/state/chords.state';
 import {
   editNoteFromChord,
   setCurrentChords,
-} from '@app/store/actions/chords-guesser.actions';
+} from '@app/store/actions/chords.actions';
 import { makeNoteSound } from '@app/services/chordsService.service';
 
 @Component({
@@ -26,14 +26,14 @@ export class FretboardComponent {
   private store = inject(Store);
   private functionSelectedStoreSubscription: Subscription = new Subscription();
   private functionSelectedStore: Observable<any>;
-  private chordsGuesserStore: Observable<any> = new Observable();
-  private chordsGuesserStoreSubscription: Subscription = new Subscription();
-  private chordsGuesserSelectedChord: Chord = new Chord([], '');
+  private chordsStore: Observable<any> = new Observable();
+  private chordsStoreSubscription: Subscription = new Subscription();
+  private chordsSelectedChord: Chord = new Chord([], '');
   private selectionMode: boolean | string = false;
   private chordPosition: number = 0;
 
   constructor() {
-    this.chordsGuesserStore = this.store.pipe(select(selectChordGuesserState));
+    this.chordsStore = this.store.pipe(select(selectChordGuesserState));
     this.functionSelectedStore = this.store.pipe(
       select(selectFunctionSelectedState)
     );
@@ -43,7 +43,7 @@ export class FretboardComponent {
           this.selectionMode = false;
         else this.selectionMode = functionSelected.option;
       });
-    this.chordsGuesserStoreSubscription = this.chordsGuesserStore.subscribe(
+    this.chordsStoreSubscription = this.chordsStore.subscribe(
       (chordGuesserState: IChordsGuesserState) => {
         if (
           !chordGuesserState ||
@@ -53,7 +53,7 @@ export class FretboardComponent {
           return;
         }
         this.chordPosition = chordGuesserState.chordSelected;
-        this.chordsGuesserSelectedChord =
+        this.chordsSelectedChord =
           chordGuesserState.currentChords[chordGuesserState.chordSelected];
       }
     );
@@ -62,7 +62,7 @@ export class FretboardComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.functionSelectedStoreSubscription.unsubscribe();
-    this.chordsGuesserStoreSubscription.unsubscribe();
+    this.chordsStoreSubscription.unsubscribe();
   }
 
   public selectNote(note: NotePosition) {
@@ -86,12 +86,12 @@ export class FretboardComponent {
   }
 
   public isThisNoteSelected = (note: NotePosition) => {
-    if (!this.selectionMode || !note || !this.chordsGuesserSelectedChord) {
+    if (!this.selectionMode || !note || !this.chordsSelectedChord) {
       return false;
     } else {
       switch (this.selectionMode) {
         case 'guesser':
-          return this.chordsGuesserSelectedChord.notes.find(
+          return this.chordsSelectedChord.notes.find(
             (notePosition: NotePosition) => {
               if (
                 notePosition.stringNumber === note.stringNumber &&

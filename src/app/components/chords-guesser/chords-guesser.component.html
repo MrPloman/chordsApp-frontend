@@ -2,17 +2,21 @@
   id="chordGuesser-container"
   (cdkDropListDropped)="drop($event)"
   cdkDropList
+  cdkDropListOrientation="mixed"
 >
-  <div id="chords" *ngFor="let chord of chords; let chordIndex = index">
+  <div id="chords">
+    @for (chord of chords; track chord; let chordIndex = $index;) {
     <div
-      class="chord"
+      id="chord"
       cdkDrag
       [ngClass]="{ selected: chordIndex === chordSelected }"
     >
-      <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
+      <div id="header">
+        <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
+        <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
+      </div>
 
       <div class="chordStructure" (click)="selectChord(chordIndex)">
-        <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
         <span
           id="chordFigure"
           *ngFor="let note of chord.notes; let noteIndex = index"
@@ -23,8 +27,11 @@
           <button (click)="removeNote(noteIndex, chordIndex)">X</button> <br
         /></span>
       </div>
-      <button (click)="makeChordSound(chord); (chord)">SOUND</button>
+      <button id="soundChord" (click)="makeChordSound(chord); (chord)">
+        SOUND
+      </button>
     </div>
+    }
   </div>
+  <button id="newChordButton" (click)="addNewChord()">+</button>
 </div>
-<button (click)="addNewChord()">+</button>

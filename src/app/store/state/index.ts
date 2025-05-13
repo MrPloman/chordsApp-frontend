@@ -1,7 +1,7 @@
-import { chordsGuesserInitialState } from './chords-guesser.state';
+import { chordsInitialState } from './chords.state';
 import { functionSelectionInitialState } from './function-selection.state';
 
 export const appState = {
-  chordsGuesser: chordsGuesserInitialState,
+  chords: chordsInitialState,
   functionSelected: functionSelectionInitialState,
 };

@@ -15,6 +15,7 @@ import {
   resetSelectionAction,
   selectOptionAction,
 } from './store/actions/function-selection.actions';
+import { InputInstructionComponent } from './components/input-instruction/input-instruction.component';
 
 @Component({
   selector: 'app-root',
@@ -26,6 +27,7 @@ import {
     FunctionSelectorComponent,
     ChordsGuesserComponent,
     ChordsProgressionComponent,
+    InputInstructionComponent,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

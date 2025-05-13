@@ -6,13 +6,13 @@ import {
   removeNoteFromChord,
   setChordSelected,
   setCurrentChords,
-} from '../actions/chords-guesser.actions';
-import { chordsGuesserInitialState } from '../state/chords-guesser.state';
+} from '../actions/chords.actions';
+import { chordsInitialState } from '../state/chords.state';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { sortNotePosition } from '../../services/chordsService.service';
 
-export const chordsGuesserReducer = createReducer(
-  chordsGuesserInitialState,
+export const chordsReducer = createReducer(
+  chordsInitialState,
   on(setCurrentChords, (state, props) => {
     return {
       ...state,
