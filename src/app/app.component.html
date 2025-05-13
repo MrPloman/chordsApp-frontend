@@ -1,13 +1,19 @@
 <h1>Chords Genius</h1>
 <app-fretboard></app-fretboard>
-<div [ngSwitch]="selection">
-  <button (click)="resetFunctionSelection()" *ngIf="selection">Go Back</button>
+<ng-container id="selectionZone" [ngSwitch]="selection">
+  <button
+    id="goBackButton"
+    (click)="resetFunctionSelection()"
+    *ngIf="!!selection"
+    mat-fab
+  >
+    <mat-icon>arrow_back</mat-icon>
+  </button>
 
   <app-function-selector *ngSwitchCase="undefined"></app-function-selector>
-  <app-input-instruction *ngSwitchCase="'progression'"></app-input-instruction>
 
   <app-chords-guesser *ngSwitchCase="'guesser'"></app-chords-guesser>
   <app-chords-progression
     *ngSwitchCase="'progression'"
   ></app-chords-progression>
-</div>
+</ng-container>

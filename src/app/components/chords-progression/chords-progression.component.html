@@ -1,1 +1,10 @@
-<p>chords-progression works!</p>
+<div id="chordProgression">
+  <app-chords-grid></app-chords-grid>
+  <app-input-instruction
+    [placeholder]="'Give me more information about your progression...'"
+  ></app-input-instruction>
+  <app-submit-button
+    [disabled]="false"
+    [label]="'Help me with this progression!!'"
+  ></app-submit-button>
+</div>

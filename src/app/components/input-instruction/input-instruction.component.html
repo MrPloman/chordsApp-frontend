@@ -1,4 +1,8 @@
 <mat-form-field>
-  <mat-label for="instruction">Input</mat-label>
-  <input [formControl]="instruction" matInput />
+  <mat-label for="instruction">Instruction</mat-label>
+  <textarea
+    [formControl]="instruction"
+    matInput
+    [placeholder]="placeholder"
+  ></textarea>
 </mat-form-field>

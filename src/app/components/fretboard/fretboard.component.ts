@@ -89,24 +89,16 @@ export class FretboardComponent {
     if (!this.selectionMode || !note || !this.chordsSelectedChord) {
       return false;
     } else {
-      switch (this.selectionMode) {
-        case 'guesser':
-          return this.chordsSelectedChord.notes.find(
-            (notePosition: NotePosition) => {
-              if (
-                notePosition.stringNumber === note.stringNumber &&
-                notePosition.position === note.position
-              ) {
-                return true;
-              } else return false;
-            }
-          );
-          break;
-
-        default:
-          return false;
-          break;
-      }
+      return this.chordsSelectedChord.notes.find(
+        (notePosition: NotePosition) => {
+          if (
+            notePosition.stringNumber === note.stringNumber &&
+            notePosition.position === note.position
+          ) {
+            return true;
+          } else return false;
+        }
+      );
     }
   };
 

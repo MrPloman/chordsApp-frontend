@@ -4,3 +4,10 @@ h1 {
   justify-self: center;
   align-self: center;
 }
+#goBackButton {
+  margin: 3%;
+}
+#selectionZone {
+  display: flex;
+  flex-direction: column;
+}

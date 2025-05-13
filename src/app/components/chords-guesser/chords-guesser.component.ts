@@ -13,18 +13,12 @@ import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
-import { makeNoteSound } from '@app/services/chordsService.service';
-import {
-  CdkDragDrop,
-  CdkDropList,
-  CdkDrag,
-  moveItemInArray,
-} from '@angular/cdk/drag-drop';
-import { InputInstructionComponent } from '../input-instruction/input-instruction.component';
+import { SubmitButtonComponent } from '../submit-button/submit-button.component';
+import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 
 @Component({
   selector: 'app-chords-guesser',
-  imports: [CommonModule, CdkDropList, CdkDrag],
+  imports: [CommonModule, SubmitButtonComponent, ChordsGridComponent],
   templateUrl: './chords-guesser.component.html',
   styleUrl: './chords-guesser.component.scss',
 })
@@ -51,54 +45,5 @@ export class ChordsGuesserComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
-  }
-
-  public addNewChord() {
-    this.store.dispatch(
-      setCurrentChords({
-        currentChords: [
-          ...this.chords,
-          new Chord([
-            new NotePosition(1, 0, 'E'),
-            new NotePosition(2, 0, 'B'),
-            new NotePosition(3, 0, 'G'),
-            new NotePosition(4, 0, 'D'),
-            new NotePosition(5, 0, 'A'),
-            new NotePosition(6, 0, 'E'),
-          ]),
-        ],
-      })
-    );
-    this.selectChord(this.chords.length - 1);
-  }
-
-  public selectChord(position: number) {
-    this.store.dispatch(setChordSelected({ chordSelected: position }));
-  }
-  public deleteChord(chordPosition: number) {
-    this.store.dispatch(removeChord({ chordToRemove: chordPosition }));
-  }
-
-  public removeNote(notePosition: number, chordPosition: number) {
-    this.store.dispatch(
-      removeNoteFromChord({
-        noteToRemove: notePosition,
-        chordSelected: chordPosition,
-      })
-    );
-  }
-  public drop(event: CdkDragDrop<any[]>) {
-    console.log(event.previousIndex, event.currentIndex);
-    this.store.dispatch(
-      changeChordsOrder({
-        originChordPosition: event.previousIndex,
-        destinationChordPosition: event.currentIndex,
-      })
-    );
-  }
-  public makeChordSound(chord: Chord) {
-    chord.notes.forEach((note: NotePosition) => {
-      makeNoteSound(note);
-    });
   }
 }

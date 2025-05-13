@@ -1,0 +1,49 @@
+<div
+  id="chordGrid"
+  (cdkDropListDropped)="drop($event)"
+  cdkDropList
+  cdkDropListOrientation="mixed"
+>
+  <div id="chords">
+    @for (chord of chords; track chord; let chordIndex = $index;) {
+    <div
+      id="chord"
+      cdkDrag
+      [ngClass]="{ selected: chordIndex === chordSelected }"
+    >
+      <div id="header">
+        <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
+        <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
+      </div>
+
+      <div class="chordStructure" (click)="selectChord(chordIndex)">
+        <span
+          id="chordFigure"
+          *ngFor="let note of chord.notes; let noteIndex = index"
+        >
+          <span id="stringNumber">{{ note.stringNumber }}th</span> -
+          <span id="notePosition">{{ note.position }}</span> -
+          <span id="noteName">{{ note.name }}</span>
+          <button
+            *ngIf="selection === 'guesser'"
+            (click)="removeNote(noteIndex, chordIndex)"
+          >
+            X
+          </button>
+          <br
+        /></span>
+      </div>
+      <button id="soundChord" (click)="makeChordSound(chord); (chord)">
+        SOUND
+      </button>
+    </div>
+    }
+    <div
+      id="newChordButton"
+      *ngIf="selection === 'guesser'"
+      (click)="addNewChord()"
+    >
+      <h2>+</h2>
+    </div>
+  </div>
+</div>

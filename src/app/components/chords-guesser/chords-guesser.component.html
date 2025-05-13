@@ -1,37 +1,8 @@
-<div
-  id="chordGuesser-container"
-  (cdkDropListDropped)="drop($event)"
-  cdkDropList
-  cdkDropListOrientation="mixed"
->
-  <div id="chords">
-    @for (chord of chords; track chord; let chordIndex = $index;) {
-    <div
-      id="chord"
-      cdkDrag
-      [ngClass]="{ selected: chordIndex === chordSelected }"
-    >
-      <div id="header">
-        <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
-        <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
-      </div>
-
-      <div class="chordStructure" (click)="selectChord(chordIndex)">
-        <span
-          id="chordFigure"
-          *ngFor="let note of chord.notes; let noteIndex = index"
-        >
-          <span id="stringNumber">{{ note.stringNumber }}th</span> -
-          <span id="notePosition">{{ note.position }}</span> -
-          <span id="noteName">{{ note.name }}</span>
-          <button (click)="removeNote(noteIndex, chordIndex)">X</button> <br
-        /></span>
-      </div>
-      <button id="soundChord" (click)="makeChordSound(chord); (chord)">
-        SOUND
-      </button>
-    </div>
-    }
-  </div>
-  <button id="newChordButton" (click)="addNewChord()">+</button>
+<div id="chordGuesser-container">
+  <app-chords-grid></app-chords-grid>
+  <app-submit-button
+    id="submitButton"
+    [disabled]="chords.length === 0"
+    [label]="'Guess My Chords!'"
+  ></app-submit-button>
 </div>

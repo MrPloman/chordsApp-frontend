@@ -1,0 +1,97 @@
+#chordGrid {
+  #chords {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    max-width: 90%;
+    margin: 0 auto;
+
+    #chord {
+      margin: 10px;
+      border: 2px solid grey;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 150px;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
+
+      #header {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        justify-content: space-between;
+        .deleteButton {
+          cursor: pointer;
+        }
+      }
+
+      .chordStructure {
+        margin: 10px 0 10px;
+        cursor: pointer;
+        width: 100%;
+
+        #chordFigure {
+          margin: 0 auto;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          margin: 10px 0 10px 0;
+          span {
+            margin-left: 10px;
+            margin-right: 10px;
+          }
+        }
+        #soundChord {
+          margin: 0 auto;
+        }
+      }
+    }
+    .selected {
+      border: 2px solid red !important;
+    }
+    #newChordButton {
+      margin: 10px;
+      border: 2px solid grey;
+      padding: 20px;
+      border-radius: 10px;
+      min-height: 289px;
+      width: 200px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      h2 {
+        font-size: 100px;
+      }
+    }
+  }
+}
+.cdk-drag-preview {
+  box-sizing: border-box;
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  border: 2px solid grey;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.cdk-drag-placeholder {
+  opacity: 0;
+}
+
+.cdk-drag-animating {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.chord:last-child {
+  border: none;
+}
+
+#chords.cdk-drop-list-dragging .chord:not(.cdk-drag-placeholder) {
+  transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}

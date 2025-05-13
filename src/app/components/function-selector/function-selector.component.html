@@ -1,4 +1,10 @@
-<button (click)="selectOption('guesser')">Chords Guesser</button>
-<button (click)="selectOption('progression')">
-  Chords Progression Creator
-</button>
+<div class="button-container">
+  <button mat-fab extended (click)="selectOption('guesser')">
+    Chords Guesser
+    <mat-icon>local_library</mat-icon>
+  </button>
+
+  <button mat-fab extended (click)="selectOption('progression')">
+    Chords Progression <mat-icon>auto_fix_normal</mat-icon>
+  </button>
+</div>

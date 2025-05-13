@@ -1,16 +1,15 @@
 import { Component, inject } from '@angular/core';
-import { provideStore, Store, StoreModule } from '@ngrx/store';
-import { BrowserModule } from '@angular/platform-browser';
-import {
-  selectFunctionSelected,
-  selectFunctionSelectedState,
-} from '@app/store/selectors/function-selection.selector';
+import { Store } from '@ngrx/store';
+import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
 import { selectOptionAction } from '@app/store/actions/function-selection.actions';
 import { Subscription } from 'rxjs';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-function-selector',
-  imports: [],
+  imports: [MatButtonModule, MatDividerModule, MatIconModule],
 
   templateUrl: './function-selector.component.html',
   styleUrl: './function-selector.component.scss',

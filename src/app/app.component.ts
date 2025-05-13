@@ -11,11 +11,10 @@ import { IFunctionSelectionState } from './store/state/function-selection.state'
 import { Observable, Subscription } from 'rxjs';
 import { ChordsGuesserComponent } from './components/chords-guesser/chords-guesser.component';
 import { ChordsProgressionComponent } from './components/chords-progression/chords-progression.component';
-import {
-  resetSelectionAction,
-  selectOptionAction,
-} from './store/actions/function-selection.actions';
-import { InputInstructionComponent } from './components/input-instruction/input-instruction.component';
+import { resetSelectionAction } from './store/actions/function-selection.actions';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
@@ -27,21 +26,25 @@ import { InputInstructionComponent } from './components/input-instruction/input-
     FunctionSelectorComponent,
     ChordsGuesserComponent,
     ChordsProgressionComponent,
-    InputInstructionComponent,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
   ],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private store = inject(Store);
   public functionSelectedStore: Observable<any>;
-  private subscriptionStore: Subscription = new Subscription();
+  private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string | undefined = undefined;
+
   constructor() {
     this.functionSelectedStore = this.store.pipe(
       select(selectFunctionSelectedState)
     );
-    this.subscriptionStore = this.functionSelectedStore.subscribe(
+    this.subscriptionFunctionStore = this.functionSelectedStore.subscribe(
       (value: { functionSelected: IFunctionSelectionState }) => {
         this.selection = value.functionSelected.option;
       }
@@ -53,7 +56,7 @@ export class AppComponent {
   }
 
   ngOnDestroy(): void {
-    this.subscriptionStore.unsubscribe();
+    this.subscriptionFunctionStore.unsubscribe();
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
   }
