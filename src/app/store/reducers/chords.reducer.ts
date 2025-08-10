@@ -9,7 +9,10 @@ import {
 } from '../actions/chords.actions';
 import { chordsInitialState } from '../state/chords.state';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { sortNotePosition } from '../../services/chordsService.service';
+import {
+  sortNotePosition,
+  removeNoteFromChordArray,
+} from '../../services/chordsService.service';
 
 export const chordsReducer = createReducer(
   chordsInitialState,
@@ -63,26 +66,51 @@ export const chordsReducer = createReducer(
     let noteNotFound = true;
 
     // Iteration inside all the chords finding which is the chord to modify its notes
-    let notesModified = state.currentChords[state.chordSelected].notes.map(
+    let notesModified = state.currentChords[state.chordSelected].notes.filter(
       (notePosition: NotePosition) => {
-        // checking every string if they are the string to modify
+        console.log(notePosition, props.notePosition);
+
+        // checking every string if they are supposed to be modified
         if (notePosition.stringNumber === props.notePosition.stringNumber) {
           notePosition = props.notePosition;
           noteNotFound = false;
         }
 
-        // it is required to create new NotePosition EVERYTIME, in order to avoid mutability of elements in NGRX
-        return new NotePosition(
-          notePosition.stringNumber,
-          notePosition.position,
-          notePosition.name
-        );
+        if (
+          notePosition.stringNumber === props.notePosition.stringNumber &&
+          notePosition.position !== props.notePosition.position
+        ) {
+          // it is required to create new NotePosition EVERYTIME, in order to avoid mutability of elements in NGRX
+          //
+          return new NotePosition(
+            notePosition.stringNumber,
+            notePosition.position,
+            notePosition.name
+          );
+        } else return;
       }
     );
 
     // If we did not find the note to modify we have to add the new one nad sort it
     if (noteNotFound) {
       notesModified = sortNotePosition([...notesModified, props.notePosition]);
+    } else {
+      // if (sameNotePositionInTheSameString) {
+      //   notesModified = removeNoteFromChordArray(
+      //     notesModified,
+      //     props.notePosition.stringNumber - 1
+      //   );
+      // }
+      // if (
+      //   state.lastNoteSelected &&
+      //   state.lastNoteSelected === props.notePosition
+      // ) {
+      //   notesModified = removeNoteFromChordArray(
+      //     notesModified,
+      //     props.notePosition.stringNumber - 1
+      //   );
+      //   notesModified = sortNotePosition([...notesModified]);
+      // }
     }
 
     // time to infer these notes inside the notes value of the desired chord.
@@ -92,11 +120,24 @@ export const chordsReducer = createReducer(
       }
       return chord;
     });
-
+    // Unselection mode, remove the note selected twice from the chord array structure
+    // if (
+    //   state.lastNoteSelected &&
+    //   state.lastNoteSelected === props.notePosition
+    // ) {
+    //   const chordsModifiedWithUnselectedNote = chordsLeft.map()
+    //   return {
+    //     ...state,
+    //     chordSelected: props.chordSelected,
+    //     currentChords: [],
+    //     lastNoteSelected: undefined,
+    //   };
+    // } else {
     return {
       ...state,
       chordSelected: props.chordSelected,
       currentChords: [...chordsLeft],
+      lastNoteSelected: props.notePosition,
     };
   }),
   on(changeChordsOrder, (state, props) => {
