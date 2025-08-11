@@ -110,4 +110,8 @@ export class ChordsGridComponent {
       makeNoteSound(note);
     });
   }
+
+  public trackById(index: number, item: any): number {
+    return item.id;
+  }
 }

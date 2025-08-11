@@ -64,53 +64,48 @@ export const chordsReducer = createReducer(
 
     // Setting variable add a note in a missing string
     let noteNotFound = true;
+    let repeatedNote: NotePosition | undefined = undefined;
 
     // Iteration inside all the chords finding which is the chord to modify its notes
-    let notesModified = state.currentChords[state.chordSelected].notes.filter(
+    let notesModified = state.currentChords[state.chordSelected].notes.map(
       (notePosition: NotePosition) => {
-        console.log(notePosition, props.notePosition);
-
         // checking every string if they are supposed to be modified
         if (notePosition.stringNumber === props.notePosition.stringNumber) {
-          notePosition = props.notePosition;
+          // setting this variable because means the string has a note position inside the chord array, otherwise the chord array would not have any object with that stringnumber
           noteNotFound = false;
+          // If the string has the same position previously we have to set the variable repeatedNote with that value
+          if (notePosition.position === props.notePosition.position) {
+            repeatedNote = props.notePosition;
+          } else {
+            notePosition = props.notePosition;
+          }
         }
 
-        if (
-          notePosition.stringNumber === props.notePosition.stringNumber &&
-          notePosition.position !== props.notePosition.position
-        ) {
-          // it is required to create new NotePosition EVERYTIME, in order to avoid mutability of elements in NGRX
-          //
-          return new NotePosition(
-            notePosition.stringNumber,
-            notePosition.position,
-            notePosition.name
-          );
-        } else return;
+        // it is required to create new NotePosition EVERYTIME, in order to avoid mutability of elements in NGRX
+        return new NotePosition(
+          notePosition.stringNumber,
+          notePosition.position,
+          notePosition.name
+        );
       }
     );
 
-    // If we did not find the note to modify we have to add the new one nad sort it
+    // unselect note already selected, time to remove the repeatedNote from inside the array.
+    if (repeatedNote !== undefined) {
+      notesModified = notesModified.filter((note) => {
+        if (
+          note.position === repeatedNote?.position &&
+          note.stringNumber === repeatedNote?.stringNumber &&
+          note.name === repeatedNote?.name
+        ) {
+          return;
+        } else return note;
+      });
+    }
+
+    // If we did not find the note to modify we have sort it because the new one was added at the end of the array.
     if (noteNotFound) {
       notesModified = sortNotePosition([...notesModified, props.notePosition]);
-    } else {
-      // if (sameNotePositionInTheSameString) {
-      //   notesModified = removeNoteFromChordArray(
-      //     notesModified,
-      //     props.notePosition.stringNumber - 1
-      //   );
-      // }
-      // if (
-      //   state.lastNoteSelected &&
-      //   state.lastNoteSelected === props.notePosition
-      // ) {
-      //   notesModified = removeNoteFromChordArray(
-      //     notesModified,
-      //     props.notePosition.stringNumber - 1
-      //   );
-      //   notesModified = sortNotePosition([...notesModified]);
-      // }
     }
 
     // time to infer these notes inside the notes value of the desired chord.
@@ -120,19 +115,7 @@ export const chordsReducer = createReducer(
       }
       return chord;
     });
-    // Unselection mode, remove the note selected twice from the chord array structure
-    // if (
-    //   state.lastNoteSelected &&
-    //   state.lastNoteSelected === props.notePosition
-    // ) {
-    //   const chordsModifiedWithUnselectedNote = chordsLeft.map()
-    //   return {
-    //     ...state,
-    //     chordSelected: props.chordSelected,
-    //     currentChords: [],
-    //     lastNoteSelected: undefined,
-    //   };
-    // } else {
+
     return {
       ...state,
       chordSelected: props.chordSelected,
