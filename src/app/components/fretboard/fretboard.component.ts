@@ -28,7 +28,10 @@ export class FretboardComponent {
   private functionSelectedStore: Observable<any>;
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
-  private chordsSelectedChord: Chord = new Chord([], '');
+  private chordsSelectedChord: Chord = new Chord(
+    [],
+    JSON.stringify(new Date())
+  );
   private selectionMode: boolean | string = false;
   private chordPosition: number = 0;
 

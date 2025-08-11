@@ -67,14 +67,17 @@ export class ChordsGridComponent {
       setCurrentChords({
         currentChords: [
           ...this.chords,
-          new Chord([
-            new NotePosition(1, 0, 'E'),
-            new NotePosition(2, 0, 'B'),
-            new NotePosition(3, 0, 'G'),
-            new NotePosition(4, 0, 'D'),
-            new NotePosition(5, 0, 'A'),
-            new NotePosition(6, 0, 'E'),
-          ]),
+          new Chord(
+            [
+              new NotePosition(1, 0, 'E'),
+              new NotePosition(2, 0, 'B'),
+              new NotePosition(3, 0, 'G'),
+              new NotePosition(4, 0, 'D'),
+              new NotePosition(5, 0, 'A'),
+              new NotePosition(6, 0, 'E'),
+            ],
+            JSON.stringify(new Date())
+          ),
         ],
       })
     );

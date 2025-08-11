@@ -107,14 +107,20 @@ export const chordsReducer = createReducer(
     if (noteNotFound) {
       notesModified = sortNotePosition([...notesModified, props.notePosition]);
     }
-
     // time to infer these notes inside the notes value of the desired chord.
-    const chordsLeft = state.currentChords.map((chord: Chord, index) => {
+    let chordsLeft = state.currentChords.map((chord: Chord, index) => {
       if (index === props.chordSelected) {
         return new Chord(notesModified, chord.name);
       }
       return chord;
     });
+
+    // remove chord if there are no notes inside of it
+    if (notesModified.length === 0) {
+      chordsLeft = chordsLeft.filter(
+        (chord, index) => index !== props.chordSelected
+      );
+    }
 
     return {
       ...state,
