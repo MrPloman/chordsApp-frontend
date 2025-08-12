@@ -5,7 +5,7 @@
   cdkDropListOrientation="mixed"
 >
   <div id="chords">
-    @for (chord of chords; track trackById($index, chord); let chordIndex =
+    @for (chord of chords; track trackById(chordIndex, chord); let chordIndex =
     $index) {
     <div
       id="chord"
@@ -18,15 +18,14 @@
       </div>
 
       <div class="chordStructure" (click)="selectChord(chordIndex)">
-        @for (note of chord.notes; track trackById($index, note); let noteIndex
-        = $index) {
+        @for (note of chord.notes; track $index) {
         <span id="chordFigure">
           <span id="stringNumber">{{ note.stringNumber }}th</span> -
           <span id="notePosition">{{ note.position }}</span> -
           <span id="noteName">{{ note.name }}</span>
           <button
             *ngIf="selection === 'guesser'"
-            (click)="removeNote(noteIndex, chordIndex)"
+            (click)="removeNote($index, chordIndex)"
           >
             X
           </button>
