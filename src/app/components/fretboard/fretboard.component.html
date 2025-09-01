@@ -1,14 +1,16 @@
 <div id="fretboard">
+  @for (dot of currentDots; track $index; let indexDot = $index) {
   <img
-    *ngFor="let dot of currentDots"
     class="dot"
     [src]="dot.src"
     alt="dot"
     [style.left]="dot.left"
     [style.top]="dot.top"
   />
-  <div class="stringBoard" *ngFor="let string of currentFretboard">
-    <div class="fret" (click)="selectNote(note)" *ngFor="let note of string">
+  } @for ( string of currentFretboard; track $index; let indexDot = $index) {
+  <div class="stringBoard">
+    @for (note of string; track $index; let indexNote = $index) {
+    <div class="fret" (click)="selectNote(note)">
       <span
         class="noteName"
         [ngClass]="{ selected: isThisNoteSelected(note) }"
@@ -16,12 +18,17 @@
       >
       <hr class="stringLine" />
     </div>
+    }
   </div>
+  }
+
   <div class="positions">
-    <div *ngFor="let item of currentFretboard[0]" class="fretPosition">
+    @for (item of currentFretboard[0]; track $index; let indexItem = $index) {
+    <div class="fretPosition">
       <span>
         {{ item.position }}
       </span>
     </div>
+    }
   </div>
 </div>

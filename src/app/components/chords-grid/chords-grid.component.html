@@ -14,7 +14,9 @@
     >
       <div id="header">
         <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
-        <span id="chordName" *ngIf="chord.name">{{ chord.name }}</span>
+        @if(chord.name) {
+        <span id="chordName">{{ chord.name }}</span
+        >}
       </div>
 
       <div class="chordStructure" (click)="selectChord(chordIndex)">
@@ -23,12 +25,9 @@
           <span id="stringNumber">{{ note.stringNumber }}th</span> -
           <span id="notePosition">{{ note.position }}</span> -
           <span id="noteName">{{ note.name }}</span>
-          <button
-            *ngIf="selection === 'guesser'"
-            (click)="removeNote($index, chordIndex)"
-          >
-            X
-          </button>
+          @if (selection === 'guesser') {
+          <button (click)="removeNote($index, chordIndex)">X</button>
+          }
           <br /></span
         >}
       </div>
@@ -36,13 +35,10 @@
         SOUND
       </button>
     </div>
-    }
-    <div
-      id="newChordButton"
-      *ngIf="selection === 'guesser'"
-      (click)="addNewChord()"
-    >
+    } @if (selection === 'guesser') {
+    <div id="newChordButton" (click)="addNewChord()">
       <h2>+</h2>
     </div>
+    }
   </div>
 </div>
