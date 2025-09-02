@@ -1,5 +1,5 @@
-#chordGrid {
-  #chords {
+.chordGrid {
+  .chords {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -7,53 +7,10 @@
     max-width: 90%;
     margin: 0 auto;
 
-    #chord {
-      margin: 10px;
-      border: 2px solid grey;
-      padding: 20px;
-      border-radius: 10px;
-      min-height: 150px;
-      width: 200px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      align-items: center;
-
-      #header {
-        display: flex;
-        flex-direction: column;
-        width: 100%;
-        justify-content: space-between;
-        .deleteButton {
-          cursor: pointer;
-        }
-      }
-
-      .chordStructure {
-        margin: 10px 0 10px;
-        cursor: pointer;
-        width: 100%;
-
-        #chordFigure {
-          margin: 0 auto;
-          display: flex;
-          flex-direction: row;
-          justify-content: space-between;
-          margin: 10px 0 10px 0;
-          span {
-            margin-left: 10px;
-            margin-right: 10px;
-          }
-        }
-        #soundChord {
-          margin: 0 auto;
-        }
-      }
-    }
     .selected {
       border: 2px solid red !important;
     }
-    #newChordButton {
+    .newChordButton {
       margin: 10px;
       border: 2px solid grey;
       padding: 20px;
@@ -71,6 +28,52 @@
     }
   }
 }
+.chord {
+  margin: 10px;
+  border: 2px solid grey;
+  padding: 20px;
+  border-radius: 10px;
+  min-height: 150px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+
+  .header {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    .deleteButton {
+      cursor: pointer;
+    }
+    .chordName {
+      font-size: 12px;
+    }
+  }
+
+  .chordStructure {
+    margin: 10px 0 10px;
+    cursor: pointer;
+    width: 100%;
+
+    .chordFigure {
+      margin: 0 auto;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      margin: 10px 0 10px 0;
+      span {
+        margin-left: 10px;
+        margin-right: 10px;
+      }
+    }
+    .soundChord {
+      margin: 0 auto;
+    }
+  }
+}
 .cdk-drag-preview {
   box-sizing: border-box;
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
@@ -78,6 +81,7 @@
   border: 2px solid grey;
   padding: 10px;
   border-radius: 10px;
+  color: rgba(74, 74, 74, 0.31) !important;
 }
 
 .cdk-drag-placeholder {
@@ -92,6 +96,6 @@
   border: none;
 }
 
-#chords.cdk-drop-list-dragging .chord:not(.cdk-drag-placeholder) {
+.chords.cdk-drop-list-dragging .chord:not(.cdk-drag-placeholder) {
   transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
 }

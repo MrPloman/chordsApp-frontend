@@ -1,42 +1,43 @@
 <div
-  id="chordGrid"
+  class="chordGrid"
   (cdkDropListDropped)="drop($event)"
   cdkDropList
   cdkDropListOrientation="mixed"
 >
-  <div id="chords">
+  <div class="chords">
     @for (chord of chords; track trackById(chordIndex, chord); let chordIndex =
     $index) {
     <div
-      id="chord"
+      (click)="selectChord(chordIndex)"
+      class="chord"
       cdkDrag
       [ngClass]="{ selected: chordIndex === chordSelected }"
     >
-      <div id="header">
+      <div class="header">
         <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
         @if(chord.name) {
-        <span id="chordName">{{ chord.name }}</span
+        <span class="chordName">{{ chord.name }}</span
         >}
       </div>
 
-      <div class="chordStructure" (click)="selectChord(chordIndex)">
+      <div class="chordStructure">
         @for (note of chord.notes; track $index) {
-        <span id="chordFigure">
-          <span id="stringNumber">{{ note.stringNumber }}th</span> -
-          <span id="notePosition">{{ note.position }}</span> -
-          <span id="noteName">{{ note.name }}</span>
+        <span class="chordFigure">
+          <span class="stringNumber">{{ note.stringNumber }}th</span> -
+          <span class="notePosition">{{ note.position }}</span> -
+          <span class="noteName">{{ note.name }}</span>
           @if (selection === 'guesser') {
           <button (click)="removeNote($index, chordIndex)">X</button>
           }
           <br /></span
         >}
       </div>
-      <button id="soundChord" (click)="makeChordSound(chord); (chord)">
+      <button class="soundChord" (click)="makeChordSound(chord); (chord)">
         SOUND
       </button>
     </div>
     } @if (selection === 'guesser') {
-    <div id="newChordButton" (click)="addNewChord()">
+    <div class="newChordButton" (click)="addNewChord()">
       <h2>+</h2>
     </div>
     }
