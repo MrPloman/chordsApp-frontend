@@ -76,7 +76,7 @@ export class ChordsGridComponent {
               new NotePosition(5, 0, 'A'),
               new NotePosition(6, 0, 'E'),
             ],
-            JSON.stringify(new Date())
+            ''
           ),
         ],
       })
