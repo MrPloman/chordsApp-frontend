@@ -1,6 +1,7 @@
 <div id="chordGuesser-container">
   <app-chords-grid></app-chords-grid>
   <app-submit-button
+    (click)="guessMyChords()"
     id="submitButton"
     [disabled]="chords.length === 0"
     [label]="'Guess My Chords!'"

@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
+import { QueryResponse } from '@app/models/queryResponse.model';
+import { Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class HTTPService {
@@ -7,9 +9,9 @@ export class HTTPService {
   constructor(private httpClient: HttpClient) {}
   public post(endpoint: string, body: any) {
     this.httpClient
-      .post(endpoint, body, { headers: this.headers })
-      .subscribe((buffer) => {
-        console.log('The image is ' + buffer + ' bytes large');
+      .post<QueryResponse>(endpoint, body, { headers: this.headers })
+      .subscribe((response: QueryResponse) => {
+        console.log(response);
       });
   }
 }

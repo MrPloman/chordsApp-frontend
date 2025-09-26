@@ -2,18 +2,20 @@ import { Injectable } from '@angular/core';
 import { HTTPService } from './httpService.service';
 import { Chord } from '@app/models/chord.model';
 import { queryPrompt } from '@app/models/queryPrompt.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
-export class RequestService {
+export class AIService {
   private _httpService: HTTPService;
+
   constructor(httpService: HTTPService) {
     this._httpService = httpService;
   }
-  private guessMyChords(endpoint: string, body: queryPrompt) {
-    return this._httpService.post(endpoint, body);
+  public guessMyChords(body: queryPrompt) {
+    return this._httpService.post(`${environment.API}/guess`, body);
   }
-  private makeChordProgression(endpoint: string, body: queryPrompt) {
+  public makeChordsProgression(body: queryPrompt) {
     if (!body.prompt) return;
-    return this._httpService.post(endpoint, body);
+    return this._httpService.post(`${environment.API}/progression`, body);
   }
 }

@@ -12,9 +12,11 @@ import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { functionSelectedReducer } from './store/reducers/function-selection.reducer';
 import { chordsReducer } from './store/reducers/chords.reducer';
 import { appState } from './store/state';
+import { provideHttpClient } from '@angular/common/http';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideHttpClient(),
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideStore({

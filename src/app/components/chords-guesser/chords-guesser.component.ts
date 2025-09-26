@@ -15,6 +15,7 @@ import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
 import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
+import { AIService } from '@app/services/AIService.service';
 
 @Component({
   selector: 'app-chords-guesser',
@@ -26,6 +27,7 @@ export class ChordsGuesserComponent {
   public chords: Chord[] = [];
   public chordSelected: number = 0;
   private store = inject(Store);
+  private aiService = inject(AIService);
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
   constructor() {
@@ -40,6 +42,10 @@ export class ChordsGuesserComponent {
           : 0;
       }
     );
+  }
+
+  public guessMyChords() {
+    this.aiService.guessMyChords({ chords: this.chords });
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

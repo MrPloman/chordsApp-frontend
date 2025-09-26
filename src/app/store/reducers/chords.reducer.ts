@@ -1,4 +1,4 @@
-import { Action, createReducer, on, props } from '@ngrx/store';
+import { Action, createReducer, on, props, State } from '@ngrx/store';
 import {
   changeChordsOrder,
   editNoteFromChord,
@@ -7,12 +7,27 @@ import {
   setChordSelected,
   setCurrentChords,
 } from '../actions/chords.actions';
-import { chordsInitialState } from '../state/chords.state';
+import { chordsInitialState, IChordsGuesserState } from '../state/chords.state';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import {
   sortNotePosition,
   removeNoteFromChordArray,
 } from '../../services/chordsService.service';
+
+function removeChordHelper(
+  state: IChordsGuesserState,
+  chordToRemove: number
+): IChordsGuesserState {
+  if (!state.currentChords) return { ...state };
+  const chords = state.currentChords.filter(
+    (chord: Chord, index: number) => index !== chordToRemove
+  );
+  return {
+    ...state,
+    chordSelected: 0,
+    currentChords: chords,
+  };
+}
 
 export const chordsReducer = createReducer(
   chordsInitialState,
@@ -29,15 +44,7 @@ export const chordsReducer = createReducer(
     };
   }),
   on(removeChord, (state, props) => {
-    if (!state.currentChords) return { ...state };
-    const chords = state.currentChords.filter(
-      (chord: Chord, index: number) => index !== props.chordToRemove && chord
-    );
-    return {
-      ...state,
-      chordSelected: 0,
-      currentChords: chords,
-    };
+    return removeChordHelper(state, props.chordToRemove);
   }),
   on(removeNoteFromChord, (state, props) => {
     if (!state.currentChords) return state;
@@ -52,9 +59,16 @@ export const chordsReducer = createReducer(
             else return;
           })
         );
+
         return { name: chordElement.name, notes };
       }
     );
+    if (newChords[props.chordSelected].notes.length === 0) {
+      return removeChordHelper(
+        { ...state, currentChords: newChords },
+        props.chordSelected
+      );
+    }
 
     return { ...state, currentChords: newChords };
   }),
