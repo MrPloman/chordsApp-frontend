@@ -73,7 +73,11 @@ export const chordsReducer = createReducer(
     return { ...state, currentChords: newChords };
   }),
   on(editNoteFromChord, (state, props) => {
-    if (!state.currentChords || state.chordSelected === undefined)
+    if (
+      !state.currentChords ||
+      state.chordSelected === undefined ||
+      !state.currentChords[state.chordSelected]
+    )
       return { ...state };
 
     // Setting variable add a note in a missing string
