@@ -16,7 +16,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 import { AIService } from '@app/services/AIService.service';
-
+import { areEveryChordsValid } from '@app/services/chordsService.service';
+import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
 @Component({
   selector: 'app-chords-guesser',
   imports: [CommonModule, SubmitButtonComponent, ChordsGridComponent],
@@ -28,6 +29,8 @@ export class ChordsGuesserComponent {
   public chordSelected: number = 0;
   private store = inject(Store);
   private aiService = inject(AIService);
+  public validChords = areEveryChordsValid;
+  public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
   constructor() {

@@ -2,7 +2,10 @@ import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { makeNoteSound } from '@app/services/chordsService.service';
+import {
+  isThisValidChord,
+  makeNoteSound,
+} from '@app/services/chordsService.service';
 import {
   setCurrentChords,
   setChordSelected,

@@ -3,7 +3,9 @@
   <app-submit-button
     (click)="guessMyChords()"
     id="submitButton"
-    [disabled]="chords.length === 0"
+    [disabled]="
+      chords.length < minimumChordsToMakeProgression || !validChords(chords)
+    "
     [label]="'Guess My Chords!'"
   ></app-submit-button>
 </div>
