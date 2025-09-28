@@ -1,6 +1,7 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import {
   isThisValidChord,
@@ -33,6 +34,8 @@ export class ChordsGridComponent {
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
   public functionSelectedStore: Observable<any>;
+  public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
+
   private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string = '';
   constructor() {

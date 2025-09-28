@@ -8,12 +8,14 @@
     mat-fab
     extended
     (click)="selectOption('progression')"
-    [disabled]="chords.length === 0"
+    [disabled]="
+      chords.length < minimumChordsToMakeProgression || !validChords(chords)
+    "
   >
     Chords Progression <mat-icon>auto_fix_normal</mat-icon>
   </button>
 </div>
-@if (chords.length <= 1) {
+@if (chords.length <= minimumChordsToMakeProgression) {
 <div id="message">
   you cannot access to the chords progresion right now, first you need to set at
   least two chords in the guesser

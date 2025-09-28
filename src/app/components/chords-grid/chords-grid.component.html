@@ -15,7 +15,7 @@
     >
       <div class="header">
         @if (selection === 'guesser' || selection === 'progression' &&
-        chords.length >= 3) {
+        chords.length >= minimumChordsToMakeProgression) {
         <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>}
         @if(chord.name) { <span class="chordName">{{ chord.name }}</span
         >}
