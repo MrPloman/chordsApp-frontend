@@ -1,13 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import {
-  changeChordsOrder,
-  removeChord,
-  removeNoteFromChord,
-  setChordSelected,
-  setCurrentChords,
-} from '@app/store/actions/chords.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
@@ -18,9 +11,20 @@ import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 import { AIService } from '@app/services/AIService.service';
 import { areEveryChordsValid } from '@app/services/chordsService.service';
 import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
+import {
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 @Component({
   selector: 'app-chords-guesser',
-  imports: [CommonModule, SubmitButtonComponent, ChordsGridComponent],
+  imports: [
+    CommonModule,
+    SubmitButtonComponent,
+    ChordsGridComponent,
+    FormsModule,
+  ],
   templateUrl: './chords-guesser.component.html',
   styleUrl: './chords-guesser.component.scss',
 })
@@ -48,7 +52,11 @@ export class ChordsGuesserComponent {
   }
 
   public guessMyChords() {
-    this.aiService.guessMyChords({ chords: this.chords });
+    if (
+      this.validChords(this.chords) &&
+      this.chords.length >= minimumChordsToMakeProgression
+    )
+      this.aiService.guessMyChords({ chords: this.chords });
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

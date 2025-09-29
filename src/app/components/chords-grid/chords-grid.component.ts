@@ -106,7 +106,6 @@ export class ChordsGridComponent {
     );
   }
   public drop(event: CdkDragDrop<any[]>) {
-    console.log(event.previousIndex, event.currentIndex);
     this.store.dispatch(
       changeChordsOrder({
         originChordPosition: event.previousIndex,

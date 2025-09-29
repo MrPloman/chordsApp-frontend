@@ -1,4 +1,7 @@
-import { minimumNotesToMakeChord } from '@app/config/global_variables/rules';
+import {
+  minimumChordsToMakeProgression,
+  minimumNotesToMakeChord,
+} from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '../models/chord.model';
 export const sortNotePosition = (
   notePosition: NotePosition[]
@@ -54,4 +57,13 @@ export function areEveryChordsValid(chords: Chord[]): boolean {
     });
     return valid;
   }
+}
+
+export function checkIfChordsAreGuessed(chords: Chord[]): boolean {
+  if (!chords || chords.length < minimumChordsToMakeProgression) return false;
+  let allChecked = true;
+  chords.forEach((chord: Chord) => {
+    if (!chord.name) allChecked = false;
+  });
+  return allChecked;
 }

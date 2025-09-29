@@ -9,15 +9,18 @@
     extended
     (click)="selectOption('progression')"
     [disabled]="
-      chords.length < minimumChordsToMakeProgression || !validChords(chords)
+      chords.length < minimumChordsToMakeProgression ||
+      !validChords(chords) ||
+      !chordsAreGuessed(chords)
     "
   >
     Chords Progression <mat-icon>auto_fix_normal</mat-icon>
   </button>
 </div>
-@if (chords.length <= minimumChordsToMakeProgression) {
+@if ( chords.length < minimumChordsToMakeProgression || !validChords(chords) ||
+!chordsAreGuessed(chords)) {
 <div id="message">
   you cannot access to the chords progresion right now, first you need to set at
-  least two chords in the guesser
+  least two valid chords and guess them.
 </div>
 }
