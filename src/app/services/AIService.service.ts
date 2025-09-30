@@ -12,7 +12,7 @@ export class AIService {
     this._httpService = httpService;
   }
   public guessMyChords(body: queryPrompt) {
-    return this._httpService.post(`${environment.API}/guess`, body);
+    return this._httpService.post(`${environment.API}/guesser`, body);
   }
   public makeChordsProgression(body: queryPrompt) {
     if (!body.prompt) return;

@@ -9,8 +9,11 @@ export class HTTPService {
   constructor(private httpClient: HttpClient) {}
   public post(endpoint: string, body: any) {
     this.httpClient
-      .post<QueryResponse>(endpoint, body, { headers: this.headers })
-      .subscribe((response: QueryResponse) => {
+      .post<QueryResponse>(endpoint, body, {
+        headers: this.headers,
+        observe: 'response',
+      })
+      .subscribe((response: HttpResponse<any>) => {
         console.log(response);
       });
   }
