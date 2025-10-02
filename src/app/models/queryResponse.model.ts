@@ -2,9 +2,9 @@ import { Chord } from './chord.model';
 
 export class QueryResponse {
   chords: Chord[];
-  message: string;
-  constructor(chords: Chord[], message: string) {
+  clarification: string;
+  constructor(chords: Chord[], clarification: string) {
     this.chords = chords;
-    this.message = message;
+    this.clarification = clarification;
   }
 }

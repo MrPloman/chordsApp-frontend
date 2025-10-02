@@ -17,6 +17,8 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { QueryResponse } from '@app/models/queryResponse.model';
+import { setCurrentChords } from '@app/store/actions/chords.actions';
 @Component({
   selector: 'app-chords-guesser',
   imports: [
@@ -51,12 +53,22 @@ export class ChordsGuesserComponent {
     );
   }
 
-  public guessMyChords() {
+  public async guessMyChords() {
     if (
       this.validChords(this.chords) &&
       this.chords.length >= minimumChordsToMakeProgression
-    )
-      this.aiService.guessMyChords({ chords: this.chords });
+    ) {
+      this.aiService
+        .guessMyChords({
+          chords: this.chords,
+        })
+        .then((value: QueryResponse) => {
+          if (value.chords && value.chords.length > 0)
+            this.store.dispatch(
+              setCurrentChords({ currentChords: value.chords })
+            );
+        });
+    }
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

@@ -3,6 +3,8 @@ import { HTTPService } from './httpService.service';
 import { Chord } from '@app/models/chord.model';
 import { queryPrompt } from '@app/models/queryPrompt.model';
 import { environment } from '../../environments/environment';
+import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
+import { QueryResponse } from '@app/models/queryResponse.model';
 
 @Injectable({ providedIn: 'root' })
 export class AIService {
@@ -11,8 +13,14 @@ export class AIService {
   constructor(httpService: HTTPService) {
     this._httpService = httpService;
   }
-  public guessMyChords(body: queryPrompt) {
-    return this._httpService.post(`${environment.API}/guesser`, body);
+  public async guessMyChords(_body: queryPrompt) {
+    const { body, status, statusText } = await this._httpService.post(
+      `${environment.API}/guesser`,
+      _body
+    );
+    if (status === 200 && body)
+      return new QueryResponse(body.chords, body.clarification);
+    else return new QueryResponse([], statusText);
   }
   public makeChordsProgression(body: queryPrompt) {
     if (!body.prompt) return;

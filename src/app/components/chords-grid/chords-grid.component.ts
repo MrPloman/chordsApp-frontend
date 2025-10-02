@@ -1,7 +1,10 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import {
+  maximRandomNumber,
+  minimumChordsToMakeProgression,
+} from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import {
   isThisValidChord,
@@ -20,6 +23,7 @@ import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { IFunctionSelectionState } from '@app/store/state/function-selection.state';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { maximChords } from '../../config/global_variables/rules';
 
 @Component({
   selector: 'app-chords-grid',
@@ -35,6 +39,7 @@ export class ChordsGridComponent {
   private chordsStoreSubscription: Subscription = new Subscription();
   public functionSelectedStore: Observable<any>;
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
+  public maxChords = maximChords;
 
   private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string = '';
@@ -75,14 +80,45 @@ export class ChordsGridComponent {
           ...this.chords,
           new Chord(
             [
-              new NotePosition(1, 0, 'E'),
-              new NotePosition(2, 0, 'B'),
-              new NotePosition(3, 0, 'G'),
-              new NotePosition(4, 0, 'D'),
-              new NotePosition(5, 0, 'A'),
-              new NotePosition(6, 0, 'E'),
+              new NotePosition(
+                1,
+                0,
+                'E',
+                Number(Math.floor(Math.random() * maximRandomNumber))
+              ),
+              new NotePosition(
+                2,
+                0,
+                'B',
+                Number(Math.floor(Math.random() * maximRandomNumber))
+              ),
+              new NotePosition(
+                3,
+                0,
+                'G',
+                Number(Math.floor(Math.random() * maximRandomNumber))
+              ),
+              new NotePosition(
+                4,
+                0,
+                'D',
+                Number(Math.floor(Math.random() * maximRandomNumber))
+              ),
+              new NotePosition(
+                5,
+                0,
+                'A',
+                Number(Math.floor(Math.random() * maximRandomNumber))
+              ),
+              new NotePosition(
+                6,
+                0,
+                'E',
+                Number(Math.floor(Math.random() * maximRandomNumber))
+              ),
             ],
-            ''
+            '',
+            Number(Math.floor(Math.random() * maximRandomNumber))
           ),
         ],
       })
@@ -120,6 +156,6 @@ export class ChordsGridComponent {
   }
 
   public trackById(index: number, item: any): number {
-    return item.id;
+    return item._id;
   }
 }

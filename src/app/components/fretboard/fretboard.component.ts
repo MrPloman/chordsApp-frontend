@@ -13,6 +13,7 @@ import {
   setCurrentChords,
 } from '@app/store/actions/chords.actions';
 import { makeNoteSound } from '@app/services/chordsService.service';
+import { maximRandomNumber } from '@app/config/global_variables/rules';
 
 @Component({
   selector: 'app-fretboard',
@@ -30,7 +31,8 @@ export class FretboardComponent {
   private chordsStoreSubscription: Subscription = new Subscription();
   private chordsSelectedChord: Chord = new Chord(
     [],
-    JSON.stringify(new Date())
+    '',
+    Math.floor(Math.random() * maximRandomNumber)
   );
   private selectionMode: boolean | string = false;
   private chordPosition: number = 0;
@@ -70,13 +72,15 @@ export class FretboardComponent {
 
   public selectNote(note: NotePosition) {
     this.makeItSound(note);
+    const _id = Math.floor(Math.random() * maximRandomNumber);
     if (!this.selectionMode) return;
     else {
+      console.log(note);
       switch (this.selectionMode) {
         case 'guesser':
           this.store.dispatch(
             editNoteFromChord({
-              notePosition: note,
+              notePosition: { ...note, _id },
               chordSelected: this.chordPosition,
             })
           );
