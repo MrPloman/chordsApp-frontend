@@ -15,6 +15,7 @@ import { resetSelectionAction } from './store/actions/function-selection.actions
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { selectLoadingState } from './store/selectors/loading.selector';
 
 @Component({
   selector: 'app-root',
@@ -37,10 +38,17 @@ import { MatButtonModule } from '@angular/material/button';
 export class AppComponent {
   private store = inject(Store);
   public functionSelectedStore: Observable<any>;
+  public loading = false;
+  private loaderSubscription: Subscription = new Subscription();
+  private loadingStore: Observable<any>;
   private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string | undefined = undefined;
 
   constructor() {
+    this.loadingStore = this.store.pipe(select(selectLoadingState));
+    this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
+      this.loading = loading.loading;
+    });
     this.functionSelectedStore = this.store.pipe(
       select(selectFunctionSelectedState)
     );
@@ -57,11 +65,13 @@ export class AppComponent {
 
   ngOnDestroy(): void {
     this.subscriptionFunctionStore.unsubscribe();
+    this.loaderSubscription.unsubscribe();
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
   }
 
   public resetFunctionSelection() {
+    if (this.loading) return;
     this.store.dispatch(resetSelectionAction());
   }
 }

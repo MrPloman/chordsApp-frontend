@@ -14,6 +14,7 @@ import {
 } from '@app/store/actions/chords.actions';
 import { makeNoteSound } from '@app/services/chordsService.service';
 import { maximRandomNumber } from '@app/config/global_variables/rules';
+import { selectLoadingState } from '@app/store/selectors/loading.selector';
 
 @Component({
   selector: 'app-fretboard',
@@ -36,12 +37,19 @@ export class FretboardComponent {
   );
   private selectionMode: boolean | string = false;
   private chordPosition: number = 0;
+  private loaderSubscription: Subscription = new Subscription();
+  private loadingStore: Observable<any>;
+  public loading: boolean = false;
 
   constructor() {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
     this.functionSelectedStore = this.store.pipe(
       select(selectFunctionSelectedState)
     );
+    this.loadingStore = this.store.pipe(select(selectLoadingState));
+    this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
+      this.loading = loading.loading;
+    });
     this.functionSelectedStoreSubscription =
       this.functionSelectedStore.subscribe(({ functionSelected }) => {
         if (!functionSelected || !functionSelected.option)
@@ -71,11 +79,11 @@ export class FretboardComponent {
   }
 
   public selectNote(note: NotePosition) {
+    if (this.loading) return;
     this.makeItSound(note);
     const _id = Math.floor(Math.random() * maximRandomNumber);
     if (!this.selectionMode) return;
     else {
-      console.log(note);
       switch (this.selectionMode) {
         case 'guesser':
           this.store.dispatch(

@@ -13,6 +13,7 @@ import { functionSelectedReducer } from './store/reducers/function-selection.red
 import { chordsReducer } from './store/reducers/chords.reducer';
 import { appState } from './store/state';
 import { provideHttpClient } from '@angular/common/http';
+import { loadingReducer } from './store/reducers/loading.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideStore({
       functionSelected: functionSelectedReducer,
       chords: chordsReducer,
+      loading: loadingReducer,
     }),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),

@@ -6,7 +6,7 @@ export const loadingReducer = createReducer(
   loadingInitialState,
   on(loadingStatus, (state, props) => {
     return {
-      loading: !props.loading,
+      loading: props.loading,
     };
   })
 );

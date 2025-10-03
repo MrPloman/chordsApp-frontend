@@ -3,6 +3,7 @@
   <app-submit-button
     (click)="guessMyChords()"
     id="submitButton"
+    [loading]="loading"
     [disabled]="
       chords.length < minimumChordsToMakeProgression || !validChords(chords)
     "

@@ -1,0 +1,17 @@
+.button-container {
+  #button {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly !important;
+
+    #spinner {
+      width: 20px !important;
+      height: 20px !important;
+    }
+    ::ng-deep span {
+      width: 200px;
+      display: flex;
+      justify-content: space-evenly;
+    }
+  }
+}

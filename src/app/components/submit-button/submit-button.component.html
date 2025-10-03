@@ -1,6 +1,9 @@
-<div class="example-button-container">
-  <button [disabled]="disabled" mat-fab extended>
-    <mat-icon>music_note</mat-icon>
-    {{ label }}
+<div class="button-container">
+  <button id="button" [disabled]="disabled || loading" mat-fab extended>
+    @if (loading) {
+    <mat-spinner id="spinner"></mat-spinner>
+    } @else { <mat-icon>music_note</mat-icon>
+    }
+    <span> {{ label }} </span>
   </button>
 </div>

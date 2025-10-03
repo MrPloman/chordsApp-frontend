@@ -36,7 +36,7 @@
         SOUND
       </button>
     </div>
-    } @if (selection === 'guesser' && chords.length <= maxChords) {
+    } @if ((selection === 'guesser' && chords.length <= maxChords ) ) {
     <div class="newChordButton" (click)="addNewChord()">
       <h2>+</h2>
     </div>

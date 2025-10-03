@@ -24,6 +24,11 @@ import { IFunctionSelectionState } from '@app/store/state/function-selection.sta
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
+import {
+  selectLoading,
+  selectLoadingState,
+} from '@app/store/selectors/loading.selector';
+import { LoadingState } from '@app/store/state/loading.state';
 
 @Component({
   selector: 'app-chords-grid',
@@ -32,21 +37,28 @@ import { maximChords } from '../../config/global_variables/rules';
   styleUrl: './chords-grid.component.scss',
 })
 export class ChordsGridComponent {
+  public loading = false;
   public chords: Chord[] = [];
   public chordSelected: number = 0;
   private store = inject(Store);
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
   public functionSelectedStore: Observable<any>;
+  private loaderSubscription: Subscription = new Subscription();
+  private loadingStore: Observable<any>;
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public maxChords = maximChords;
 
   private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string = '';
   constructor() {
+    this.loadingStore = this.store.pipe(select(selectLoadingState));
     this.functionSelectedStore = this.store.pipe(
       select(selectFunctionSelectedState)
     );
+    this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
+      this.loading = loading.loading;
+    });
     this.subscriptionFunctionStore = this.functionSelectedStore.subscribe(
       (value: { functionSelected: IFunctionSelectionState }) => {
         if (!value.functionSelected.option) return;
@@ -69,11 +81,12 @@ export class ChordsGridComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
-
     this.subscriptionFunctionStore.unsubscribe();
+    this.loaderSubscription.unsubscribe();
   }
 
   public addNewChord() {
+    if (this.loading) return;
     this.store.dispatch(
       setCurrentChords({
         currentChords: [
@@ -127,13 +140,16 @@ export class ChordsGridComponent {
   }
 
   public selectChord(position: number) {
+    if (this.loading) return;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
   }
   public deleteChord(chordPosition: number) {
+    if (this.loading) return;
     this.store.dispatch(removeChord({ chordToRemove: chordPosition }));
   }
 
   public removeNote(notePosition: number, chordPosition: number) {
+    if (this.loading) return;
     this.store.dispatch(
       removeNoteFromChord({
         noteToRemove: notePosition,
@@ -142,6 +158,7 @@ export class ChordsGridComponent {
     );
   }
   public drop(event: CdkDragDrop<any[]>) {
+    if (this.loading) return;
     this.store.dispatch(
       changeChordsOrder({
         originChordPosition: event.previousIndex,
