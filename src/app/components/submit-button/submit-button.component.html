@@ -1,5 +1,11 @@
 <div class="button-container">
-  <button id="button" [disabled]="disabled || loading" mat-fab extended>
+  <button
+    id="button"
+    [disabled]="disabled || loading"
+    mat-fab
+    extended
+    [type]="type"
+  >
     @if (loading) {
     <mat-spinner id="spinner"></mat-spinner>
     } @else { <mat-icon>music_note</mat-icon>

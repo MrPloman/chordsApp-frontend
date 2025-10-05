@@ -18,4 +18,5 @@ export class SubmitButtonComponent {
   @Input() label: string = 'Send';
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
+  @Input() type: string = 'button';
 }

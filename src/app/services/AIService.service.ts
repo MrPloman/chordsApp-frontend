@@ -22,8 +22,14 @@ export class AIService {
       return new QueryResponse(body.chords, body.clarification);
     else return new QueryResponse([], statusText);
   }
-  public makeChordsProgression(body: queryPrompt) {
-    if (!body.prompt) return;
-    return this._httpService.post(`${environment.API}/progression`, body);
+  public async makeChordsProgression(_body: queryPrompt) {
+    if (!_body.prompt) return;
+    const { body, status, statusText } = await this._httpService.post(
+      `${environment.API}/progression`,
+      _body
+    );
+    if (status === 200 && body)
+      return new QueryResponse(body.chords, body.clarification);
+    else return new QueryResponse([], statusText);
   }
 }

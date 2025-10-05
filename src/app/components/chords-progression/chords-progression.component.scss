@@ -1,3 +1,16 @@
 #chordProgression {
   margin: 0 auto;
+  #promptSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    app-input-instruction {
+      width: 60%;
+    }
+    app-submit-button {
+      margin-left: 20px;
+      width: 10%;
+    }
+  }
 }

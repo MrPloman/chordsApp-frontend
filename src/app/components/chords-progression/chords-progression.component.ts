@@ -15,6 +15,12 @@ import {
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 
 @Component({
   selector: 'app-chords-progression',
@@ -24,6 +30,7 @@ import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
     CommonModule,
     SubmitButtonComponent,
     ChordsGridComponent,
+    ReactiveFormsModule,
   ],
 
   templateUrl: './chords-progression.component.html',
@@ -35,6 +42,9 @@ export class ChordsProgressionComponent {
   private store = inject(Store);
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
+  public progressionForm = new FormGroup({
+    prompt: new FormControl('', [Validators.required]),
+  });
   constructor() {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
     this.chordsStoreSubscription = this.chordsStore.subscribe(
@@ -52,5 +62,11 @@ export class ChordsProgressionComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
+  }
+  public askNewChordProgression() {
+    if (this.progressionForm.invalid) {
+      console.log('invalid');
+      return;
+    }
   }
 }

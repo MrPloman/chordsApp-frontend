@@ -1,10 +1,16 @@
 <div id="chordProgression">
   <app-chords-grid></app-chords-grid>
-  <app-input-instruction
-    [placeholder]="'Give me more information about your progression...'"
-  ></app-input-instruction>
-  <app-submit-button
-    [disabled]="false"
-    [label]="'Help me with this progression!!'"
-  ></app-submit-button>
+  <form id="promptSection" [formGroup]="progressionForm">
+    <app-input-instruction
+      [name]="'prompt'"
+      [instruction]="progressionForm.controls['prompt']"
+      [placeholder]="'Give me more information about your progression...'"
+    ></app-input-instruction>
+    <app-submit-button
+      [disabled]="progressionForm.invalid"
+      [label]="'Show Me!'"
+      [type]="'submit'"
+      (click)="askNewChordProgression()"
+    ></app-submit-button>
+  </form>
 </div>
