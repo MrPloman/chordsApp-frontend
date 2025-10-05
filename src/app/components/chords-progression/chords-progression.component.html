@@ -1,5 +1,7 @@
 <div id="chordProgression">
   <app-chords-grid></app-chords-grid>
+  @if(message){<span id="message">{{ message }}</span
+  >}
   <form id="promptSection" [formGroup]="progressionForm">
     <app-input-instruction
       [name]="'prompt'"

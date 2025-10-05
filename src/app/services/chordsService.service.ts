@@ -3,6 +3,7 @@ import {
   minimumNotesToMakeChord,
 } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '../models/chord.model';
+import { tuning, chromaticScale } from '@app/config/global_variables/tuning';
 export const sortNotePosition = (
   notePosition: NotePosition[]
 ): NotePosition[] => {
@@ -66,4 +67,25 @@ export function checkIfChordsAreGuessed(chords: Chord[]): boolean {
     if (!chord.name) allChecked = false;
   });
   return allChecked;
+}
+
+function noteName(stringNumber: number, fret: number): string {
+  const openNote = tuning[6 - stringNumber]; // convert to index
+  const startIndex = chromaticScale.indexOf(openNote);
+  const noteIndex = (startIndex + fret) % 12;
+  return chromaticScale[noteIndex];
+}
+
+export function getAllNoteChordName(chords: Chord[]): Chord[] {
+  if (!chords || chords.length === 0) return [];
+  const parsedChords = chords.map((chord: Chord) => {
+    let newNotes = chord.notes.map((note: NotePosition) => {
+      return {
+        ...note,
+        name: noteName(note.stringNumber, note.position),
+      };
+    });
+    return { notes: newNotes, name: chord.name, _id: chord._id };
+  });
+  return parsedChords;
 }

@@ -6,11 +6,16 @@ import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { CdkDropList, CdkDrag, CdkDragDrop } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { makeNoteSound } from '@app/services/chordsService.service';
+import {
+  areEveryChordsValid,
+  getAllNoteChordName,
+  makeNoteSound,
+} from '@app/services/chordsService.service';
 import {
   changeChordsOrder,
   removeChord,
   setChordSelected,
+  setCurrentChords,
 } from '@app/store/actions/chords.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
@@ -21,6 +26,10 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
+import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { AIService } from '@app/services/AIService.service';
+import { loadingStatus } from '@app/store/actions/loading.actions';
+import { QueryResponse } from '@app/models/queryResponse.model';
 
 @Component({
   selector: 'app-chords-progression',
@@ -45,6 +54,12 @@ export class ChordsProgressionComponent {
   public progressionForm = new FormGroup({
     prompt: new FormControl('', [Validators.required]),
   });
+  private aiService = inject(AIService);
+  public validChords = areEveryChordsValid;
+  public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
+  private loadingStore: Observable<any> = new Observable();
+  public loading: boolean = false;
+  public message: string = '';
   constructor() {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
     this.chordsStoreSubscription = this.chordsStore.subscribe(
@@ -63,10 +78,36 @@ export class ChordsProgressionComponent {
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
   }
-  public askNewChordProgression() {
-    if (this.progressionForm.invalid) {
-      console.log('invalid');
-      return;
+  public async askNewChordProgression() {
+    if (
+      !this.progressionForm.invalid &&
+      this.validChords(this.chords) &&
+      this.chords.length >= minimumChordsToMakeProgression &&
+      this.progressionForm.controls.prompt.value
+    ) {
+      this.loading = true;
+      this.store.dispatch(loadingStatus({ loading: true }));
+      this.aiService
+        .makeChordsProgression({
+          chords: this.chords,
+          prompt: this.progressionForm.controls.prompt.value,
+        })
+        .then((value: QueryResponse | undefined) => {
+          this.store.dispatch(loadingStatus({ loading: false }));
+          this.loading = false;
+          if (!value) return;
+          if (value.chords && value.chords.length > 0) {
+            const parsedChords = getAllNoteChordName(value.chords);
+            this.store.dispatch(
+              setCurrentChords({ currentChords: parsedChords })
+            );
+          }
+          if (value.clarification) this.message = value.clarification;
+        })
+        .catch((error: any) => {
+          this.store.dispatch(loadingStatus({ loading: false }));
+          this.loading = false;
+        });
     }
   }
 }

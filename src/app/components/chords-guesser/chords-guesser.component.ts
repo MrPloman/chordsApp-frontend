@@ -47,9 +47,9 @@ export class ChordsGuesserComponent {
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   private chordsStore: Observable<any> = new Observable();
   private loadingStore: Observable<any> = new Observable();
-
   private chordsStoreSubscription: Subscription = new Subscription();
   private loadingStoreSubscription: Subscription = new Subscription();
+  public message: string = '';
   constructor() {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
     this.loadingStore = this.store.pipe(select(selectLoadingState));
@@ -82,6 +82,7 @@ export class ChordsGuesserComponent {
             this.store.dispatch(
               setCurrentChords({ currentChords: value.chords })
             );
+          if (value.clarification) this.message = value.clarification;
           this.store.dispatch(loadingStatus({ loading: false }));
           this.loading = false;
         })

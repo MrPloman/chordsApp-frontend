@@ -130,7 +130,7 @@ export class ChordsGridComponent {
                 Number(Math.floor(Math.random() * maximRandomNumber))
               ),
             ],
-            'A',
+            '',
             Number(Math.floor(Math.random() * maximRandomNumber))
           ),
         ],
