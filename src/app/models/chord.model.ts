@@ -1,4 +1,5 @@
 import { maximRandomNumber } from '@app/config/global_variables/rules';
+import { generateId } from '@app/services/chordsService.service';
 
 export class NotePosition {
   stringNumber: number;
@@ -14,7 +15,7 @@ export class NotePosition {
     this.name = name;
     this.position = position;
     this.stringNumber = stringNumber;
-    this._id = _id ? _id : Math.floor(Math.random() * maximRandomNumber);
+    this._id = _id ? _id : generateId();
   }
 }
 
@@ -26,6 +27,6 @@ export class Chord {
   constructor(notes: NotePosition[], name?: string, _id?: number) {
     this.name = name ? name : '';
     this.notes = notes;
-    this._id = _id ? _id : Math.floor(Math.random() * maximRandomNumber);
+    this._id = _id ? _id : generateId();
   }
 }

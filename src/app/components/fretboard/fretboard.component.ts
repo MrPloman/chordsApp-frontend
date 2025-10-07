@@ -12,7 +12,7 @@ import {
   editNoteFromChord,
   setCurrentChords,
 } from '@app/store/actions/chords.actions';
-import { makeNoteSound } from '@app/services/chordsService.service';
+import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import { maximRandomNumber } from '@app/config/global_variables/rules';
 import { selectLoadingState } from '@app/store/selectors/loading.selector';
 
@@ -30,11 +30,7 @@ export class FretboardComponent {
   private functionSelectedStore: Observable<any>;
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
-  private chordsSelectedChord: Chord = new Chord(
-    [],
-    '',
-    Math.floor(Math.random() * maximRandomNumber)
-  );
+  private chordsSelectedChord: Chord = new Chord([], '', generateId());
   private selectionMode: boolean | string = false;
   private chordPosition: number = 0;
   private loaderSubscription: Subscription = new Subscription();
@@ -89,7 +85,8 @@ export class FretboardComponent {
         case 'guesser':
           // If chord was already defined you cannot change the notes
           if (this.chords[this.chordPosition].name) return;
-          const _id = Math.floor(Math.random() * maximRandomNumber);
+          const _id = generateId();
+
           this.store.dispatch(
             editNoteFromChord({
               notePosition: { ...note, _id },

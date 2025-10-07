@@ -7,6 +7,7 @@ import {
 } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import {
+  generateId,
   isThisValidChord,
   makeNoteSound,
 } from '@app/services/chordsService.service';
@@ -40,17 +41,20 @@ export class ChordsGridComponent {
   public loading = false;
   public chords: Chord[] = [];
   public chordSelected: number = 0;
-  private store = inject(Store);
-  private chordsStore: Observable<any> = new Observable();
-  private chordsStoreSubscription: Subscription = new Subscription();
-  public functionSelectedStore: Observable<any>;
-  private loaderSubscription: Subscription = new Subscription();
-  private loadingStore: Observable<any>;
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public maxChords = maximChords;
-
-  private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string = '';
+  public functionSelectedStore: Observable<any> = new Observable();
+
+  private chordsStore: Observable<any> = new Observable();
+  private loadingStore: Observable<any> = new Observable();
+
+  private chordsStoreSubscription: Subscription = new Subscription();
+  private loaderSubscription: Subscription = new Subscription();
+  private subscriptionFunctionStore: Subscription = new Subscription();
+
+  private store = inject(Store);
+
   constructor() {
     this.loadingStore = this.store.pipe(select(selectLoadingState));
     this.functionSelectedStore = this.store.pipe(
@@ -93,45 +97,15 @@ export class ChordsGridComponent {
           ...this.chords,
           new Chord(
             [
-              new NotePosition(
-                1,
-                0,
-                'E',
-                Number(Math.floor(Math.random() * maximRandomNumber))
-              ),
-              new NotePosition(
-                2,
-                0,
-                'B',
-                Number(Math.floor(Math.random() * maximRandomNumber))
-              ),
-              new NotePosition(
-                3,
-                0,
-                'G',
-                Number(Math.floor(Math.random() * maximRandomNumber))
-              ),
-              new NotePosition(
-                4,
-                0,
-                'D',
-                Number(Math.floor(Math.random() * maximRandomNumber))
-              ),
-              new NotePosition(
-                5,
-                0,
-                'A',
-                Number(Math.floor(Math.random() * maximRandomNumber))
-              ),
-              new NotePosition(
-                6,
-                0,
-                'E',
-                Number(Math.floor(Math.random() * maximRandomNumber))
-              ),
+              new NotePosition(1, 0, 'E', generateId()),
+              new NotePosition(2, 0, 'B', generateId()),
+              new NotePosition(3, 0, 'G', generateId()),
+              new NotePosition(4, 0, 'D', generateId()),
+              new NotePosition(5, 0, 'A', generateId()),
+              new NotePosition(6, 0, 'E', generateId()),
             ],
             '',
-            Number(Math.floor(Math.random() * maximRandomNumber))
+            generateId()
           ),
         ],
       })
