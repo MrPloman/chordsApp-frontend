@@ -18,7 +18,6 @@ import { minimumChordsToMakeProgression } from '../../config/global_variables/ru
 import { FormsModule } from '@angular/forms';
 import { QueryResponse } from '@app/models/queryResponse.model';
 import { setCurrentChords } from '@app/store/actions/chords.actions';
-import { selectLoadingState } from '@app/store/selectors/loading.selector';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 @Component({
   selector: 'app-chords-guesser',

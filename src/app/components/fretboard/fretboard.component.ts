@@ -25,18 +25,22 @@ import { selectLoadingState } from '@app/store/selectors/loading.selector';
 export class FretboardComponent {
   public currentFretboard = fretboard;
   public currentDots = dots;
-  private store = inject(Store);
-  private functionSelectedStoreSubscription: Subscription = new Subscription();
-  private functionSelectedStore: Observable<any>;
-  private chordsStore: Observable<any> = new Observable();
-  private chordsStoreSubscription: Subscription = new Subscription();
-  private chordsSelectedChord: Chord = new Chord([], '', generateId());
+  public loading: boolean = false;
+
+  private currentChord: Chord = new Chord([], '', generateId());
   private selectionMode: boolean | string = false;
   private chordPosition: number = 0;
-  private loaderSubscription: Subscription = new Subscription();
-  private loadingStore: Observable<any>;
-  public loading: boolean = false;
   private chords: Chord[] = [];
+
+  private store = inject(Store);
+
+  private functionSelectedStoreSubscription: Subscription = new Subscription();
+  private chordsStoreSubscription: Subscription = new Subscription();
+  private loaderSubscription: Subscription = new Subscription();
+
+  private functionSelectedStore: Observable<any> = new Observable();
+  private chordsStore: Observable<any> = new Observable();
+  private loadingStore: Observable<any> = new Observable();
 
   constructor() {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
@@ -63,7 +67,7 @@ export class FretboardComponent {
           return;
         }
         this.chordPosition = chordGuesserState.chordSelected;
-        this.chordsSelectedChord =
+        this.currentChord =
           chordGuesserState.currentChords[chordGuesserState.chordSelected];
         this.chords = chordGuesserState.currentChords;
       }
@@ -74,6 +78,7 @@ export class FretboardComponent {
     //Add 'implements OnDestroy' to the class.
     this.functionSelectedStoreSubscription.unsubscribe();
     this.chordsStoreSubscription.unsubscribe();
+    this.loaderSubscription.unsubscribe();
   }
 
   public selectNote(note: NotePosition) {
@@ -86,7 +91,6 @@ export class FretboardComponent {
           // If chord was already defined you cannot change the notes
           if (this.chords[this.chordPosition].name) return;
           const _id = generateId();
-
           this.store.dispatch(
             editNoteFromChord({
               notePosition: { ...note, _id },
@@ -102,19 +106,17 @@ export class FretboardComponent {
   }
 
   public isThisNoteSelected = (note: NotePosition) => {
-    if (!this.selectionMode || !note || !this.chordsSelectedChord) {
+    if (!this.selectionMode || !note || !this.currentChord) {
       return false;
     } else {
-      return this.chordsSelectedChord.notes.find(
-        (notePosition: NotePosition) => {
-          if (
-            notePosition.stringNumber === note.stringNumber &&
-            notePosition.position === note.position
-          ) {
-            return true;
-          } else return false;
-        }
-      );
+      return this.currentChord.notes.find((notePosition: NotePosition) => {
+        if (
+          notePosition.stringNumber === note.stringNumber &&
+          notePosition.position === note.position
+        ) {
+          return true;
+        } else return false;
+      });
     }
   };
 
