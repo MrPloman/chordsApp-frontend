@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import { Chord, NotePosition } from '@app/models/chord.model';
+import { Chord } from '@app/models/chord.model';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
 
@@ -15,19 +15,10 @@ import {
   checkAndGenerateID,
 } from '@app/services/chordsService.service';
 import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
-import {
-  FormControl,
-  FormGroup,
-  FormsModule,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 import { QueryResponse } from '@app/models/queryResponse.model';
 import { setCurrentChords } from '@app/store/actions/chords.actions';
-import {
-  selectLoading,
-  selectLoadingState,
-} from '@app/store/selectors/loading.selector';
-import { LoadingState } from '@app/store/state/loading.state';
+import { selectLoadingState } from '@app/store/selectors/loading.selector';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 @Component({
   selector: 'app-chords-guesser',
@@ -44,18 +35,18 @@ export class ChordsGuesserComponent {
   public loading: boolean = false;
   public chords: Chord[] = [];
   public chordSelected: number = 0;
-  private store = inject(Store);
-  private aiService = inject(AIService);
+  public message: string = '';
+
   public validChords = areEveryChordsValid;
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
+
+  private store = inject(Store);
+  private aiService = inject(AIService);
   private chordsStore: Observable<any> = new Observable();
-  private loadingStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
-  private loadingStoreSubscription: Subscription = new Subscription();
-  public message: string = '';
+
   constructor() {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
-    this.loadingStore = this.store.pipe(select(selectLoadingState));
 
     this.chordsStoreSubscription = this.chordsStore.subscribe(
       (chordsState: IChordsGuesserState) => {
@@ -88,7 +79,6 @@ export class ChordsGuesserComponent {
               setCurrentChords({ currentChords: checkedChords })
             );
           }
-
           if (response) this.message = response;
           this.store.dispatch(loadingStatus({ loading: false }));
           this.loading = false;
@@ -103,6 +93,5 @@ export class ChordsGuesserComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
-    this.loadingStoreSubscription.unsubscribe();
   }
 }

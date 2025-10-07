@@ -1,16 +1,9 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
-import {
-  maximRandomNumber,
-  minimumChordsToMakeProgression,
-} from '@app/config/global_variables/rules';
+import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import {
-  generateId,
-  isThisValidChord,
-  makeNoteSound,
-} from '@app/services/chordsService.service';
+import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import {
   setCurrentChords,
   setChordSelected,
@@ -25,11 +18,7 @@ import { IFunctionSelectionState } from '@app/store/state/function-selection.sta
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
-import {
-  selectLoading,
-  selectLoadingState,
-} from '@app/store/selectors/loading.selector';
-import { LoadingState } from '@app/store/state/loading.state';
+import { selectLoadingState } from '@app/store/selectors/loading.selector';
 
 @Component({
   selector: 'app-chords-grid',
