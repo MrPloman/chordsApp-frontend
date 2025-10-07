@@ -18,9 +18,10 @@ export class AIService {
       `${environment.API}/guesser`,
       _body
     );
-    if (status === 200 && body)
-      return new QueryResponse(body.chords, body.clarification);
-    else return new QueryResponse([], statusText);
+    if (status === 200 && body) {
+      const { chords, clarification, response } = body;
+      return new QueryResponse(chords, clarification, response);
+    } else return new QueryResponse([], statusText);
   }
   public async makeChordsProgression(_body: queryPrompt) {
     if (!_body.prompt) return;
@@ -28,9 +29,9 @@ export class AIService {
       `${environment.API}/progression`,
       _body
     );
-    if (status === 200 && body) {
-      let chords = body.chords;
-      return new QueryResponse(chords, body.clarification);
+    if (status === 200 && body && body.chords) {
+      const { chords, clarification, response } = body;
+      return new QueryResponse(chords, clarification, response);
     } else return new QueryResponse([], statusText);
   }
 }

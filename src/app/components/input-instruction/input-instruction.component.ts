@@ -22,6 +22,7 @@ import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 })
 export class InputInstructionComponent {
   @Input() public instruction = new FormControl('', [Validators.required]);
-  @Input() placeholder: string = '';
+  @Input() public placeholder: string = '';
   @Input() public name: string = '';
+  @Input() public disabled: boolean = false;
 }

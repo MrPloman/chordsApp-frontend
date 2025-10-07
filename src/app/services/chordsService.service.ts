@@ -87,5 +87,6 @@ export function getAllNoteChordName(chords: Chord[]): Chord[] {
     });
     return { notes: newNotes, name: chord.name, _id: chord._id };
   });
-  return parsedChords;
+  if (!parsedChords) return [];
+  else return parsedChords;
 }

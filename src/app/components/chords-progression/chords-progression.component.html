@@ -4,12 +4,14 @@
   >}
   <form id="promptSection" [formGroup]="progressionForm">
     <app-input-instruction
+      [disabled]="loading"
       [name]="'prompt'"
       [instruction]="progressionForm.controls['prompt']"
       [placeholder]="'Give me more information about your progression...'"
     ></app-input-instruction>
     <app-submit-button
-      [disabled]="progressionForm.invalid"
+      [loading]="loading"
+      [disabled]="progressionForm.invalid || loading"
       [label]="'Show Me!'"
       [type]="'submit'"
       (click)="askNewChordProgression()"

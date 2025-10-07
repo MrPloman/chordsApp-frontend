@@ -78,11 +78,10 @@ export class ChordsGuesserComponent {
           chords: this.chords,
         })
         .then((value: QueryResponse) => {
-          if (value.chords && value.chords.length > 0)
-            this.store.dispatch(
-              setCurrentChords({ currentChords: value.chords })
-            );
-          if (value.clarification) this.message = value.clarification;
+          const { chords, response } = value;
+          if (chords && chords.length > 0)
+            this.store.dispatch(setCurrentChords({ currentChords: chords }));
+          if (response) this.message = response;
           this.store.dispatch(loadingStatus({ loading: false }));
           this.loading = false;
         })

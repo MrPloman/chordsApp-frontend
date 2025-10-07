@@ -40,6 +40,7 @@ export class FretboardComponent {
   private loaderSubscription: Subscription = new Subscription();
   private loadingStore: Observable<any>;
   public loading: boolean = false;
+  private chords: Chord[] = [];
 
   constructor() {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
@@ -68,6 +69,7 @@ export class FretboardComponent {
         this.chordPosition = chordGuesserState.chordSelected;
         this.chordsSelectedChord =
           chordGuesserState.currentChords[chordGuesserState.chordSelected];
+        this.chords = chordGuesserState.currentChords;
       }
     );
   }
@@ -81,11 +83,13 @@ export class FretboardComponent {
   public selectNote(note: NotePosition) {
     if (this.loading) return;
     this.makeItSound(note);
-    const _id = Math.floor(Math.random() * maximRandomNumber);
     if (!this.selectionMode) return;
     else {
       switch (this.selectionMode) {
         case 'guesser':
+          // If chord was already defined you cannot change the notes
+          if (this.chords[this.chordPosition].name) return;
+          const _id = Math.floor(Math.random() * maximRandomNumber);
           this.store.dispatch(
             editNoteFromChord({
               notePosition: { ...note, _id },

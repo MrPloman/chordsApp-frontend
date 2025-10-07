@@ -103,9 +103,14 @@ export class ChordsProgressionComponent {
             );
           }
           if (value.clarification) this.message = value.clarification;
+          this.progressionForm.reset();
+          this.progressionForm.controls.prompt.setErrors(null);
         })
         .catch((error: any) => {
           this.store.dispatch(loadingStatus({ loading: false }));
+          this.progressionForm.reset();
+          this.progressionForm.controls.prompt.setErrors(null);
+
           this.loading = false;
         });
     }

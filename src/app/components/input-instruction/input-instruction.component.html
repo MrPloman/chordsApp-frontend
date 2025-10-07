@@ -1,8 +1,9 @@
 <mat-form-field>
   <mat-label for="instruction">Instruction</mat-label>
   <input
-    [formControl]="instruction"
     matInput
+    [readonly]="disabled"
+    [formControl]="instruction"
     [placeholder]="placeholder"
     type="text"
   />
