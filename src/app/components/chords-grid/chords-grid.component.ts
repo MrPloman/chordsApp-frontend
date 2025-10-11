@@ -19,12 +19,43 @@ import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
 import { selectLoadingState } from '@app/store/selectors/loading.selector';
+import { trigger, transition, style, animate } from '@angular/animations';
+import { SubmitButtonComponent } from '../submit-button/submit-button.component';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chords-grid',
-  imports: [CommonModule, CdkDrag, CdkDropList],
+  imports: [
+    CommonModule,
+    CdkDrag,
+    CdkDropList,
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+  ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
+  animations: [
+    trigger('fadeAndSlide', [
+      // Define a transition for when the element is added to the DOM (:enter)
+      transition(':enter', [
+        style({ opacity: 0, transform: 'translateY(-20px)' }),
+        animate(
+          '500ms ease-in',
+          style({ opacity: 1, transform: 'translateY(0)' })
+        ),
+      ]),
+      // Optional: Define a transition for when the element is removed from the DOM (:leave)
+      transition(':leave', [
+        animate(
+          '300ms ease-out',
+          style({ opacity: 0, transform: 'translateY(20px)' })
+        ),
+      ]),
+    ]),
+  ],
 })
 export class ChordsGridComponent {
   public loading = false;

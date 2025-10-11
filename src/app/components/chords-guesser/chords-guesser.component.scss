@@ -2,6 +2,13 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
+  #message {
+    width: 75%;
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 30px;
+  }
   #chords {
     display: flex;
     flex-wrap: wrap;

@@ -6,10 +6,9 @@
     extended
     [type]="type"
   >
-    @if (loading) {
+    <span> {{ label }} </span> @if (loading) {
     <mat-spinner id="spinner"></mat-spinner>
     } @else { <mat-icon>music_note</mat-icon>
     }
-    <span> {{ label }} </span>
   </button>
 </div>

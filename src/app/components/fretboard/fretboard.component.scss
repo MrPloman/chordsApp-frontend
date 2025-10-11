@@ -1,3 +1,4 @@
+@use "../../../variables.scss" as globalVars;
 #fretboard {
   border-top: 1px solid;
   display: flex;
@@ -9,8 +10,8 @@
   margin-top: 50px;
   .dot {
     position: absolute;
-    width: 50px;
-    height: 50px;
+    width: 25px;
+    height: 25px;
   }
   .stringBoard {
     width: 2000px;
@@ -31,10 +32,13 @@
         font-size: 12px;
       }
       .selected {
-        background-color: rgba(0, 0, 0, 0.819);
+        display: flex;
+        background-color: globalVars.$primary-color;
+        width: 25px;
         padding: 5px;
         border-radius: 10px;
         color: white;
+        justify-content: center;
       }
       .stringLine {
         width: 100%;

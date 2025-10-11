@@ -12,6 +12,8 @@ import { Chord, NotePosition } from '@app/models/chord.model';
 import {
   sortNotePosition,
   removeNoteFromChordArray,
+  generateId,
+  checkAndGenerateID,
 } from '../../services/chordsService.service';
 
 function removeChordHelper(
@@ -32,9 +34,10 @@ function removeChordHelper(
 export const chordsReducer = createReducer(
   chordsInitialState,
   on(setCurrentChords, (state, props) => {
+    const _chordsParsed = checkAndGenerateID(props.currentChords);
     return {
       ...state,
-      currentChords: props.currentChords,
+      currentChords: _chordsParsed,
     };
   }),
   on(setChordSelected, (state, props) => {

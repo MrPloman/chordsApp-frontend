@@ -1,3 +1,5 @@
+@use "../../../variables.scss" as globalVars;
+
 .chordGrid {
   .chords {
     display: flex;
@@ -8,7 +10,7 @@
     margin: 0 auto;
 
     .selected {
-      border: 2px solid red !important;
+      border: 2px solid globalVars.$primary-color !important;
     }
     .newChordButton {
       margin: 10px;
@@ -29,8 +31,9 @@
   }
 }
 .chord {
+  transition: 0.5s color;
   margin: 10px;
-  border: 2px solid grey;
+  border: 2px solid globalVars.$secondary-color;
   padding: 20px;
   border-radius: 10px;
   min-height: 150px;
@@ -39,6 +42,7 @@
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  color: globalVars.$secondary-color;
 
   .header {
     display: flex;
@@ -69,10 +73,46 @@
         margin-left: 10px;
         margin-right: 10px;
       }
+      .removeNote {
+        background-color: globalVars.$warning-color;
+        color: white;
+        cursor: pointer;
+        padding: 5px;
+        width: 15px;
+        border-radius: 10px;
+        text-align: center;
+        transition: 1s;
+      }
+      .removeNote:hover {
+        background-color: rgba(159, 3, 3, 0.589);
+      }
     }
-    .soundChord {
-      margin: 0 auto;
-    }
+  }
+  .soundIcon {
+    transition: 0.5s;
+    cursor: pointer;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 20px;
+    border: 2px solid globalVars.$secondary-color;
+  }
+  .soundIcon:hover {
+    background-color: globalVars.$secondary-color;
+    color: white;
+    border: 2px solid globalVars.$secondary-color;
+  }
+}
+.selected {
+  transition: color 0.5s;
+  color: globalVars.$primary-color;
+  .soundIcon {
+    transition: 0.5s;
+    border: 2px solid globalVars.$primary-color;
+  }
+  .soundIcon:hover {
+    background-color: globalVars.$primary-color;
+    color: white;
+    border: 2px solid globalVars.$primary-color;
   }
 }
 .cdk-drag-preview {

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { fretboard } from '@app/config/global_variables/fretboard';
 import { dots } from '@app/config/global_variables/dots';
@@ -8,12 +8,8 @@ import { select, Store } from '@ngrx/store';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
-import {
-  editNoteFromChord,
-  setCurrentChords,
-} from '@app/store/actions/chords.actions';
+import { editNoteFromChord } from '@app/store/actions/chords.actions';
 import { generateId, makeNoteSound } from '@app/services/chordsService.service';
-import { maximRandomNumber } from '@app/config/global_variables/rules';
 import { selectLoadingState } from '@app/store/selectors/loading.selector';
 
 @Component({

@@ -7,7 +7,6 @@ import { Observable, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import {
   areEveryChordsValid,
-  checkAndGenerateID,
   getAllNoteChordName,
 } from '@app/services/chordsService.service';
 import { setCurrentChords } from '@app/store/actions/chords.actions';
@@ -92,7 +91,6 @@ export class ChordsProgressionComponent {
           if (!value) return;
           if (value.chords && value.chords.length > 0) {
             let parsedChords = getAllNoteChordName(value.chords);
-            parsedChords = checkAndGenerateID(parsedChords);
             this.store.dispatch(
               setCurrentChords({ currentChords: parsedChords })
             );

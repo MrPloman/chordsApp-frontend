@@ -10,10 +10,7 @@ import { Observable } from 'rxjs/internal/Observable';
 import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 import { AIService } from '@app/services/AIService.service';
-import {
-  areEveryChordsValid,
-  checkAndGenerateID,
-} from '@app/services/chordsService.service';
+import { areEveryChordsValid } from '@app/services/chordsService.service';
 import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
 import { FormsModule } from '@angular/forms';
 import { QueryResponse } from '@app/models/queryResponse.model';
@@ -73,10 +70,7 @@ export class ChordsGuesserComponent {
         .then((value: QueryResponse) => {
           const { chords, response } = value;
           if (chords && chords.length > 0) {
-            const checkedChords = checkAndGenerateID(chords);
-            this.store.dispatch(
-              setCurrentChords({ currentChords: checkedChords })
-            );
+            this.store.dispatch(setCurrentChords({ currentChords: chords }));
           }
           if (response) this.message = response;
           this.store.dispatch(loadingStatus({ loading: false }));

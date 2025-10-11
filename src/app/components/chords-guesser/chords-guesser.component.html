@@ -1,7 +1,8 @@
 <form id="chordGuesser-container">
-  <app-chords-grid></app-chords-grid>
   @if(message){<span id="message">{{ message }}</span
   >}
+  <app-chords-grid></app-chords-grid>
+
   <app-submit-button
     (click)="guessMyChords()"
     id="submitButton"

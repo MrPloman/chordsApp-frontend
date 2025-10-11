@@ -1,10 +1,13 @@
 .button-container {
-  width: 200px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
   #button {
     display: flex;
     flex-direction: row;
     justify-content: space-evenly !important;
-
     #spinner {
       width: 20px !important;
       height: 20px !important;
@@ -14,5 +17,10 @@
       display: flex;
       justify-content: space-evenly;
     }
+  }
+  #button:hover {
+    background-color: rgb(5, 75, 81);
+    transition: 0.1s;
+    color: white;
   }
 }

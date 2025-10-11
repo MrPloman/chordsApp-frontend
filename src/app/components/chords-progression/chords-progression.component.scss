@@ -1,5 +1,12 @@
 #chordProgression {
   margin: 0 auto;
+  #message {
+    width: 75%;
+    margin: 0 auto;
+    font-size: 20px;
+    font-weight: 300;
+    line-height: 30px;
+  }
   #promptSection {
     display: flex;
     flex-direction: row;

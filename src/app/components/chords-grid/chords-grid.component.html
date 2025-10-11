@@ -8,6 +8,7 @@
     @for (chord of chords; track trackById(chordIndex, chord); let chordIndex =
     $index) {
     <div
+      [@fadeAndSlide]="'in'"
       (click)="selectChord(chordIndex)"
       class="chord"
       cdkDrag
@@ -29,14 +30,16 @@
           <span class="notePosition">{{ note.position }}</span> -
           <span class="noteName">{{ note.name }}</span>
           @if (selection === 'guesser' && !chord.name) {
-          <button (click)="removeNote($index, chordIndex)">X</button>
+          <span class="removeNote" (click)="removeNote($index, chordIndex)"
+            >X</span
+          >
           }
           <br /></span
         >}
       </div>
-      <button class="soundChord" (click)="makeChordSound(chord); (chord)">
-        SOUND
-      </button>
+      <mat-icon class="soundIcon" (click)="makeChordSound(chord)"
+        >music_note</mat-icon
+      >
     </div>
     } @if ((selection === 'guesser' && chords.length <= maxChords ) ) {
     <div class="newChordButton" (click)="addNewChord()">

@@ -99,12 +99,9 @@ export function checkAndGenerateID(chords: Chord[]): Chord[] {
   if (!chords) return [];
   return chords.map((chord: Chord) => {
     let _chord = chord._id ? chord : { ...chord, _id: generateId() };
-    if (!_chord._id) return _chord;
-    else {
-      let _notes = _chord.notes.map((note: NotePosition) => {
-        return note._id ? note : { ...note, _id: generateId() };
-      });
-      return { ...chord, notes: _notes };
-    }
+    let _notes = _chord.notes.map((note: NotePosition) => {
+      return note._id ? note : { ...note, _id: generateId() };
+    });
+    return { ..._chord, notes: _notes };
   });
 }

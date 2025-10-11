@@ -6,14 +6,14 @@ import {
 import { provideRouter } from '@angular/router';
 
 import { routes } from './app.routes';
-import { provideState, provideStore } from '@ngrx/store';
+import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { functionSelectedReducer } from './store/reducers/function-selection.reducer';
 import { chordsReducer } from './store/reducers/chords.reducer';
-import { appState } from './store/state';
 import { provideHttpClient } from '@angular/common/http';
 import { loadingReducer } from './store/reducers/loading.reducer';
+import { provideAnimations } from '@angular/platform-browser/animations'; // Add this line
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -27,5 +27,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
+    provideAnimations(), // Add this function
   ],
 };
