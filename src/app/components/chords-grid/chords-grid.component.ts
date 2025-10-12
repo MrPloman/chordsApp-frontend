@@ -1,6 +1,6 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { generateId, makeNoteSound } from '@app/services/chordsService.service';
@@ -58,6 +58,7 @@ import { MatIconModule } from '@angular/material/icon';
   ],
 })
 export class ChordsGridComponent {
+  @Input() currentChordsDisplayMode: boolean = true;
   public loading = false;
   public chords: Chord[] = [];
   public chordSelected: number = 0;
@@ -90,6 +91,8 @@ export class ChordsGridComponent {
       }
     );
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
+
+    // if is a normal display get the chords from the state
     this.chordsStoreSubscription = this.chordsStore.subscribe(
       (chordsState: IChordsGuesserState) => {
         this.chords = chordsState.currentChords
@@ -98,8 +101,37 @@ export class ChordsGridComponent {
         this.chordSelected = chordsState.chordSelected
           ? chordsState.chordSelected
           : 0;
+
+        // this.chordSelected = chordsState.chordSelected
+        //    chordsState.chordSelected
+        //   : 0;
+        // if (!chordsState.currentChords) this.chords = [];
+        // else {
+        //   if (
+        //     chordsState.currentChords &&
+        //     chordsState.currentChords[this.chordSelected] &&
+        //     chordsState.currentChords[this.chordSelected].alternativeChords &&
+        //   ) {
+
+        //   }
+
+        // }
+
+        // if (!this.currentChordsDisplayMode && this.chords.length > 0 && this.chords[this.chordSelected].alternativeChords !== undefined) {
+        //   this.chords = this.chords[this.chordSelected].alternativeChords
+
+        // }
       }
     );
+  }
+  ngOnInit(): void {
+    if (!this.currentChordsDisplayMode) {
+      this.chordSelected = 0;
+      this.chords = [];
+    }
+
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
@@ -110,7 +142,7 @@ export class ChordsGridComponent {
   }
 
   public addNewChord() {
-    if (this.loading) return;
+    if (this.loading || !this.currentChordsDisplayMode) return;
     this.store.dispatch(
       setCurrentChords({
         currentChords: [
@@ -134,16 +166,16 @@ export class ChordsGridComponent {
   }
 
   public selectChord(position: number) {
-    if (this.loading) return;
+    if (this.loading || !this.currentChordsDisplayMode) return;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
   }
   public deleteChord(chordPosition: number) {
-    if (this.loading) return;
+    if (this.loading || !this.currentChordsDisplayMode) return;
     this.store.dispatch(removeChord({ chordToRemove: chordPosition }));
   }
 
   public removeNote(notePosition: number, chordPosition: number) {
-    if (this.loading) return;
+    if (this.loading || !this.currentChordsDisplayMode) return;
     this.store.dispatch(
       removeNoteFromChord({
         noteToRemove: notePosition,
@@ -152,7 +184,7 @@ export class ChordsGridComponent {
     );
   }
   public drop(event: CdkDragDrop<any[]>) {
-    if (this.loading) return;
+    if (this.loading || !this.currentChordsDisplayMode) return;
     this.store.dispatch(
       changeChordsOrder({
         originChordPosition: event.previousIndex,

@@ -16,6 +16,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { selectLoadingState } from './store/selectors/loading.selector';
+import { ChordsOptionsComponent } from './components/chords-options/chords-options.component';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +28,7 @@ import { selectLoadingState } from './store/selectors/loading.selector';
     FunctionSelectorComponent,
     ChordsGuesserComponent,
     ChordsProgressionComponent,
+    ChordsOptionsComponent,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,

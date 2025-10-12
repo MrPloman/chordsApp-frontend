@@ -1,0 +1,21 @@
+<form id="chordsOptions-container">
+  <h2 id="sectionTitle">Chords Changer</h2>
+
+  <app-chords-grid></app-chords-grid>
+
+  <span id="separation"></span>
+  <!--Chord Grid of alternatives-->
+  @if (loading) {<mat-spinner id="spinner"></mat-spinner> } @else
+  {<app-chords-grid [currentChordsDisplayMode]="false"></app-chords-grid>
+
+  <app-submit-button
+    (click)="setOtherChordOption()"
+    id="submitButton"
+    [loading]="loading"
+    [disabled]="
+      chords.length < minimumChordsToMakeProgression || !validChords(chords)
+    "
+    [label]="'Guess My Chords!'"
+  ></app-submit-button
+  >}
+</form>

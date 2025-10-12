@@ -23,10 +23,17 @@ export class Chord {
   public name?: string;
   public notes: NotePosition[];
   public _id?: number;
+  public alternativeChords?: Chord[];
 
-  constructor(notes: NotePosition[], name?: string, _id?: number) {
+  constructor(
+    notes: NotePosition[],
+    name?: string,
+    _id?: number,
+    alternativeChords?: Chord[]
+  ) {
     this.name = name ? name : '';
     this.notes = notes;
     this._id = _id ? _id : generateId();
+    this.alternativeChords = alternativeChords ? alternativeChords : [];
   }
 }

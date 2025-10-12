@@ -51,7 +51,7 @@ export class FunctionSelectorComponent {
     this.chords = [];
   }
 
-  public selectOption(option: 'progression' | 'guesser') {
+  public selectOption(option: 'progression' | 'guesser' | 'options') {
     this.store.dispatch(selectOptionAction({ option }));
   }
 }

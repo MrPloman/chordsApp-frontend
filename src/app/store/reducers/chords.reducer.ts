@@ -4,6 +4,7 @@ import {
   editNoteFromChord,
   removeChord,
   removeNoteFromChord,
+  setAlternativeChordsOptions,
   setChordSelected,
   setCurrentChords,
 } from '../actions/chords.actions';
@@ -165,6 +166,23 @@ export const chordsReducer = createReducer(
       ...state,
       chordSelected: props.destinationChordPosition,
       currentChords: copyOfCurrentChords,
+    };
+  }),
+  on(setAlternativeChordsOptions, (state, props) => {
+    const _alternativeChords = checkAndGenerateID(props.alternativeChords);
+    const _selectedChord = props.chordSelected;
+    let _currentChords = state.currentChords ? state.currentChords : [];
+    _currentChords = _currentChords.map((_chord: Chord, index: number) => {
+      if (index === _selectedChord) {
+        return {
+          ..._chord,
+          alternativeChords: _alternativeChords,
+        };
+      } else return _chord;
+    });
+    return {
+      ...state,
+      currentChords: _currentChords,
     };
   })
 );

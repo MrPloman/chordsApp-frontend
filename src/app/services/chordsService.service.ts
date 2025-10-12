@@ -62,7 +62,7 @@ export function areEveryChordsValid(chords: Chord[]): boolean {
 }
 
 export function checkIfChordsAreGuessed(chords: Chord[]): boolean {
-  if (!chords || chords.length < minimumChordsToMakeProgression) return false;
+  if (!chords || chords.length === 0) return false;
   let allChecked = true;
   chords.forEach((chord: Chord) => {
     if (!chord.name) allChecked = false;

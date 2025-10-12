@@ -1,5 +1,5 @@
 export interface IFunctionSelectionState {
-  option: undefined | 'guesser' | 'progression';
+  option: undefined | 'guesser' | 'progression' | 'options';
 }
 
 export const functionSelectionInitialState: IFunctionSelectionState = {

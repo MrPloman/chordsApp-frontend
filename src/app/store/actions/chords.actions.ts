@@ -8,7 +8,6 @@ export const setCurrentChords = createAction(
   '[Set Current Chords] Set Current Chords',
   props<{ currentChords: Chord[] }>()
 );
-
 export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
   props<{ chordSelected: number }>()
@@ -25,8 +24,11 @@ export const editNoteFromChord = createAction(
   '[Edit Note From Chord] Edit Note From Chord',
   props<{ notePosition: NotePosition; chordSelected: number }>()
 );
-
 export const changeChordsOrder = createAction(
   '[Change Chords Order] Change Chords Order',
   props<{ originChordPosition: number; destinationChordPosition: number }>()
+);
+export const setAlternativeChordsOptions = createAction(
+  '[Set Alternative Chords for a Chord] Set Alternative Chords',
+  props<{ alternativeChords: Chord[]; chordSelected: number }>()
 );

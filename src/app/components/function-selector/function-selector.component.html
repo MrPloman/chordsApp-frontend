@@ -16,6 +16,11 @@
   >
     Chords Progression <mat-icon>auto_fix_normal</mat-icon>
   </button>
+  <button mat-fab extended (click)="selectOption('options')">
+    <!-- [disabled]="!chordsAreGuessed(chords)" -->
+
+    Other chords options <mat-icon>auto_stories</mat-icon>
+  </button>
 </div>
 @if ( chords.length < minimumChordsToMakeProgression || !validChords(chords) ||
 !chordsAreGuessed(chords)) {
