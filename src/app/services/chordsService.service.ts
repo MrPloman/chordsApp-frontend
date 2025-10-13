@@ -5,6 +5,14 @@ import {
 } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '../models/chord.model';
 import { tuning, chromaticScale } from '@app/config/global_variables/tuning';
+
+function noteName(stringNumber: number, fret: number): string {
+  const openNote = tuning[6 - stringNumber]; // convert to index
+  const startIndex = chromaticScale.indexOf(openNote);
+  const noteIndex = (startIndex + fret) % 12;
+  return chromaticScale[noteIndex];
+}
+
 export const sortNotePosition = (
   notePosition: NotePosition[]
 ): NotePosition[] => {
@@ -70,11 +78,29 @@ export function checkIfChordsAreGuessed(chords: Chord[]): boolean {
   return allChecked;
 }
 
-function noteName(stringNumber: number, fret: number): string {
-  const openNote = tuning[6 - stringNumber]; // convert to index
-  const startIndex = chromaticScale.indexOf(openNote);
-  const noteIndex = (startIndex + fret) % 12;
-  return chromaticScale[noteIndex];
+export function checkDuplicateChords(chords: Chord[]): Chord[] {
+  if (!chords || chords.length === 0) return [];
+  const newChordsArray = new Set();
+  return chords.filter((chord: Chord) => {
+    const keyValue = chord['notes'];
+    if (newChordsArray.has(keyValue)) {
+      return false; // Duplicate
+    } else {
+      newChordsArray.add(keyValue);
+      return true; // Unique
+    }
+  });
+}
+
+export function checkDuplicateChordOptions(
+  chords: Chord[],
+  currentChord: Chord
+) {
+  if (chords.length === 0 || !currentChord || !chords) return [];
+  return chords.filter((chordFiltered: Chord) => {
+    if (chordFiltered.notes === currentChord.notes) return;
+    else return chordFiltered;
+  });
 }
 
 export function getAllNoteChordName(chords: Chord[]): Chord[] {

@@ -2,8 +2,10 @@ import { Action, createReducer, on, props, State } from '@ngrx/store';
 import {
   changeChordsOrder,
   editNoteFromChord,
+  exchangeChordOptionForCurrenChord,
   removeChord,
   removeNoteFromChord,
+  setAlternativeChordSelected,
   setAlternativeChordsOptions,
   setChordSelected,
   setCurrentChords,
@@ -169,7 +171,13 @@ export const chordsReducer = createReducer(
     };
   }),
   on(setAlternativeChordsOptions, (state, props) => {
-    const _alternativeChords = checkAndGenerateID(props.alternativeChords);
+    let _alternativeChords = checkAndGenerateID(props.alternativeChords);
+    _alternativeChords = _alternativeChords.map((chord: Chord) => {
+      if (chord.notes.length === 0) return chord;
+      else {
+        return { ...chord, notes: sortNotePosition(chord.notes) };
+      }
+    });
     const _selectedChord = props.chordSelected;
     let _currentChords = state.currentChords ? state.currentChords : [];
     _currentChords = _currentChords.map((_chord: Chord, index: number) => {
@@ -183,6 +191,65 @@ export const chordsReducer = createReducer(
     return {
       ...state,
       currentChords: _currentChords,
+      alternativeChords: _alternativeChords,
+      setAlternativeChordSelected: _selectedChord,
+    };
+  }),
+  on(setAlternativeChordSelected, (state, props) => {
+    return {
+      ...state,
+      alternativeChordSelected: props.alternativeChordSelected,
+    };
+  }),
+  on(exchangeChordOptionForCurrenChord, (state, props) => {
+    let newCurrentChords = state.currentChords ? state.currentChords : [];
+    let newAlternativeChords = state.alternativeChords
+      ? state.alternativeChords
+      : [];
+
+    const currentChordSelected = props.chordSelected;
+    const alternativeChordSelected = props.alternativeChordSelected;
+
+    const currentChord = newCurrentChords[currentChordSelected];
+    const alternativeChord = newAlternativeChords[alternativeChordSelected];
+
+    newCurrentChords = newCurrentChords.map(
+      (chord: Chord, position: number) => {
+        if (position === currentChordSelected) return alternativeChord;
+        else return chord;
+      }
+    );
+    newAlternativeChords = newAlternativeChords.map(
+      (chord: Chord, position: number) => {
+        if (position === alternativeChordSelected) return currentChord;
+        else return chord;
+      }
+    );
+
+    // const [selectedCurrentChordToMove] = newCurrentChords.splice(
+    //   currentChordSelected,
+    //   1
+    // );
+    // const [selectedAlternativeChordToMove] = newAlternativeChords.splice(
+    //   alternativeChordSelected,
+    //   1
+    // );
+
+    // newCurrentChords.splice(
+    //   currentChordSelected,
+    //   0,
+    //   selectedAlternativeChordToMove
+    // );
+    // newAlternativeChords.splice(
+    //   alternativeChordSelected,
+    //   0,
+    //   selectedCurrentChordToMove
+    // );
+
+    return {
+      ...state,
+      alternativeChords: newAlternativeChords,
+      currentChords: newCurrentChords,
     };
   })
 );

@@ -16,8 +16,7 @@
     >
       <div class="header">
         @if (selection === 'guesser' || selection === 'progression' &&
-        chords.length > minimumChordsToMakeProgression || selection ===
-        'options') {
+        chords.length > minimumChordsToMakeProgression ) {
         <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>}
         @if(chord.name) { <span class="chordName">{{ chord.name }}</span
         >}
@@ -49,3 +48,42 @@
     }
   </div>
 </div>
+@if (chordOptionsDisplay) {<span id="separation"></span> @if (loading) {
+<mat-spinner id="spinner"></mat-spinner> } @else {
+<div class="alternativeChordsGrid">
+  <div class="alternativeChords">
+    @for (alternativeChord of alternativeChords; track
+    trackById(alternativeChordIndex, alternativeChord); let
+    alternativeChordIndex = $index) {
+    <div
+      [@fadeAndSlide]="'in'"
+      (click)="selectAlternativeChord(alternativeChordIndex)"
+      class="alternativeChord"
+      [ngClass]="{
+        selected: alternativeChordIndex === alternativeChordSelected
+      }"
+    >
+      <div class="header">
+        @if(alternativeChord.name) {
+        <span class="chordName">{{ alternativeChord.name }}</span
+        >}
+      </div>
+
+      <div class="chordStructure">
+        @for (note of alternativeChord.notes; track trackById(noteId, note); let
+        noteId = $index) {
+        <span class="chordFigure">
+          <span class="stringNumber">{{ note.stringNumber }}th</span> -
+          <span class="notePosition">{{ note.position }}</span> -
+          <span class="noteName">{{ note.name }}</span>
+          <br /></span
+        >}
+      </div>
+      <mat-icon class="soundIcon" (click)="makeChordSound(alternativeChord)"
+        >music_note</mat-icon
+      >
+    </div>
+    }
+  </div>
+</div>
+} }

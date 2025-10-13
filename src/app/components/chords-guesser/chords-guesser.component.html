@@ -2,7 +2,7 @@
   <h2 id="sectionTitle">Chord Guesser</h2>
   @if(message){<span id="message">{{ message }}</span
   >}
-  <app-chords-grid></app-chords-grid>
+  <app-chords-grid [chordOptionsDisplay]="false"></app-chords-grid>
 
   <app-submit-button
     (click)="guessMyChords()"

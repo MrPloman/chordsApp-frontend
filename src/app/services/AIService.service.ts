@@ -5,6 +5,7 @@ import { queryPrompt } from '@app/models/queryPrompt.model';
 import { environment } from '../../environments/environment';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { QueryResponse } from '@app/models/queryResponse.model';
+import { queryOptions } from '@app/models/queryOptions.model';
 
 @Injectable({ providedIn: 'root' })
 export class AIService {
@@ -30,6 +31,17 @@ export class AIService {
       _body
     );
     if (status === 200 && body && body.chords) {
+      const { chords, clarification, response } = body;
+      return new QueryResponse(chords, clarification, response);
+    } else return new QueryResponse([], statusText);
+  }
+
+  public async getOtherChordOptions(_body: queryOptions) {
+    const { body, status, statusText } = await this._httpService.post(
+      `${environment.API}/options`,
+      _body
+    );
+    if (status === 200 && body) {
       const { chords, clarification, response } = body;
       return new QueryResponse(chords, clarification, response);
     } else return new QueryResponse([], statusText);

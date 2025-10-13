@@ -3,7 +3,7 @@
 
   @if(message){<span class="message">{{ message }}</span
   >}
-  <app-chords-grid></app-chords-grid>
+  <app-chords-grid [chordOptionsDisplay]="false"></app-chords-grid>
 
   <form id="promptSection" [formGroup]="progressionForm">
     <app-input-instruction

@@ -3,13 +3,22 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { generateId, makeNoteSound } from '@app/services/chordsService.service';
+import {
+  checkAndGenerateID,
+  checkDuplicateChordOptions,
+  checkDuplicateChords,
+  generateId,
+  getAllNoteChordName,
+  makeNoteSound,
+} from '@app/services/chordsService.service';
 import {
   setCurrentChords,
   setChordSelected,
   removeChord,
   removeNoteFromChord,
   changeChordsOrder,
+  setAlternativeChordSelected,
+  setAlternativeChordsOptions,
 } from '@app/store/actions/chords.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
@@ -24,6 +33,10 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { AIService } from '@app/services/AIService.service';
+import { QueryResponse } from '@app/models/queryResponse.model';
+import { loadingStatus } from '@app/store/actions/loading.actions';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-chords-grid',
@@ -34,6 +47,7 @@ import { MatIconModule } from '@angular/material/icon';
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    MatProgressSpinnerModule,
   ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
@@ -58,12 +72,19 @@ import { MatIconModule } from '@angular/material/icon';
   ],
 })
 export class ChordsGridComponent {
-  @Input() currentChordsDisplayMode: boolean = true;
-  public loading = false;
+  @Input() chordOptionsDisplay: boolean = false;
+
   public chords: Chord[] = [];
+  public alternativeChords: Chord[] = [];
+
   public chordSelected: number = 0;
+  public alternativeChordSelected: number = -1;
+
+  public loading = false;
+
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public maxChords = maximChords;
+
   public selection: string = '';
   public functionSelectedStore: Observable<any> = new Observable();
 
@@ -75,21 +96,26 @@ export class ChordsGridComponent {
   private subscriptionFunctionStore: Subscription = new Subscription();
 
   private store = inject(Store);
+  private aiService = inject(AIService);
 
   constructor() {
+    // store loader
     this.loadingStore = this.store.pipe(select(selectLoadingState));
-    this.functionSelectedStore = this.store.pipe(
-      select(selectFunctionSelectedState)
-    );
     this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
       this.loading = loading.loading;
     });
+
+    // function store
+    this.functionSelectedStore = this.store.pipe(
+      select(selectFunctionSelectedState)
+    );
     this.subscriptionFunctionStore = this.functionSelectedStore.subscribe(
       (value: { functionSelected: IFunctionSelectionState }) => {
         if (!value.functionSelected.option) return;
         this.selection = value.functionSelected.option;
       }
     );
+
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
 
     // if is a normal display get the chords from the state
@@ -101,35 +127,18 @@ export class ChordsGridComponent {
         this.chordSelected = chordsState.chordSelected
           ? chordsState.chordSelected
           : 0;
-
-        // this.chordSelected = chordsState.chordSelected
-        //    chordsState.chordSelected
-        //   : 0;
-        // if (!chordsState.currentChords) this.chords = [];
-        // else {
-        //   if (
-        //     chordsState.currentChords &&
-        //     chordsState.currentChords[this.chordSelected] &&
-        //     chordsState.currentChords[this.chordSelected].alternativeChords &&
-        //   ) {
-
-        //   }
-
-        // }
-
-        // if (!this.currentChordsDisplayMode && this.chords.length > 0 && this.chords[this.chordSelected].alternativeChords !== undefined) {
-        //   this.chords = this.chords[this.chordSelected].alternativeChords
-
-        // }
+        if (this.chordOptionsDisplay) {
+          this.alternativeChords = chordsState.alternativeChords
+            ? chordsState.alternativeChords
+            : [];
+          this.alternativeChordSelected = chordsState.alternativeChordSelected
+            ? chordsState.alternativeChordSelected
+            : 0;
+        }
       }
     );
   }
   ngOnInit(): void {
-    if (!this.currentChordsDisplayMode) {
-      this.chordSelected = 0;
-      this.chords = [];
-    }
-
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
   }
@@ -142,7 +151,7 @@ export class ChordsGridComponent {
   }
 
   public addNewChord() {
-    if (this.loading || !this.currentChordsDisplayMode) return;
+    if (this.loading) return;
     this.store.dispatch(
       setCurrentChords({
         currentChords: [
@@ -162,20 +171,68 @@ export class ChordsGridComponent {
         ],
       })
     );
-    this.selectChord(this.chords.length - 1);
+    this.store.dispatch(
+      setChordSelected({ chordSelected: this.chords.length - 1 })
+    );
+    // this.selectChord(this.chords.length - 1);
   }
 
   public selectChord(position: number) {
-    if (this.loading || !this.currentChordsDisplayMode) return;
+    if (
+      this.loading ||
+      (this.chordSelected === position && this.chords.length > 0)
+    )
+      return;
+    this.chordSelected = position;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
+    if (!this.chordOptionsDisplay) return;
+    this.getNewAlternativeChords(this.chords[position]);
   }
+
+  private getNewAlternativeChords(chord: Chord) {
+    this.loading = true;
+    this.alternativeChords = [];
+    this.alternativeChordSelected = -1;
+    this.store.dispatch(loadingStatus({ loading: true }));
+    this.aiService
+      .getOtherChordOptions({ chord })
+      .then(({ chords }: QueryResponse) => {
+        let _chords = getAllNoteChordName(chords);
+        _chords = checkDuplicateChords(_chords);
+        _chords = checkDuplicateChordOptions(_chords, chord);
+        _chords = checkAndGenerateID(_chords);
+        this.store.dispatch(
+          setAlternativeChordsOptions({
+            alternativeChords: _chords,
+            chordSelected: this.chordSelected,
+          })
+        );
+        this.store.dispatch(
+          setAlternativeChordSelected({
+            alternativeChordSelected: this.alternativeChordSelected,
+          })
+        );
+        this.loading = false;
+        this.store.dispatch(loadingStatus({ loading: false }));
+      });
+  }
+
+  public selectAlternativeChord(position: number) {
+    if (this.loading) return;
+
+    this.alternativeChordSelected = position;
+    this.store.dispatch(
+      setAlternativeChordSelected({ alternativeChordSelected: position })
+    );
+  }
+
   public deleteChord(chordPosition: number) {
-    if (this.loading || !this.currentChordsDisplayMode) return;
+    if (this.loading) return;
     this.store.dispatch(removeChord({ chordToRemove: chordPosition }));
   }
 
   public removeNote(notePosition: number, chordPosition: number) {
-    if (this.loading || !this.currentChordsDisplayMode) return;
+    if (this.loading) return;
     this.store.dispatch(
       removeNoteFromChord({
         noteToRemove: notePosition,
@@ -184,7 +241,7 @@ export class ChordsGridComponent {
     );
   }
   public drop(event: CdkDragDrop<any[]>) {
-    if (this.loading || !this.currentChordsDisplayMode) return;
+    if (this.loading) return;
     this.store.dispatch(
       changeChordsOrder({
         originChordPosition: event.previousIndex,
