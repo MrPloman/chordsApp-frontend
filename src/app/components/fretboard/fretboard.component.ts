@@ -23,7 +23,7 @@ export class FretboardComponent {
   public currentDots = dots;
   public loading: boolean = false;
 
-  private currentChord: Chord = new Chord([], '', generateId());
+  private currentChord: Chord = new Chord([], [], '', generateId());
   private selectionMode: boolean | string = false;
   private chordPosition: number = 0;
   private chords: Chord[] = [];

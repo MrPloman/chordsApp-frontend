@@ -66,7 +66,12 @@ export const chordsReducer = createReducer(
           })
         );
 
-        return { name: chordElement.name, notes, _id: chordElement._id };
+        return {
+          ...chordElement,
+          name: chordElement.name,
+          notes,
+          _id: chordElement._id,
+        };
       }
     );
     if (newChords[props.chordSelected].notes.length === 0) {
@@ -136,7 +141,7 @@ export const chordsReducer = createReducer(
     // time to infer these notes inside the notes value of the desired chord.
     let chordsLeft = state.currentChords.map((chord: Chord, index) => {
       if (index === props.chordSelected) {
-        return new Chord(notesModified, chord.name, chord._id);
+        return new Chord(notesModified, [], chord.name, chord._id);
       }
       return chord;
     });

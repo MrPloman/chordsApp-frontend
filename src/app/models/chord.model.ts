@@ -22,14 +22,15 @@ export class NotePosition {
 export class Chord {
   public name?: string;
   public notes: NotePosition[];
+  public alternativeChords: Chord[];
+
   public _id?: number;
-  public alternativeChords?: Chord[];
 
   constructor(
     notes: NotePosition[],
+    alternativeChords: Chord[],
     name?: string,
-    _id?: number,
-    alternativeChords?: Chord[]
+    _id?: number
   ) {
     this.name = name ? name : '';
     this.notes = notes;

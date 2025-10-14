@@ -112,7 +112,12 @@ export function getAllNoteChordName(chords: Chord[]): Chord[] {
         name: noteName(note.stringNumber, note.position),
       };
     });
-    return { notes: newNotes, name: chord.name, _id: chord._id };
+    return {
+      notes: newNotes,
+      name: chord.name,
+      _id: chord._id,
+      alternativeChords: [],
+    };
   });
   if (!parsedChords) return [];
   else return parsedChords;

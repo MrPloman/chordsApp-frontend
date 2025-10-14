@@ -93,8 +93,10 @@ export class ChordsOptionsComponent {
   }
 
   public setOtherChordOption() {
+    if (this.chords[this.chordSelected].alternativeChords.length > 0) return;
     this.loading = true;
     this.store.dispatch(loadingStatus({ loading: true }));
+
     this.aiService
       .getOtherChordOptions({
         chord: this.chords[this.chordSelected],

@@ -165,6 +165,7 @@ export class ChordsGridComponent {
               new NotePosition(5, 0, 'A', generateId()),
               new NotePosition(6, 0, 'E', generateId()),
             ],
+            [],
             '',
             generateId()
           ),
@@ -189,7 +190,22 @@ export class ChordsGridComponent {
     this.getNewAlternativeChords(this.chords[position]);
   }
 
+  private setAlternativeChords() {
+    this.store.dispatch(loadingStatus({ loading: true }));
+    this.store.dispatch(
+      setAlternativeChordsOptions({
+        alternativeChords: this.chords[this.chordSelected].alternativeChords,
+        chordSelected: this.chordSelected,
+      })
+    );
+    this.store.dispatch(loadingStatus({ loading: false }));
+  }
+
   private getNewAlternativeChords(chord: Chord) {
+    if (this.chords[this.chordSelected].alternativeChords.length > 0) {
+      this.setAlternativeChords();
+      return;
+    }
     this.loading = true;
     this.alternativeChords = [];
     this.alternativeChordSelected = -1;

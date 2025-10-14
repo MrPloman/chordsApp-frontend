@@ -26,9 +26,17 @@ export class AIService {
   }
   public async makeChordsProgression(_body: queryPrompt) {
     if (!_body.prompt) return;
+    let chords = _body.chords.map((chord: Chord) => {
+      return {
+        name: chord.name,
+        notes: chord.notes,
+        _id: chord._id,
+        alternativeChords: [],
+      };
+    });
     const { body, status, statusText } = await this._httpService.post(
       `${environment.API}/progression`,
-      _body
+      { prompt: _body.prompt, chords }
     );
     if (status === 200 && body && body.chords) {
       const { chords, clarification, response } = body;
