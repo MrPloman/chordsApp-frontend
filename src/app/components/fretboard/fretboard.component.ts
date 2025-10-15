@@ -80,7 +80,7 @@ export class FretboardComponent {
   public selectNote(note: NotePosition) {
     if (this.loading) return;
     this.makeItSound(note);
-    if (!this.selectionMode) return;
+    if (!this.selectionMode || this.chords.length === 0) return;
     else {
       switch (this.selectionMode) {
         case 'guesser':
