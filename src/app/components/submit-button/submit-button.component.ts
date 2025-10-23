@@ -16,6 +16,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class SubmitButtonComponent {
   @Input() label: string = 'Send';
+  @Input() icon: string = 'music_note';
+
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
   @Input() type: string = 'button';

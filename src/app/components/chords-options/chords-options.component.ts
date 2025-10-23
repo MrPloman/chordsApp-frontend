@@ -86,14 +86,14 @@ export class ChordsOptionsComponent {
 
   ngOnInit(): void {
     if (this.chordSelected !== undefined && this.chords.length > 0) {
-      this.setOtherChordOption();
+      // this.setOtherChordOption();
     }
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
   }
 
   public setOtherChordOption() {
-    if (this.chords[this.chordSelected].alternativeChords.length > 0) return;
+    // if (this.chords[this.chordSelected].alternativeChords.length > 0) return;
     this.loading = true;
     this.store.dispatch(loadingStatus({ loading: true }));
 
@@ -136,6 +136,11 @@ export class ChordsOptionsComponent {
         alternativeChordSelected: this.alternativeChordSelected,
       })
     );
+  }
+
+  public getOtherOptions() {
+    if (this.loading) return;
+    this.setOtherChordOption();
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.

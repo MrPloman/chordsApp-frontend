@@ -14,4 +14,13 @@
     background-color: globalVars.$secondary-color;
     border-radius: 60%;
   }
+  #buttonsSection {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    #getOtherOptionsButton,
+    #exchangeButton {
+      margin: 20px;
+    }
+  }
 }

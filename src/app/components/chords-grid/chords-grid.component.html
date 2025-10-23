@@ -48,7 +48,8 @@
     }
   </div>
 </div>
-@if (chordOptionsDisplay) {<span id="separation"></span> @if (loading) {
+@if (chordOptionsDisplay) { @if (alternativeChords.length > 0) {
+<span id="separation"></span>} @if (loading) {
 <mat-spinner id="spinner"></mat-spinner> } @else {
 <div class="alternativeChordsGrid">
   <div class="alternativeChords">

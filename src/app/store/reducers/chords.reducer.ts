@@ -197,7 +197,7 @@ export const chordsReducer = createReducer(
       ...state,
       currentChords: _currentChords,
       alternativeChords: _alternativeChords,
-      setAlternativeChordSelected: _selectedChord,
+      alternativeChordSelected: _selectedChord,
     };
   }),
   on(setAlternativeChordSelected, (state, props) => {
@@ -230,26 +230,13 @@ export const chordsReducer = createReducer(
         else return chord;
       }
     );
-
-    // const [selectedCurrentChordToMove] = newCurrentChords.splice(
-    //   currentChordSelected,
-    //   1
-    // );
-    // const [selectedAlternativeChordToMove] = newAlternativeChords.splice(
-    //   alternativeChordSelected,
-    //   1
-    // );
-
-    // newCurrentChords.splice(
-    //   currentChordSelected,
-    //   0,
-    //   selectedAlternativeChordToMove
-    // );
-    // newAlternativeChords.splice(
-    //   alternativeChordSelected,
-    //   0,
-    //   selectedCurrentChordToMove
-    // );
+    newCurrentChords = newCurrentChords.map((chord: Chord, index: number) => {
+      if (index === currentChordSelected) {
+        const _chord = { ...chord, alternativeChords: newAlternativeChords };
+        return _chord;
+      }
+      return chord;
+    });
 
     return {
       ...state,

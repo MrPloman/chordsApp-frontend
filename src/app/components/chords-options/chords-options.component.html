@@ -3,16 +3,26 @@
 
   <app-chords-grid [chordOptionsDisplay]="true"></app-chords-grid>
 
-  <app-submit-button
-    (click)="exchangeChords()"
-    id="submitButton"
-    [disabled]="
-      chordSelected < 0 ||
-      alternativeChordSelected < 0 ||
-      alternativeChords.length === 0 ||
-      chords.length === 0 ||
-      loading
-    "
-    [label]="'Exchange Chords!'"
-  ></app-submit-button>
+  <div id="buttonsSection">
+    <app-submit-button
+      (click)="getOtherOptions()"
+      id="getOtherOptionsButton"
+      [disabled]="chords.length === 0 || loading"
+      [label]="'Show Me!'"
+      [icon]="'search'"
+    ></app-submit-button>
+    <app-submit-button
+      (click)="exchangeChords()"
+      id="exchangeButton"
+      [icon]="'cached'"
+      [disabled]="
+        chordSelected < 0 ||
+        alternativeChordSelected < 0 ||
+        alternativeChords.length === 0 ||
+        chords.length === 0 ||
+        loading
+      "
+      [label]="'Exchange Chords!'"
+    ></app-submit-button>
+  </div>
 </form>

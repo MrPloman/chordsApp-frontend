@@ -139,12 +139,9 @@ export class ChordsGridComponent {
     );
   }
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
+    this.getNewAlternativeChords();
   }
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
     this.subscriptionFunctionStore.unsubscribe();
     this.loaderSubscription.unsubscribe();
@@ -175,7 +172,6 @@ export class ChordsGridComponent {
     this.store.dispatch(
       setChordSelected({ chordSelected: this.chords.length - 1 })
     );
-    // this.selectChord(this.chords.length - 1);
   }
 
   public selectChord(position: number) {
@@ -187,7 +183,7 @@ export class ChordsGridComponent {
     this.chordSelected = position;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
     if (!this.chordOptionsDisplay) return;
-    this.getNewAlternativeChords(this.chords[position]);
+    this.getNewAlternativeChords();
   }
 
   private setAlternativeChords() {
@@ -201,36 +197,30 @@ export class ChordsGridComponent {
     this.store.dispatch(loadingStatus({ loading: false }));
   }
 
-  private getNewAlternativeChords(chord: Chord) {
-    if (this.chords[this.chordSelected].alternativeChords.length > 0) {
+  private getNewAlternativeChords() {
+    if (
+      this.chords &&
+      this.chords.length > 0 &&
+      this.chordSelected !== undefined &&
+      this.chords[this.chordSelected].alternativeChords &&
+      this.chords[this.chordSelected].alternativeChords.length > 0
+    ) {
       this.setAlternativeChords();
       return;
     }
-    this.loading = true;
     this.alternativeChords = [];
     this.alternativeChordSelected = -1;
-    this.store.dispatch(loadingStatus({ loading: true }));
-    this.aiService
-      .getOtherChordOptions({ chord })
-      .then(({ chords }: QueryResponse) => {
-        let _chords = getAllNoteChordName(chords);
-        _chords = checkDuplicateChords(_chords);
-        _chords = checkDuplicateChordOptions(_chords, chord);
-        _chords = checkAndGenerateID(_chords);
-        this.store.dispatch(
-          setAlternativeChordsOptions({
-            alternativeChords: _chords,
-            chordSelected: this.chordSelected,
-          })
-        );
-        this.store.dispatch(
-          setAlternativeChordSelected({
-            alternativeChordSelected: this.alternativeChordSelected,
-          })
-        );
-        this.loading = false;
-        this.store.dispatch(loadingStatus({ loading: false }));
-      });
+    this.store.dispatch(
+      setAlternativeChordsOptions({
+        alternativeChords: [],
+        chordSelected: this.chordSelected,
+      })
+    );
+    this.store.dispatch(
+      setAlternativeChordSelected({
+        alternativeChordSelected: this.alternativeChordSelected,
+      })
+    );
   }
 
   public selectAlternativeChord(position: number) {
