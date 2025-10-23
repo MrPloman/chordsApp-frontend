@@ -17,7 +17,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { selectLoadingState } from './store/selectors/loading.selector';
 import { ChordsOptionsComponent } from './components/chords-options/chords-options.component';
-
+import {
+  provideTranslateService,
+  provideTranslateLoader,
+} from '@ngx-translate/core';
+import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import {
+  TranslateService,
+  TranslatePipe,
+  TranslateDirective,
+} from '@ngx-translate/core';
 @Component({
   selector: 'app-root',
   imports: [
@@ -32,6 +41,18 @@ import { ChordsOptionsComponent } from './components/chords-options/chords-optio
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
+    TranslatePipe,
+    TranslateDirective,
+  ],
+  providers: [
+    provideTranslateService({
+      loader: provideTranslateHttpLoader({
+        prefix: './i18n/',
+        suffix: '.json',
+      }),
+      fallbackLang: 'en',
+      lang: 'en',
+    }),
   ],
 
   templateUrl: './app.component.html',
@@ -45,8 +66,11 @@ export class AppComponent {
   private loadingStore: Observable<any>;
   private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string | undefined = undefined;
+  private translate = inject(TranslateService);
 
   constructor() {
+    this.translate.addLangs(['es', 'en']);
+    this.translate.setFallbackLang('en');
     this.loadingStore = this.store.pipe(select(selectLoadingState));
     this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
       this.loading = loading.loading;

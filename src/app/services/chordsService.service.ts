@@ -35,7 +35,7 @@ export function makeNoteSound(note: NotePosition) {
   if (note.name.includes('#')) fretNote = note.name.replace('#', 'sh');
 
   const noteAudio = new Audio(
-    `./assets/audios/${note.stringNumber.toString()}/${note.stringNumber.toString()}_${
+    `/audios/${note.stringNumber.toString()}/${note.stringNumber.toString()}_${
       note.position
     }_${fretNote}.mp3`
   );
