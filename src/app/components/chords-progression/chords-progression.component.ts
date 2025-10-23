@@ -23,6 +23,8 @@ import { minimumChordsToMakeProgression } from '@app/config/global_variables/rul
 import { AIService } from '@app/services/AIService.service';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { QueryResponse } from '@app/models/queryResponse.model';
+import { TranslatePipe } from '@ngx-translate/core';
+import { selectLanguage } from '@app/store/selectors/language.selector';
 
 @Component({
   selector: 'app-chords-progression',
@@ -33,12 +35,15 @@ import { QueryResponse } from '@app/models/queryResponse.model';
     SubmitButtonComponent,
     ChordsGridComponent,
     ReactiveFormsModule,
+    TranslatePipe,
   ],
 
   templateUrl: './chords-progression.component.html',
   styleUrl: './chords-progression.component.scss',
 })
 export class ChordsProgressionComponent {
+  private aiService = inject(AIService);
+  private store = inject(Store);
   public chords: Chord[] = [];
   public progressionForm = new FormGroup({
     prompt: new FormControl('', [Validators.required]),
@@ -46,14 +51,19 @@ export class ChordsProgressionComponent {
   public loading: boolean = false;
   public message: string = '';
 
+  private languageStoreSubscription: Subscription = new Subscription();
+  public languageStore = this.store.select(selectLanguage);
+  private language: 'es' | 'en' = 'en';
+
   protected chordSelected: number = 0;
 
-  private aiService = inject(AIService);
-  private store = inject(Store);
   private chordsStore: Observable<any> = new Observable();
   private chordsStoreSubscription: Subscription = new Subscription();
 
   constructor() {
+    this.languageStoreSubscription = this.languageStore.subscribe((state) => {
+      if (state) this.language = state;
+    });
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
     this.chordsStoreSubscription = this.chordsStore.subscribe(
       (chordsState: IChordsGuesserState) => {
@@ -81,10 +91,13 @@ export class ChordsProgressionComponent {
       this.loading = true;
       this.store.dispatch(loadingStatus({ loading: true }));
       this.aiService
-        .makeChordsProgression({
-          chords: this.chords,
-          prompt: this.progressionForm.controls.prompt.value,
-        })
+        .makeChordsProgression(
+          {
+            chords: this.chords,
+            prompt: this.progressionForm.controls.prompt.value,
+          },
+          this.language
+        )
         .then((value: QueryResponse | undefined) => {
           this.store.dispatch(loadingStatus({ loading: false }));
           this.loading = false;

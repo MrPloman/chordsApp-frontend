@@ -14,6 +14,7 @@ import { chordsReducer } from './store/reducers/chords.reducer';
 import { provideHttpClient } from '@angular/common/http';
 import { loadingReducer } from './store/reducers/loading.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations'; // Add this line
+import { languageReducer } from './store/reducers/language.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -24,6 +25,7 @@ export const appConfig: ApplicationConfig = {
       functionSelected: functionSelectedReducer,
       chords: chordsReducer,
       loading: loadingReducer,
+      language: languageReducer,
     }),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),

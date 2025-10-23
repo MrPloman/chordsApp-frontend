@@ -17,16 +17,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { selectLoadingState } from './store/selectors/loading.selector';
 import { ChordsOptionsComponent } from './components/chords-options/chords-options.component';
-import {
-  provideTranslateService,
-  provideTranslateLoader,
-} from '@ngx-translate/core';
+import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 import {
   TranslateService,
   TranslatePipe,
   TranslateDirective,
 } from '@ngx-translate/core';
+import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 @Component({
   selector: 'app-root',
   imports: [
@@ -42,7 +42,8 @@ import {
     MatDividerModule,
     MatIconModule,
     TranslatePipe,
-    TranslateDirective,
+    MatButtonToggleModule,
+    LanguageSelectorComponent,
   ],
   providers: [
     provideTranslateService({
@@ -60,13 +61,14 @@ import {
 })
 export class AppComponent {
   private store = inject(Store);
+  private translate = inject(TranslateService);
+
   public functionSelectedStore: Observable<any>;
   public loading = false;
   private loaderSubscription: Subscription = new Subscription();
   private loadingStore: Observable<any>;
   private subscriptionFunctionStore: Subscription = new Subscription();
   public selection: string | undefined = undefined;
-  private translate = inject(TranslateService);
 
   constructor() {
     this.translate.addLangs(['es', 'en']);

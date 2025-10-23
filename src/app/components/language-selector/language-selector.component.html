@@ -1,0 +1,12 @@
+<mat-button-toggle-group
+  id="languageSelector"
+  name="fontStyle"
+  aria-label="Font Style"
+>
+  <mat-button-toggle checked="" value="en" (click)="selectLanguage('en')">{{
+    "english" | translate
+  }}</mat-button-toggle>
+  <mat-button-toggle value="es" (click)="selectLanguage('es')">{{
+    "spanish" | translate
+  }}</mat-button-toggle>
+</mat-button-toggle-group>

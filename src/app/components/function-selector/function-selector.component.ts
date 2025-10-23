@@ -13,9 +13,10 @@ import {
   checkIfChordsAreGuessed,
 } from '@app/services/chordsService.service';
 import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-function-selector',
-  imports: [MatButtonModule, MatDividerModule, MatIconModule],
+  imports: [MatButtonModule, MatDividerModule, MatIconModule, TranslatePipe],
 
   templateUrl: './function-selector.component.html',
   styleUrl: './function-selector.component.scss',

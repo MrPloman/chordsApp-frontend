@@ -1,5 +1,7 @@
 <form id="chordsOptions-container">
-  <h2 id="sectionTitle">Chords Changer</h2>
+  <h2 id="sectionTitle">{{ "exchanger_title" | translate }}</h2>
+
+  <span id="message">{{ "exchanger_description" | translate }}</span>
 
   <app-chords-grid [chordOptionsDisplay]="true"></app-chords-grid>
 
@@ -8,7 +10,7 @@
       (click)="getOtherOptions()"
       id="getOtherOptionsButton"
       [disabled]="chords.length === 0 || loading"
-      [label]="'Show Me!'"
+      [label]="'other_options_button' | translate"
       [icon]="'search'"
     ></app-submit-button>
     <app-submit-button
@@ -22,7 +24,7 @@
         chords.length === 0 ||
         loading
       "
-      [label]="'Exchange Chords!'"
+      [label]="'exchanger_button' | translate"
     ></app-submit-button>
   </div>
 </form>

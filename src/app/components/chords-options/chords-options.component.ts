@@ -26,6 +26,7 @@ import {
 } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { selectLoadingState } from '@app/store/selectors/loading.selector';
+import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chords-options',
@@ -35,6 +36,7 @@ import { selectLoadingState } from '@app/store/selectors/loading.selector';
     ChordsGridComponent,
     FormsModule,
     MatProgressSpinnerModule,
+    TranslatePipe,
   ],
   templateUrl: './chords-options.component.html',
   styleUrl: './chords-options.component.scss',
@@ -53,18 +55,20 @@ export class ChordsOptionsComponent {
   private aiService = inject(AIService);
   private store = inject(Store);
 
-  private chordsStore: Observable<any> = new Observable();
+  private chordsStore: Observable<any> = this.store.pipe(
+    select(selectChordGuesserState)
+  );
   private chordsStoreSubscription: Subscription = new Subscription();
 
-  private loadingStore: Observable<any> = new Observable();
+  private loadingStore: Observable<any> = this.store.pipe(
+    select(selectLoadingState)
+  );
   private loaderSubscription: Subscription = new Subscription();
 
   constructor() {
-    this.loadingStore = this.store.pipe(select(selectLoadingState));
     this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
       this.loading = loading.loading;
     });
-    this.chordsStore = this.store.pipe(select(selectChordGuesserState));
 
     this.chordsStoreSubscription = this.chordsStore.subscribe(
       (chordsState: IChordsGuesserState) => {

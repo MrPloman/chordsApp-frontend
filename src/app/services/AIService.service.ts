@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { HTTPService } from './httpService.service';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { queryPrompt } from '@app/models/queryPrompt.model';
@@ -6,6 +6,9 @@ import { environment } from '../../environments/environment';
 import { HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { QueryResponse } from '@app/models/queryResponse.model';
 import { queryOptions } from '@app/models/queryOptions.model';
+import { Subscription } from 'rxjs';
+import { selectLanguage } from '@app/store/selectors/language.selector';
+import { Store } from '@ngrx/store';
 
 @Injectable({ providedIn: 'root' })
 export class AIService {
@@ -14,17 +17,24 @@ export class AIService {
   constructor(httpService: HTTPService) {
     this._httpService = httpService;
   }
-  public async guessMyChords(_body: queryPrompt) {
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+  }
+  public async guessMyChords(_body: queryPrompt, language: 'es' | 'en') {
     const { body, status, statusText } = await this._httpService.post(
       `${environment.API}/guesser`,
-      _body
+      { ..._body, language: language }
     );
     if (status === 200 && body) {
       const { chords, clarification, response } = body;
       return new QueryResponse(chords, clarification, response);
     } else return new QueryResponse([], statusText);
   }
-  public async makeChordsProgression(_body: queryPrompt) {
+  public async makeChordsProgression(
+    _body: queryPrompt,
+    language: 'es' | 'en'
+  ) {
     if (!_body.prompt) return;
     let chords = _body.chords.map((chord: Chord) => {
       return {
@@ -36,7 +46,7 @@ export class AIService {
     });
     const { body, status, statusText } = await this._httpService.post(
       `${environment.API}/progression`,
-      { prompt: _body.prompt, chords }
+      { prompt: _body.prompt, chords, language: language }
     );
     if (status === 200 && body && body.chords) {
       const { chords, clarification, response } = body;

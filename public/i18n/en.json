@@ -1,0 +1,20 @@
+{
+  "title": "Chord Factory",
+  "button_guesser": "Chords Guesser",
+  "button_options": "Other Chords Options",
+  "button_progression": "Chords Pogression",
+  "forbidden_message_no_chords": "You can’t access “Chord Progression” or “Other Chord Options” right now. To unlock them, please add at least two valid chords and use the guesser function. Once your chords have names, you’ll be able to explore more options and generate some fun progressions.",
+  "guesser_title": "Chords Guesser",
+  "guesser_description": "In this section, you can find out the names of the chords you create yourself. Just select frets on the virtual fretboard to form your chords. The app analyzes your shapes and gives each one a name. You can add several chords, reorder them, and once you have at least two, move on to the next sections. It’s a fun way to test your ear and learn the names of the shapes you play.",
+  "guesser_button": "Guess My Chords!",
+  "exchanger_title": "Other Options",
+  "exchanger_description": "Here you can explore different ways to play the same chord. Just send one of the chords you’ve already defined, and the system will show multiple positions all along the neck. You can swap any of them with your original chord to discover new sounds. It’s perfect for expanding your repertoire and finding easier or more colorful voicings.",
+  "exchanger_button": "Exchange Chords!",
+  "other_options_button": "More Options!",
+  "progression_title": "Chords Progression",
+  "progression_description": "In this part, you can build your musical progressions. Use the chords you’ve already named and add a short prompt describing how many you want, what style you’re going for, or the feeling you’d like to convey. The order completely changes the vibe, and you can modify it anytime. It’s your creative space to explore harmonic movement and craft your own chord sequences.",
+  "progression_button": "Surprise Me!",
+  "progression_prompt": "Give me more information about your progression...",
+  "english": "EN",
+  "spanish": "SP"
+}

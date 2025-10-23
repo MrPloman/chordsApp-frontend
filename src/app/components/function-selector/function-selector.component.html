@@ -1,7 +1,6 @@
 <div class="button-container">
   <button mat-fab extended (click)="selectOption('guesser')">
-    Chords Guesser
-    <mat-icon>local_library</mat-icon>
+    {{ "guesser_title" | translate }} <mat-icon>local_library</mat-icon>
   </button>
   <button
     mat-fab
@@ -9,7 +8,7 @@
     (click)="selectOption('options')"
     [disabled]="!chordsAreGuessed(chords)"
   >
-    Other chords options <mat-icon>auto_stories</mat-icon>
+    {{ "exchanger_title" | translate }} <mat-icon>auto_stories</mat-icon>
   </button>
   <button
     mat-fab
@@ -21,13 +20,12 @@
       !chordsAreGuessed(chords)
     "
   >
-    Chords Progression <mat-icon>auto_fix_normal</mat-icon>
+    {{ "progression_title" | translate }} <mat-icon>auto_fix_normal</mat-icon>
   </button>
 </div>
 @if ( chords.length < minimumChordsToMakeProgression || !validChords(chords) ||
 !chordsAreGuessed(chords)) {
 <div id="message">
-  you cannot access to the chords progresion right now, first you need to set at
-  least two valid chords and guess them.
+  {{ "forbidden_message_no_chords" | translate }}
 </div>
 }

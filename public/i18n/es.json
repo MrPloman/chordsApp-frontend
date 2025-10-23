@@ -1,0 +1,20 @@
+{
+  "title": "Chord Factory",
+  "button_guesser": "Adivinador de Acordes",
+  "button_options": "Otras Opciones de Acordes",
+  "button_progression": "Progresión de Acordes",
+  "forbidden_message_no_chords": "No puedes acceder a “Progresión de Acordes” ni a “Otras Opciones de Acordes” por ahora. Para desbloquearlas, agrega al menos dos acordes válidos y usa la función de adivinador. Una vez que tus acordes tengan nombre, podrás explorar más opciones y generar progresiones divertidas.",
+  "guesser_title": "Adivinador de Acordes",
+  "guesser_description": "En esta sección puedes descubrir los nombres de los acordes que tú mismo creas. Solo selecciona los trastes en el diapasón virtual para formar tus acordes. La aplicación analiza tus posiciones y les asigna un nombre. Puedes añadir varios acordes, reordenarlos, y cuando tengas al menos dos, pasar a las siguientes secciones. Es una forma divertida de poner a prueba tu oído y aprender los nombres de las formas que tocas.",
+  "guesser_button": "¡Adivina Mis Acordes!",
+  "exchanger_title": "Otras Opciones",
+  "exchanger_description": "Aquí puedes explorar diferentes maneras de tocar el mismo acorde. Solo envía uno de los acordes que ya hayas definido, y el sistema mostrará varias posiciones a lo largo del mástil. Puedes intercambiar cualquiera de ellas con tu acorde original para descubrir nuevos sonidos. Es perfecto para ampliar tu repertorio y encontrar digitaciones más fáciles o con más color.",
+  "exchanger_button": "¡Intercambia Acordes!",
+  "other_options_button": "¡Más Opciones!",
+  "progression_title": "Progresión de Acordes",
+  "progression_description": "En esta parte puedes crear tus propias progresiones musicales. Usa los acordes que ya hayas nombrado y añade una breve descripción indicando cuántos quieres, el estilo que buscas o la sensación que deseas transmitir. El orden cambia completamente el ambiente, y puedes modificarlo en cualquier momento. Es tu espacio creativo para explorar el movimiento armónico y diseñar tus propias secuencias de acordes.",
+  "progression_button": "¡Sorpréndeme!",
+  "progression_prompt": "Dame más información sobre tu progresión...",
+  "english": "IN",
+  "spanish": "ES"
+}
