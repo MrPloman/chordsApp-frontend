@@ -73,12 +73,15 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 })
 export class ChordsGridComponent {
   @Input() chordOptionsDisplay: boolean = false;
+  @Input() handbookDisplay: boolean = false;
 
   public chords: Chord[] = [];
   public alternativeChords: Chord[] = [];
+  public handbookChords: Chord[] = [];
 
   public chordSelected: number = 0;
   public alternativeChordSelected: number = -1;
+  public handbookChordSelected: number = -1;
 
   public loading = false;
 
@@ -230,6 +233,15 @@ export class ChordsGridComponent {
     this.store.dispatch(
       setAlternativeChordSelected({ alternativeChordSelected: position })
     );
+  }
+
+  public selecthandbookChord(position: number) {
+    if (this.loading) return;
+
+    this.alternativeChordSelected = position;
+    // this.store.dispatch(
+    //   setAlternativeChordSelected({ alternativeChordSelected: position })
+    // );
   }
 
   public deleteChord(chordPosition: number) {

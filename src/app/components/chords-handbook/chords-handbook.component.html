@@ -1,0 +1,34 @@
+<form id="chordsHandbook-container">
+  <h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
+
+  <span id="message">{{ "handbook_description" | translate }}</span>
+  <form id="promptSection" [formGroup]="chordRequestForm">
+    <app-input-selector
+      [name]="'note'"
+      [selection]="chordRequestForm.controls['note']"
+      [placeholder]="'progression_prompt' | translate"
+      [options]="notes"
+    ></app-input-selector>
+    <app-input-selector [name]="'form'" [options]="forms"></app-input-selector>
+    <div id="buttonsSection">
+      <app-submit-button
+        (click)="getAllFormsChord()"
+        id="getAllFormsChord"
+        [disabled]="true || loading"
+        [label]="'other_options_button' | translate"
+        [icon]="'search'"
+      ></app-submit-button>
+      <app-submit-button
+        (click)="addNewChord()"
+        id="addNewChord"
+        [icon]="'cached'"
+        [disabled]="handbookChordSelected < 0 || loading"
+        [label]="'exchanger_button' | translate"
+      ></app-submit-button>
+    </div>
+    <app-chords-grid
+      [handbookDisplay]="true"
+      [chordOptionsDisplay]="false"
+    ></app-chords-grid>
+  </form>
+</form>

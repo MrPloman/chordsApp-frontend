@@ -15,6 +15,11 @@
   "progression_description": "In this part, you can build your musical progressions. Use the chords you’ve already named and add a short prompt describing how many you want, what style you’re going for, or the feeling you’d like to convey. The order completely changes the vibe, and you can modify it anytime. It’s your creative space to explore harmonic movement and craft your own chord sequences.",
   "progression_button": "Surprise Me!",
   "progression_prompt": "Give me more information about your progression...",
+  "handbook_title": "Handbook Chords",
+  "handbook_description": "",
+  "handbook_button": "",
+  "handbook_note_selector": "",
+  "handbook_form_selector": "",
   "english": "EN",
   "spanish": "SP"
 }

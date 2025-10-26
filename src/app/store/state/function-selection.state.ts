@@ -1,5 +1,7 @@
+import { functionType } from '@app/types/index.types';
+
 export interface IFunctionSelectionState {
-  option: undefined | 'guesser' | 'progression' | 'options';
+  option: undefined | functionType;
 }
 
 export const functionSelectionInitialState: IFunctionSelectionState = {

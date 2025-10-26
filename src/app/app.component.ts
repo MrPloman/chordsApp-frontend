@@ -27,6 +27,7 @@ import {
   TranslateDirective,
 } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
+import { ChordsHandbookComponent } from './components/chords-handbook/chords-handbook.component';
 @Component({
   selector: 'app-root',
   imports: [
@@ -38,6 +39,7 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
     ChordsGuesserComponent,
     ChordsProgressionComponent,
     ChordsOptionsComponent,
+    ChordsHandbookComponent,
     MatButtonModule,
     MatDividerModule,
     MatIconModule,

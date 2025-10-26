@@ -14,6 +14,7 @@ import {
 } from '@app/services/chordsService.service';
 import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
 import { TranslatePipe } from '@ngx-translate/core';
+import { functionType } from '@app/types/index.types';
 @Component({
   selector: 'app-function-selector',
   imports: [MatButtonModule, MatDividerModule, MatIconModule, TranslatePipe],
@@ -52,7 +53,7 @@ export class FunctionSelectorComponent {
     this.chords = [];
   }
 
-  public selectOption(option: 'progression' | 'guesser' | 'options') {
+  public selectOption(option: functionType) {
     this.store.dispatch(selectOptionAction({ option }));
   }
 }

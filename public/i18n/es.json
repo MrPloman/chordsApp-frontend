@@ -15,6 +15,11 @@
   "progression_description": "En esta parte puedes crear tus propias progresiones musicales. Usa los acordes que ya hayas nombrado y añade una breve descripción indicando cuántos quieres, el estilo que buscas o la sensación que deseas transmitir. El orden cambia completamente el ambiente, y puedes modificarlo en cualquier momento. Es tu espacio creativo para explorar el movimiento armónico y diseñar tus propias secuencias de acordes.",
   "progression_button": "¡Sorpréndeme!",
   "progression_prompt": "Dame más información sobre tu progresión...",
+  "handbook_title": "Libro de Acordes",
+  "handbook_description": "",
+  "handbook_button": "",
+  "handbook_note_selector": "",
+  "handbook_form_selector": "",
   "english": "IN",
   "spanish": "ES"
 }

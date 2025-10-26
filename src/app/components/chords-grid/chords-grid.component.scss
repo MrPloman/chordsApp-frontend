@@ -1,9 +1,11 @@
 @use "../../../variables.scss" as globalVars;
 
 .chordGrid,
-.alternativeChordsGrid {
+.alternativeChordsGrid,
+.handbookChordsGrid {
   .chords,
-  .alternativeChords {
+  .alternativeChords,
+  .handbookChords {
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
@@ -41,7 +43,8 @@
   border-radius: 60%;
 }
 .chord,
-.alternativeChord {
+.alternativeChord,
+.handbookChord {
   transition: 0.5s color;
   margin: 10px;
   border: 2px solid globalVars.$secondary-color;
