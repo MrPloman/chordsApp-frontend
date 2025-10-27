@@ -64,4 +64,14 @@ export class AIService {
       return new QueryResponse(chords, clarification, response);
     } else return new QueryResponse([], statusText);
   }
+  public async getFullHandbookChord(_body: { chordName: string }) {
+    const { body, status, statusText } = await this._httpService.post(
+      `${environment.API}/forms`,
+      _body
+    );
+    if (status === 200 && body) {
+      const { chords } = body;
+      return new QueryResponse(chords, '');
+    } else return new QueryResponse([], statusText);
+  }
 }

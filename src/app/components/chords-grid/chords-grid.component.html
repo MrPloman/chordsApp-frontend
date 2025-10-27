@@ -4,6 +4,10 @@
   cdkDropList
   cdkDropListOrientation="mixed"
 >
+  @if (handbookDisplay && chords.length >0) {
+  <h2>Current Chords</h2>
+  }
+
   <div class="chords">
     @for (chord of chords; track trackById(chordIndex, chord); let chordIndex =
     $index) {
@@ -87,9 +91,12 @@
     }
   </div>
 </div>
-} } @if (handbookDisplay) {
+} } @if (handbookDisplay && handbookChords.length > 0) {
 <span id="separation"></span>} @if (loading) {
-<mat-spinner id="spinner"></mat-spinner> } @else {
+<mat-spinner id="spinner"></mat-spinner> } @else { @if (handbookDisplay &&
+handbookChords.length > 0) {
+<h2>Found Chords</h2>
+}
 <div class="handbookChordsGrid">
   <div class="handbookChords">
     @for (handbookChord of handbookChords; track trackById(handbookIndex,

@@ -2,19 +2,33 @@
   <h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
 
   <span id="message">{{ "handbook_description" | translate }}</span>
-  <form id="promptSection" [formGroup]="chordRequestForm">
-    <app-input-selector
-      [name]="'note'"
-      [selection]="chordRequestForm.controls['note']"
-      [placeholder]="'progression_prompt' | translate"
-      [options]="notes"
-    ></app-input-selector>
-    <app-input-selector [name]="'form'" [options]="forms"></app-input-selector>
+
+  <form id="formSection" [formGroup]="chordRequestForm">
+    <div id="inputSection">
+      <app-input-selector
+        class="input"
+        [name]="'note'"
+        [selection]="chordRequestForm.controls['note']"
+        [placeholder]="'progression_prompt' | translate"
+        [options]="notes"
+      ></app-input-selector>
+      <app-input-selector
+        class="input"
+        [selection]="chordRequestForm.controls['form']"
+        [name]="'form'"
+        [options]="forms"
+      ></app-input-selector>
+    </div>
+
     <div id="buttonsSection">
       <app-submit-button
         (click)="getAllFormsChord()"
         id="getAllFormsChord"
-        [disabled]="true || loading"
+        [disabled]="
+          loading ||
+          chordRequestForm.controls['note'].invalid ||
+          chordRequestForm.controls['form'].invalid
+        "
         [label]="'other_options_button' | translate"
         [icon]="'search'"
       ></app-submit-button>

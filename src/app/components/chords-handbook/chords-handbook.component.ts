@@ -69,8 +69,22 @@ export class ChordsHandbookComponent {
     note: new FormControl('', [Validators.required]),
     form: new FormControl('', [Validators.required]),
   });
+  private aiService = inject(AIService);
 
   public addNewChord() {}
 
-  public getAllFormsChord() {}
+  public getAllFormsChord() {
+    if (this.loading) return;
+
+    const chordName = `${this.chordRequestForm.controls.note.value}${this.chordRequestForm.controls.form.value}`;
+    if (chordName) {
+      this.loading = true;
+      this.aiService
+        .getFullHandbookChord({ chordName })
+        .then((value: QueryResponse) => {
+          this.handbookChords = value.chords;
+          this.loading = false;
+        });
+    }
+  }
 }
