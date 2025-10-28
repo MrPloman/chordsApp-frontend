@@ -2,7 +2,10 @@
   <h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
 
   <span id="message">{{ "handbook_description" | translate }}</span>
-
+  <app-chords-grid
+    [handbookDisplay]="true"
+    [chordOptionsDisplay]="false"
+  ></app-chords-grid>
   <form id="formSection" [formGroup]="chordRequestForm">
     <div id="inputSection">
       <app-input-selector
@@ -40,9 +43,5 @@
         [label]="'exchanger_button' | translate"
       ></app-submit-button>
     </div>
-    <app-chords-grid
-      [handbookDisplay]="true"
-      [chordOptionsDisplay]="false"
-    ></app-chords-grid>
   </form>
 </form>

@@ -20,7 +20,10 @@ import {
 } from '@app/services/chordsService.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AIService } from '@app/services/AIService.service';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
+import {
+  selectChordGuesser,
+  selectChordGuesserState,
+} from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
@@ -28,6 +31,8 @@ import { QueryResponse } from '@app/models/queryResponse.model';
 import {
   exchangeChordOptionForCurrenChord,
   setAlternativeChordsOptions,
+  setChordbook,
+  setChordbookSelected,
   setCurrentChords,
 } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
@@ -58,6 +63,8 @@ import { noteOptions } from '../../config/global_variables/notes.options';
   styleUrl: './chords-handbook.component.scss',
 })
 export class ChordsHandbookComponent {
+  private store = inject(Store);
+
   public forms = noteForms;
   public notes = noteOptions;
   public loading: boolean = false;
@@ -71,7 +78,42 @@ export class ChordsHandbookComponent {
   });
   private aiService = inject(AIService);
 
-  public addNewChord() {}
+  private chordsStore: Observable<any> = this.store.pipe(
+    select(selectChordGuesser)
+  );
+  private chordsStoreSubscription: Subscription = new Subscription();
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.chordsStoreSubscription = this.chordsStore.subscribe(
+      (chordsState: IChordsGuesserState) => {
+        this.currentChords = chordsState.currentChords
+          ? chordsState.currentChords
+          : [];
+        this.handbookChords = chordsState.chordbook;
+        this.handbookChordSelected = chordsState.chordbookSelected
+          ? chordsState.chordbookSelected
+          : -1;
+      }
+    );
+  }
+  public addNewChord() {
+    if (
+      this.handbookChordSelected < 0 ||
+      this.handbookChords.length < 0 ||
+      this.loading
+    )
+      return;
+    this.store.dispatch(
+      setCurrentChords({
+        currentChords: [
+          ...this.currentChords,
+          this.handbookChords[this.handbookChordSelected],
+        ],
+      })
+    );
+  }
 
   public getAllFormsChord() {
     if (this.loading) return;
@@ -79,10 +121,18 @@ export class ChordsHandbookComponent {
     const chordName = `${this.chordRequestForm.controls.note.value}${this.chordRequestForm.controls.form.value}`;
     if (chordName) {
       this.loading = true;
+      this.store.dispatch(loadingStatus({ loading: true }));
       this.aiService
         .getFullHandbookChord({ chordName })
         .then((value: QueryResponse) => {
-          this.handbookChords = value.chords;
+          if (value.chords) {
+            let parsedChords = getAllNoteChordName(value.chords);
+            parsedChords = checkDuplicateChords(parsedChords);
+            parsedChords = checkAndGenerateID(parsedChords);
+            this.store.dispatch(setChordbook({ chords: parsedChords }));
+          }
+          this.store.dispatch(loadingStatus({ loading: false }));
+
           this.loading = false;
         });
     }

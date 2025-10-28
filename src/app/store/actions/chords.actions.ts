@@ -40,3 +40,11 @@ export const exchangeChordOptionForCurrenChord = createAction(
   '[Exchange Current Chord for Option Chord] Exchange Chords',
   props<{ chordSelected: number; alternativeChordSelected: number }>()
 );
+export const setChordbook = createAction(
+  '[Set Chordbook]',
+  props<{ chords: Chord[] }>()
+);
+export const setChordbookSelected = createAction(
+  '[Set Chordbook Selected]',
+  props<{ chordbookSelected: number }>()
+);

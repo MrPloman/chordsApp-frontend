@@ -19,6 +19,7 @@ import {
   changeChordsOrder,
   setAlternativeChordSelected,
   setAlternativeChordsOptions,
+  setChordbookSelected,
 } from '@app/store/actions/chords.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
@@ -37,7 +38,7 @@ import { AIService } from '@app/services/AIService.service';
 import { QueryResponse } from '@app/models/queryResponse.model';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-
+import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-chords-grid',
   imports: [
@@ -48,6 +49,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    TranslatePipe,
   ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
@@ -137,6 +139,15 @@ export class ChordsGridComponent {
           this.alternativeChordSelected = chordsState.alternativeChordSelected
             ? chordsState.alternativeChordSelected
             : 0;
+        }
+        if (this.handbookDisplay) {
+          this.handbookChords = chordsState.chordbook
+            ? chordsState.chordbook
+            : [];
+          this.handbookChordSelected =
+            chordsState.chordbookSelected !== undefined
+              ? chordsState.chordbookSelected
+              : -1;
         }
       }
     );
@@ -237,11 +248,8 @@ export class ChordsGridComponent {
 
   public selecthandbookChord(position: number) {
     if (this.loading) return;
-
-    this.alternativeChordSelected = position;
-    // this.store.dispatch(
-    //   setAlternativeChordSelected({ alternativeChordSelected: position })
-    // );
+    this.store.dispatch(setChordbookSelected({ chordbookSelected: position }));
+    this.handbookChordSelected = position;
   }
 
   public deleteChord(chordPosition: number) {

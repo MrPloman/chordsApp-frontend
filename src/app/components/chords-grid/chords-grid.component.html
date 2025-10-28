@@ -91,11 +91,11 @@
     }
   </div>
 </div>
-} } @if (handbookDisplay && handbookChords.length > 0) {
+} } @if (handbookDisplay && handbookChords.length > 0 && chords.length > 0) {
 <span id="separation"></span>} @if (loading) {
 <mat-spinner id="spinner"></mat-spinner> } @else { @if (handbookDisplay &&
 handbookChords.length > 0) {
-<h2>Found Chords</h2>
+<h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
 }
 <div class="handbookChordsGrid">
   <div class="handbookChords">
