@@ -1,5 +1,5 @@
 import { Component, inject, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { MatSliderModule } from '@angular/material/slider';
 import { FormsModule } from '@angular/forms';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
@@ -35,17 +35,15 @@ import { ChordsHandbookComponent } from './components/chords-handbook/chords-han
     FormsModule,
     FretboardComponent,
     FunctionSelectorComponent,
-    ChordsGuesserComponent,
-    ChordsProgressionComponent,
-    ChordsOptionsComponent,
-    ChordsHandbookComponent,
+
     MatButtonModule,
     MatDividerModule,
     MatIconModule,
     TranslatePipe,
     MatButtonToggleModule,
-    LanguageSelectorComponent
-],
+    LanguageSelectorComponent,
+    RouterOutlet,
+  ],
   providers: [
     provideTranslateService({
       loader: provideTranslateHttpLoader({
@@ -63,6 +61,7 @@ import { ChordsHandbookComponent } from './components/chords-handbook/chords-han
 export class AppComponent {
   private store = inject(Store);
   private translate = inject(TranslateService);
+  public router = inject(Router);
 
   public functionSelectedStore: Observable<any>;
   public loading = false;

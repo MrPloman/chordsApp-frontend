@@ -11,7 +11,14 @@ h1 {
   margin: 1%;
   margin-left: 5%;
 }
-#selectionZone {
-  display: flex;
-  flex-direction: column;
+#message {
+  width: 90%;
+  text-align: center;
+  margin: 0 auto;
+  margin-top: 5%;
+  margin-bottom: 100px;
+  font-size: 20px;
+  letter-spacing: 2.5px;
+  word-spacing: 15px;
+  line-height: 35px;
 }

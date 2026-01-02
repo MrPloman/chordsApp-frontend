@@ -15,9 +15,16 @@ import {
 import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
 import { TranslatePipe } from '@ngx-translate/core';
 import { functionType } from '@app/types/index.types';
+import { RouterLink } from '@angular/router';
 @Component({
   selector: 'app-function-selector',
-  imports: [MatButtonModule, MatDividerModule, MatIconModule, TranslatePipe],
+  imports: [
+    MatButtonModule,
+    MatDividerModule,
+    MatIconModule,
+    TranslatePipe,
+    RouterLink,
+  ],
   standalone: true,
   templateUrl: './function-selector.component.html',
   styleUrl: './function-selector.component.scss',
