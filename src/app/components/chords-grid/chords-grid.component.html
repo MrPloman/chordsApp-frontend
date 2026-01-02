@@ -4,10 +4,6 @@
   cdkDropList
   cdkDropListOrientation="mixed"
 >
-  @if (handbookDisplay && chords.length >0) {
-  <h2>Current Chords</h2>
-  }
-
   <div class="chords">
     @for (chord of chords; track trackById(chordIndex, chord); let chordIndex =
     $index) {
