@@ -1,5 +1,6 @@
-@if (loading) { <mat-spinner id="spinner"></mat-spinner> } @else { @if
-(handbookDisplay && handbookChords.length > 0) {
+@if (loading && !chordOptionsDisplay) {
+<mat-spinner id="spinner"></mat-spinner> } @else { @if (handbookDisplay &&
+handbookChords.length > 0) {
 <h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
 }
 <div class="handbookChordsGrid">
