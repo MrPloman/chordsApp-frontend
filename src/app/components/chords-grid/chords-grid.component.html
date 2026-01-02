@@ -1,3 +1,45 @@
+@if (loading) { <mat-spinner id="spinner"></mat-spinner> } @else { @if
+(handbookDisplay && handbookChords.length > 0) {
+<h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
+}
+<div class="handbookChordsGrid">
+  <div class="handbookChords">
+    @for (handbookChord of handbookChords; track trackById(handbookIndex,
+    handbookChord); let handbookIndex = $index) {
+    <div
+      [@fadeAndSlide]="'in'"
+      (click)="selecthandbookChord(handbookIndex)"
+      class="handbookChord"
+      [ngClass]="{
+        selected: handbookIndex === handbookChordSelected
+      }"
+    >
+      <div class="header">
+        @if(handbookChord.name) {
+        <span class="chordName">{{ handbookChord.name }}</span
+        >}
+      </div>
+
+      <div class="chordStructure">
+        @for (note of handbookChord.notes; track trackById(noteId, note); let
+        noteId = $index) {
+        <span class="chordFigure">
+          <span class="stringNumber">{{ note.stringNumber }}th</span> -
+          <span class="notePosition">{{ note.position }}</span> -
+          <span class="noteName">{{ note.name }}</span>
+          <br /></span
+        >}
+      </div>
+      <mat-icon class="soundIcon" (click)="makeChordSound(handbookChord)"
+        >music_note</mat-icon
+      >
+    </div>
+    }
+  </div>
+</div>
+
+} @if (handbookDisplay && handbookChords.length > 0 && chords.length > 0) {
+<span id="separation"></span>}
 <div
   class="chordGrid"
   (cdkDropListDropped)="drop($event)"
@@ -91,46 +133,4 @@
     }
   </div>
 </div>
-} } @if (handbookDisplay && handbookChords.length > 0 && chords.length > 0) {
-<span id="separation"></span>} @if (loading) {
-<mat-spinner id="spinner"></mat-spinner> } @else { @if (handbookDisplay &&
-handbookChords.length > 0) {
-<h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
-}
-<div class="handbookChordsGrid">
-  <div class="handbookChords">
-    @for (handbookChord of handbookChords; track trackById(handbookIndex,
-    handbookChord); let handbookIndex = $index) {
-    <div
-      [@fadeAndSlide]="'in'"
-      (click)="selecthandbookChord(handbookIndex)"
-      class="handbookChord"
-      [ngClass]="{
-        selected: handbookIndex === handbookChordSelected
-      }"
-    >
-      <div class="header">
-        @if(handbookChord.name) {
-        <span class="chordName">{{ handbookChord.name }}</span
-        >}
-      </div>
-
-      <div class="chordStructure">
-        @for (note of handbookChord.notes; track trackById(noteId, note); let
-        noteId = $index) {
-        <span class="chordFigure">
-          <span class="stringNumber">{{ note.stringNumber }}th</span> -
-          <span class="notePosition">{{ note.position }}</span> -
-          <span class="noteName">{{ note.name }}</span>
-          <br /></span
-        >}
-      </div>
-      <mat-icon class="soundIcon" (click)="makeChordSound(handbookChord)"
-        >music_note</mat-icon
-      >
-    </div>
-    }
-  </div>
-</div>
-
-}
+} }
