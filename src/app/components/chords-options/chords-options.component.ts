@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
@@ -31,13 +31,12 @@ import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-chords-options',
   imports: [
-    CommonModule,
     SubmitButtonComponent,
     ChordsGridComponent,
     FormsModule,
     MatProgressSpinnerModule,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
   templateUrl: './chords-options.component.html',
   styleUrl: './chords-options.component.scss',
 })

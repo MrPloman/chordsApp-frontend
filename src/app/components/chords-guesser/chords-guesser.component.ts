@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import { Chord } from '@app/models/chord.model';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
@@ -21,12 +21,11 @@ import { selectLanguage } from '@app/store/selectors/language.selector';
 @Component({
   selector: 'app-chords-guesser',
   imports: [
-    CommonModule,
     SubmitButtonComponent,
     ChordsGridComponent,
     FormsModule,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
   templateUrl: './chords-guesser.component.html',
   styleUrl: './chords-guesser.component.scss',
 })

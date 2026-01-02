@@ -4,7 +4,7 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
 import { Chord } from '@app/models/chord.model';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { CommonModule } from '@angular/common';
+
 import {
   areEveryChordsValid,
   getAllNoteChordName,
@@ -31,12 +31,11 @@ import { selectLanguage } from '@app/store/selectors/language.selector';
   imports: [
     InputInstructionComponent,
     SubmitButtonComponent,
-    CommonModule,
     SubmitButtonComponent,
     ChordsGridComponent,
     ReactiveFormsModule,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
 
   templateUrl: './chords-progression.component.html',
   styleUrl: './chords-progression.component.scss',

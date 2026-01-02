@@ -6,7 +6,7 @@ import { FretboardComponent } from './components/fretboard/fretboard.component';
 import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 import { select, State, Store } from '@ngrx/store';
 import { selectFunctionSelectedState } from './store/selectors/function-selection.selector';
-import { CommonModule } from '@angular/common';
+
 import { IFunctionSelectionState } from './store/state/function-selection.state';
 import { Observable, Subscription } from 'rxjs';
 import { ChordsGuesserComponent } from './components/chords-guesser/chords-guesser.component';
@@ -31,7 +31,6 @@ import { ChordsHandbookComponent } from './components/chords-handbook/chords-han
 @Component({
   selector: 'app-root',
   imports: [
-    CommonModule,
     MatSliderModule,
     FormsModule,
     FretboardComponent,
@@ -45,8 +44,8 @@ import { ChordsHandbookComponent } from './components/chords-handbook/chords-han
     MatIconModule,
     TranslatePipe,
     MatButtonToggleModule,
-    LanguageSelectorComponent,
-  ],
+    LanguageSelectorComponent
+],
   providers: [
     provideTranslateService({
       loader: provideTranslateHttpLoader({

@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+
 import { Component, inject } from '@angular/core';
 import {
   FormControl,
@@ -44,7 +44,6 @@ import { noteOptions } from '../../config/global_variables/notes.options';
 @Component({
   selector: 'app-chords-handbook',
   imports: [
-    CommonModule,
     SubmitButtonComponent,
     ChordsGridComponent,
     FormsModule,
@@ -53,12 +52,11 @@ import { noteOptions } from '../../config/global_variables/notes.options';
     TranslatePipe,
     InputSelectorComponent,
     SubmitButtonComponent,
-    CommonModule,
     SubmitButtonComponent,
     ChordsGridComponent,
     ReactiveFormsModule,
-    TranslatePipe,
-  ],
+    TranslatePipe
+],
   templateUrl: './chords-handbook.component.html',
   styleUrl: './chords-handbook.component.scss',
 })
