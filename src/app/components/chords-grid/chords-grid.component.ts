@@ -3,14 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import {
-  checkAndGenerateID,
-  checkDuplicateChordOptions,
-  checkDuplicateChords,
-  generateId,
-  getAllNoteChordName,
-  makeNoteSound,
-} from '@app/services/chordsService.service';
+import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import {
   setCurrentChords,
   setChordSelected,
@@ -30,17 +23,15 @@ import { Observable, Subscription } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
 import { selectLoadingState } from '@app/store/selectors/loading.selector';
 import { trigger, transition, style, animate } from '@angular/animations';
-import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { AIService } from '@app/services/AIService.service';
-import { QueryResponse } from '@app/models/queryResponse.model';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { TranslatePipe } from '@ngx-translate/core';
 @Component({
   selector: 'app-chords-grid',
+  standalone: true,
   imports: [
     CommonModule,
     CdkDrag,
