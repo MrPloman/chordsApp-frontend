@@ -24,6 +24,7 @@ import { QueryResponse } from '@app/models/queryResponse.model';
 import {
   setHandbookChords,
   setCurrentChords,
+  setHandbookChordsSelected,
 } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -130,5 +131,16 @@ export class ChordsHandbookComponent {
           this.loading = false;
         });
     }
+  }
+  ngOnDestroy(): void {
+    //Called once, before the instance is destroyed.
+    //Add 'implements OnDestroy' to the class.
+    this.store.dispatch(setHandbookChords({ chords: [] }));
+    this.store.dispatch(
+      setHandbookChordsSelected({ handbookChordsSelected: -1 })
+    );
+    this.handbookChords = [];
+    this.handbookChordSelected = -1;
+    this.chordsStoreSubscription.unsubscribe();
   }
 }

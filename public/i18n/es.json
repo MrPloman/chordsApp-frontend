@@ -16,7 +16,7 @@
   "progression_button": "¡Sorpréndeme!",
   "progression_prompt": "Dame más información sobre tu progresión...",
   "handbook_title": "Libro de Acordes",
-  "handbook_description": "",
+  "handbook_description": "El buscador de acordes es muy fácil de usar. Tienes dos selectores: uno para la nota (como Do, Re, Mi…) y otro para la forma del acorde (mayor, menor, séptima, etc.). Cuando eliges ambos, el sistema te muestra todas las posiciones posibles del acorde en el mástil. Si ya tienes acordes seleccionados para tu sesión o canción, también aparecerán en pantalla, así puedes verlos todos juntos. Desde ahí puedes añadir cualquier nuevo acorde que encuentres en la búsqueda — ¡fácil y rápido!",
   "handbook_button": "",
   "handbook_note_selector": "",
   "handbook_form_selector": "",

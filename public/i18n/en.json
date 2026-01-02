@@ -16,7 +16,7 @@
   "progression_button": "Surprise Me!",
   "progression_prompt": "Give me more information about your progression...",
   "handbook_title": "Handbook Chords",
-  "handbook_description": "",
+  "handbook_description": "The chord searcher is super easy to use. You’ve got two selectors — one for the note (like C, D, E…) and another for the chord form (like major, minor, seventh, etc.). Once you pick both, the system shows you every possible chord position on the fretboard. If you’ve already selected some chords for your session or song, they’ll appear on screen too, so you can easily keep track of them. From there, you can also add any new chord you find in the search — simple and quick!",
   "handbook_button": "",
   "handbook_note_selector": "",
   "handbook_form_selector": "",
