@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-language-selector',
   imports: [MatButtonToggleModule, TranslatePipe],
+  standalone: true,
   templateUrl: './language-selector.component.html',
   styleUrl: './language-selector.component.scss',
 })

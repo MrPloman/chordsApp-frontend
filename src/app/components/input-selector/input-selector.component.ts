@@ -17,6 +17,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
     FormsModule,
     ReactiveFormsModule,
   ],
+  standalone: true,
   templateUrl: './input-selector.component.html',
   styleUrl: './input-selector.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

@@ -33,6 +33,7 @@ import { noteForms } from '../../config/global_variables/noteForms.options';
 import { noteOptions } from '../../config/global_variables/notes.options';
 @Component({
   selector: 'app-chords-handbook',
+  standalone: true,
   imports: [
     SubmitButtonComponent,
     ChordsGridComponent,

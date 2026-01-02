@@ -34,9 +34,9 @@ import { selectLanguage } from '@app/store/selectors/language.selector';
     SubmitButtonComponent,
     ChordsGridComponent,
     ReactiveFormsModule,
-    TranslatePipe
-],
-
+    TranslatePipe,
+  ],
+  standalone: true,
   templateUrl: './chords-progression.component.html',
   styleUrl: './chords-progression.component.scss',
 })

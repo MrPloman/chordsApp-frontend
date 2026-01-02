@@ -18,7 +18,7 @@ import { functionType } from '@app/types/index.types';
 @Component({
   selector: 'app-function-selector',
   imports: [MatButtonModule, MatDividerModule, MatIconModule, TranslatePipe],
-
+  standalone: true,
   templateUrl: './function-selector.component.html',
   styleUrl: './function-selector.component.scss',
 })

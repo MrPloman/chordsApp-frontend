@@ -1,4 +1,4 @@
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { fretboard } from '@app/config/global_variables/fretboard';
 import { dots } from '@app/config/global_variables/dots';
@@ -14,6 +14,7 @@ import { selectLoadingState } from '@app/store/selectors/loading.selector';
 
 @Component({
   selector: 'app-fretboard',
+  standalone: true,
   imports: [CommonModule],
   templateUrl: './fretboard.component.html',
   styleUrl: './fretboard.component.scss',

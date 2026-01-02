@@ -11,13 +11,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatIconModule,
     MatProgressSpinnerModule,
   ],
+  standalone: true,
   templateUrl: './submit-button.component.html',
   styleUrl: './submit-button.component.scss',
 })
 export class SubmitButtonComponent {
   @Input() label: string = 'Send';
   @Input() icon: string = 'music_note';
-
   @Input() disabled: boolean = false;
   @Input() loading: boolean = false;
   @Input() type: string = 'button';

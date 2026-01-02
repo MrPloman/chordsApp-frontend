@@ -1,4 +1,3 @@
-
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
@@ -22,7 +21,6 @@ import { QueryResponse } from '@app/models/queryResponse.model';
 import {
   exchangeChordOptionForCurrenChord,
   setAlternativeChordsOptions,
-  setCurrentChords,
 } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { selectLoadingState } from '@app/store/selectors/loading.selector';
@@ -30,13 +28,14 @@ import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-chords-options',
+  standalone: true,
   imports: [
     SubmitButtonComponent,
     ChordsGridComponent,
     FormsModule,
     MatProgressSpinnerModule,
-    TranslatePipe
-],
+    TranslatePipe,
+  ],
   templateUrl: './chords-options.component.html',
   styleUrl: './chords-options.component.scss',
 })
