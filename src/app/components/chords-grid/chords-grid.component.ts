@@ -19,7 +19,7 @@ import {
   changeChordsOrder,
   setAlternativeChordSelected,
   setAlternativeChordsOptions,
-  setChordbookSelected,
+  setHandbookChordsSelected,
 } from '@app/store/actions/chords.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
@@ -49,7 +49,6 @@ import { TranslatePipe } from '@ngx-translate/core';
     MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
-    TranslatePipe,
   ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
@@ -141,13 +140,13 @@ export class ChordsGridComponent {
             : 0;
         }
         if (this.handbookDisplay) {
-          this.handbookChords = chordsState.chordbook
-            ? chordsState.chordbook
+          this.handbookChords = chordsState.handbookChords
+            ? chordsState.handbookChords
             : [];
           this.handbookChordSelected =
-            chordsState.chordbookSelected !== undefined
-              ? chordsState.chordbookSelected
-              : -1;
+            chordsState.handbookChordsSelected !== undefined
+              ? chordsState.handbookChordsSelected
+              : 0;
         }
       }
     );
@@ -248,7 +247,9 @@ export class ChordsGridComponent {
 
   public selecthandbookChord(position: number) {
     if (this.loading) return;
-    this.store.dispatch(setChordbookSelected({ chordbookSelected: position }));
+    this.store.dispatch(
+      setHandbookChordsSelected({ handbookChordsSelected: position })
+    );
     this.handbookChordSelected = position;
   }
 

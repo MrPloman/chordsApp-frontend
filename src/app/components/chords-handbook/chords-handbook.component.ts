@@ -1,4 +1,3 @@
-
 import { Component, inject } from '@angular/core';
 import {
   FormControl,
@@ -10,33 +9,23 @@ import {
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 import { Chord } from '@app/models/chord.model';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import {
-  areEveryChordsValid,
   checkAndGenerateID,
-  checkDuplicateChordOptions,
   checkDuplicateChords,
   getAllNoteChordName,
 } from '@app/services/chordsService.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AIService } from '@app/services/AIService.service';
-import {
-  selectChordGuesser,
-  selectChordGuesserState,
-} from '@app/store/selectors/chords.selector';
+import { selectChordGuesser } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { QueryResponse } from '@app/models/queryResponse.model';
 import {
-  exchangeChordOptionForCurrenChord,
-  setAlternativeChordsOptions,
-  setChordbook,
-  setChordbookSelected,
+  setHandbookChords,
   setCurrentChords,
 } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectLoadingState } from '@app/store/selectors/loading.selector';
 import { TranslatePipe } from '@ngx-translate/core';
 import { InputSelectorComponent } from '../input-selector/input-selector.component';
 import { noteForms } from '../../config/global_variables/noteForms.options';
@@ -55,8 +44,8 @@ import { noteOptions } from '../../config/global_variables/notes.options';
     SubmitButtonComponent,
     ChordsGridComponent,
     ReactiveFormsModule,
-    TranslatePipe
-],
+    TranslatePipe,
+  ],
   templateUrl: './chords-handbook.component.html',
   styleUrl: './chords-handbook.component.scss',
 })
@@ -68,8 +57,8 @@ export class ChordsHandbookComponent {
   public loading: boolean = false;
   public currentChords: Chord[] = [];
   public handbookChords: Chord[] = [];
-  public currentChordSelected: number = 0;
-  public handbookChordSelected: number = 0;
+  public currentChordSelected: number = -1;
+  public handbookChordSelected: number = -1;
   public chordRequestForm = new FormGroup({
     note: new FormControl('', [Validators.required]),
     form: new FormControl('', [Validators.required]),
@@ -89,10 +78,17 @@ export class ChordsHandbookComponent {
         this.currentChords = chordsState.currentChords
           ? chordsState.currentChords
           : [];
-        this.handbookChords = chordsState.chordbook;
-        this.handbookChordSelected = chordsState.chordbookSelected
-          ? chordsState.chordbookSelected
-          : -1;
+        this.currentChordSelected =
+          chordsState.chordSelected !== undefined
+            ? chordsState.chordSelected
+            : -1;
+        this.handbookChords = chordsState.handbookChords
+          ? chordsState.handbookChords
+          : [];
+        this.handbookChordSelected =
+          chordsState.handbookChordsSelected !== undefined
+            ? chordsState.handbookChordsSelected
+            : -1;
       }
     );
   }
@@ -127,7 +123,7 @@ export class ChordsHandbookComponent {
             let parsedChords = getAllNoteChordName(value.chords);
             parsedChords = checkDuplicateChords(parsedChords);
             parsedChords = checkAndGenerateID(parsedChords);
-            this.store.dispatch(setChordbook({ chords: parsedChords }));
+            this.store.dispatch(setHandbookChords({ chords: parsedChords }));
           }
           this.store.dispatch(loadingStatus({ loading: false }));
 

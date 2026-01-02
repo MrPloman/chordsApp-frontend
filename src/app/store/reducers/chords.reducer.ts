@@ -7,8 +7,8 @@ import {
   removeNoteFromChord,
   setAlternativeChordSelected,
   setAlternativeChordsOptions,
-  setChordbook,
-  setChordbookSelected,
+  setHandbookChords,
+  setHandbookChordsSelected,
   setChordSelected,
   setCurrentChords,
 } from '../actions/chords.actions';
@@ -246,17 +246,17 @@ export const chordsReducer = createReducer(
       currentChords: newCurrentChords,
     };
   }),
-  on(setChordbook, (state, props) => {
+  on(setHandbookChords, (state, props) => {
     return {
       ...state,
-      chordbook: props.chords,
-      chordbookSelected: props.chords ? 0 : -1,
+      handbookChords: props.chords,
+      handbookChordsSelected: props.chords.length > 0 ? 0 : undefined,
     };
   }),
-  on(setChordbookSelected, (state, props) => {
+  on(setHandbookChordsSelected, (state, props) => {
     return {
       ...state,
-      chordbookSelected: props.chordbookSelected,
+      handbookChordsSelected: props.handbookChordsSelected,
     };
   })
 );
