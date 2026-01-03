@@ -10,6 +10,7 @@ import {
   checkDuplicateChordOptions,
   checkDuplicateChords,
   getAllNoteChordName,
+  removeNonDesiredValuesFromNotesArray,
 } from '@app/services/chordsService.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AIService } from '@app/services/AIService.service';
@@ -113,6 +114,8 @@ export class ChordsOptionsComponent {
             this.chords[this.chordSelected]
           );
           parsedChords = checkAndGenerateID(parsedChords);
+          parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
+
           this.store.dispatch(
             setAlternativeChordsOptions({
               alternativeChords: parsedChords,

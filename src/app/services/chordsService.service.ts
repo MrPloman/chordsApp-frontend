@@ -135,3 +135,17 @@ export function checkAndGenerateID(chords: Chord[]): Chord[] {
     return { ..._chord, notes: _notes };
   });
 }
+
+export function removeNonDesiredValuesFromNotesArray(chords: Chord[]) {
+  return chords.map((chord: Chord) => {
+    return {
+      ...chord,
+      notes: chord.notes.filter(
+        (note: NotePosition) =>
+          note.hasOwnProperty('name') &&
+          note.hasOwnProperty('position') &&
+          note.hasOwnProperty('stringNumber')
+      ),
+    };
+  });
+}

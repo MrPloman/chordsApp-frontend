@@ -8,6 +8,7 @@ import { Observable, Subscription } from 'rxjs';
 import {
   areEveryChordsValid,
   getAllNoteChordName,
+  removeNonDesiredValuesFromNotesArray,
 } from '@app/services/chordsService.service';
 import { setCurrentChords } from '@app/store/actions/chords.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
@@ -103,6 +104,8 @@ export class ChordsProgressionComponent {
           if (!value) return;
           if (value.chords && value.chords.length > 0) {
             let parsedChords = getAllNoteChordName(value.chords);
+            parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
+
             this.store.dispatch(
               setCurrentChords({ currentChords: parsedChords })
             );
