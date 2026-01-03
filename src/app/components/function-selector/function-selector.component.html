@@ -7,7 +7,12 @@
   >
     {{ "guesser_title" | translate }} <mat-icon>local_library</mat-icon>
   </button>
-  <button mat-fab extended (click)="selectOption('handbook')">
+  <button
+    mat-fab
+    extended
+    (click)="selectOption('handbook')"
+    [routerLink]="'handbook'"
+  >
     {{ "handbook_title" | translate }} <mat-icon>book</mat-icon>
   </button>
   <button
@@ -16,6 +21,7 @@
     extended
     (click)="selectOption('options')"
     [disabled]="!chordsAreGuessed(chords)"
+    [routerLink]="'options'"
   >
     {{ "exchanger_title" | translate }} <mat-icon>auto_stories</mat-icon>
   </button>
@@ -23,6 +29,7 @@
     mat-fab
     extended
     (click)="selectOption('progression')"
+    [routerLink]="'progression'"
     [disabled]="
       chords.length < minimumChordsToMakeProgression ||
       !validChords(chords) ||
