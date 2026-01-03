@@ -1,47 +1,28 @@
 import { Component, inject, signal } from '@angular/core';
 import { Router, RouterLink, RouterOutlet } from '@angular/router';
-import { MatSliderModule } from '@angular/material/slider';
-import { FormsModule } from '@angular/forms';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
 import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
-import { select, State, Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { selectFunctionSelectedState } from './store/selectors/function-selection.selector';
 
 import { IFunctionSelectionState } from './store/state/function-selection.state';
 import { Observable, Subscription } from 'rxjs';
-import { ChordsGuesserComponent } from './components/chords-guesser/chords-guesser.component';
-import { ChordsProgressionComponent } from './components/chords-progression/chords-progression.component';
 import { resetSelectionAction } from './store/actions/function-selection.actions';
-import { MatDividerModule } from '@angular/material/divider';
-import { MatIconModule } from '@angular/material/icon';
-import { MatButtonModule } from '@angular/material/button';
+
 import { selectLoadingState } from './store/selectors/loading.selector';
-import { ChordsOptionsComponent } from './components/chords-options/chords-options.component';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
 
-import {
-  TranslateService,
-  TranslatePipe,
-  TranslateDirective,
-} from '@ngx-translate/core';
+import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { ChordsHandbookComponent } from './components/chords-handbook/chords-handbook.component';
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [
-    MatSliderModule,
-    FormsModule,
     FretboardComponent,
     FunctionSelectorComponent,
-
-    MatButtonModule,
-    MatDividerModule,
-    MatIconModule,
-    TranslatePipe,
-    MatButtonToggleModule,
     LanguageSelectorComponent,
+    TranslatePipe,
     RouterOutlet,
   ],
   providers: [
