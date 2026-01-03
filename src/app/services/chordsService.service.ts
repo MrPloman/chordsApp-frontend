@@ -1,6 +1,5 @@
 import {
   maximRandomNumber,
-  minimumChordsToMakeProgression,
   minimumNotesToMakeChord,
 } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '../models/chord.model';
@@ -70,7 +69,7 @@ export function areEveryChordsValid(chords: Chord[]): boolean {
 }
 
 export function checkIfChordsAreGuessed(chords: Chord[]): boolean {
-  if (!chords || chords.length === 0) return false;
+  if (!chords || chords.length < 2) return false;
   let allChecked = true;
   chords.forEach((chord: Chord) => {
     if (!chord.name) allChecked = false;

@@ -16,11 +16,9 @@ import { Subscription } from 'rxjs';
 export class LanguageSelectorComponent {
   private translate = inject(TranslateService);
   private store = inject(Store);
-  private languageStoreSubscription: Subscription = new Subscription();
   public languageStore = this.store.select(selectLanguage);
 
   public selectLanguage(language: 'es' | 'en') {
-    console.log(language);
     this.translate.use(language);
     this.store.dispatch(setLanguageAction({ language }));
   }
