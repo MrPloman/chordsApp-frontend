@@ -10,9 +10,8 @@ import {
 const serverConfig: ApplicationConfig = {
   providers: [
     provideServerRendering(withRoutes(serverRoutes)),
-    provideClientHydration(
-      withEventReplay() // use hydration with v18 event replay
-    ),
+
+    provideClientHydration(withEventReplay()),
   ],
 };
 

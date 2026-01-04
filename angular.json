@@ -15,9 +15,8 @@
       "prefix": "app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "main": "src/main.ts",
             "outputPath": "dist/chords-app-frontend",
             "index": "src/index.html",
             "polyfills": [
