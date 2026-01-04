@@ -1,9 +1,7 @@
-
 import { Component, inject } from '@angular/core';
 import { Chord } from '@app/models/chord.model';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
-
 import { select, Store } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { Observable } from 'rxjs/internal/Observable';
@@ -16,16 +14,17 @@ import { FormsModule } from '@angular/forms';
 import { QueryResponse } from '@app/models/queryResponse.model';
 import { setCurrentChords } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { selectLanguage } from '@app/store/selectors/language.selector';
 @Component({
   selector: 'app-chords-guesser',
+  standalone: true,
   imports: [
     SubmitButtonComponent,
     ChordsGridComponent,
     FormsModule,
-    TranslatePipe
-],
+    TranslatePipe,
+  ],
   templateUrl: './chords-guesser.component.html',
   styleUrl: './chords-guesser.component.scss',
 })

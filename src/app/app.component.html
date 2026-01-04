@@ -1,15 +1,13 @@
 <h1>{{ "title" | translate }}</h1>
 <app-language-selector></app-language-selector>
-<app-fretboard></app-fretboard
-><ng-container id="selectionZone">
-  @if (!!selection) {
-  <button id="goBackButton" (click)="resetFunctionSelection()" mat-fab>
-    <mat-icon>arrow_back</mat-icon></button
-  >} @switch (selection) { @case (undefined) {
-  <app-function-selector></app-function-selector>} @case ('guesser'){
-  <app-chords-guesser></app-chords-guesser>} @case ('handbook'){
-  <app-chords-handbook></app-chords-handbook>} @case ('progression'){
-  <app-chords-progression></app-chords-progression>} @case ('options') {
-  <app-chords-options></app-chords-options>
-  } }
-</ng-container>
+<app-function-selector></app-function-selector>
+
+<app-fretboard></app-fretboard>
+
+@if (router.url === '/') {
+<div id="message">
+  {{ "forbidden_message_no_chords" | translate }}
+</div>
+}
+
+<router-outlet></router-outlet>

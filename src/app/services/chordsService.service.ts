@@ -1,6 +1,5 @@
 import {
   maximRandomNumber,
-  minimumChordsToMakeProgression,
   minimumNotesToMakeChord,
 } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '../models/chord.model';
@@ -70,7 +69,7 @@ export function areEveryChordsValid(chords: Chord[]): boolean {
 }
 
 export function checkIfChordsAreGuessed(chords: Chord[]): boolean {
-  if (!chords || chords.length === 0) return false;
+  if (!chords || chords.length < 2) return false;
   let allChecked = true;
   chords.forEach((chord: Chord) => {
     if (!chord.name) allChecked = false;
@@ -134,5 +133,19 @@ export function checkAndGenerateID(chords: Chord[]): Chord[] {
       return note._id ? note : { ...note, _id: generateId() };
     });
     return { ..._chord, notes: _notes };
+  });
+}
+
+export function removeNonDesiredValuesFromNotesArray(chords: Chord[]) {
+  return chords.map((chord: Chord) => {
+    return {
+      ...chord,
+      notes: chord.notes.filter(
+        (note: NotePosition) =>
+          note.hasOwnProperty('name') &&
+          note.hasOwnProperty('position') &&
+          note.hasOwnProperty('stringNumber')
+      ),
+    };
   });
 }

@@ -9,17 +9,16 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-language-selector',
   imports: [MatButtonToggleModule, TranslatePipe],
+  standalone: true,
   templateUrl: './language-selector.component.html',
   styleUrl: './language-selector.component.scss',
 })
 export class LanguageSelectorComponent {
   private translate = inject(TranslateService);
   private store = inject(Store);
-  private languageStoreSubscription: Subscription = new Subscription();
   public languageStore = this.store.select(selectLanguage);
 
   public selectLanguage(language: 'es' | 'en') {
-    console.log(language);
     this.translate.use(language);
     this.store.dispatch(setLanguageAction({ language }));
   }

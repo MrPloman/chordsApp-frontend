@@ -13,6 +13,7 @@ import {
   checkAndGenerateID,
   checkDuplicateChords,
   getAllNoteChordName,
+  removeNonDesiredValuesFromNotesArray,
 } from '@app/services/chordsService.service';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { AIService } from '@app/services/AIService.service';
@@ -33,6 +34,7 @@ import { noteForms } from '../../config/global_variables/noteForms.options';
 import { noteOptions } from '../../config/global_variables/notes.options';
 @Component({
   selector: 'app-chords-handbook',
+  standalone: true,
   imports: [
     SubmitButtonComponent,
     ChordsGridComponent,
@@ -124,8 +126,10 @@ export class ChordsHandbookComponent {
             let parsedChords = getAllNoteChordName(value.chords);
             parsedChords = checkDuplicateChords(parsedChords);
             parsedChords = checkAndGenerateID(parsedChords);
+            parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
             this.store.dispatch(setHandbookChords({ chords: parsedChords }));
           }
+
           this.store.dispatch(loadingStatus({ loading: false }));
 
           this.loading = false;

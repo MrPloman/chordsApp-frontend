@@ -5,6 +5,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 @Component({
   selector: 'app-input-instruction',
+  standalone: true,
   imports: [
     MatFormFieldModule,
     MatInputModule,
