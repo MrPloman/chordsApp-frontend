@@ -15,6 +15,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { loadingReducer } from './store/reducers/loading.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations'; // Add this line
 import { languageReducer } from './store/reducers/language.reducer';
+import { provideClientHydration, withEventReplay } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,6 @@ export const appConfig: ApplicationConfig = {
     }),
     provideEffects(),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
-    provideAnimations(), // Add this function
+    provideAnimations(), provideClientHydration(withEventReplay()), // Add this function
   ],
 };
