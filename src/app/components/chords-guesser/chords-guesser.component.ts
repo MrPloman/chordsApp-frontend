@@ -16,6 +16,7 @@ import { setCurrentChords } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { TranslatePipe } from '@ngx-translate/core';
 import { selectLanguage } from '@app/store/selectors/language.selector';
+import { selectOptionAction } from '@app/store/actions/function-selection.actions';
 @Component({
   selector: 'app-chords-guesser',
   standalone: true,
@@ -48,6 +49,7 @@ export class ChordsGuesserComponent {
   private chordsStoreSubscription: Subscription = new Subscription();
 
   constructor() {
+    this.store.dispatch(selectOptionAction({ option: 'guesser' }));
     this.languageStoreSubscription = this.languageStore.subscribe((state) => {
       if (state) this.language = state;
     });
