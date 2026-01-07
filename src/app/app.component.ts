@@ -15,6 +15,8 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { TranslateService, TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
+import { IconService } from './services/iconService.service';
+import { LazyTranslateService } from './services/lazyTranslateService.service';
 @Component({
   selector: 'app-root',
   standalone: true,
@@ -26,6 +28,7 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
     RouterOutlet,
   ],
   providers: [
+    LazyTranslateService,
     provideTranslateService({
       loader: provideTranslateHttpLoader({
         prefix: './i18n/',
@@ -42,6 +45,8 @@ import { LanguageSelectorComponent } from './components/language-selector/langua
 export class AppComponent {
   private store = inject(Store);
   private translate = inject(TranslateService);
+  private iconService = inject(IconService);
+  private lazyTranslate = inject(LazyTranslateService);
   public router = inject(Router);
 
   public functionSelectedStore: Observable<any>;
@@ -52,8 +57,6 @@ export class AppComponent {
   public selection: string | undefined = undefined;
 
   constructor() {
-    this.translate.addLangs(['es', 'en']);
-    this.translate.setFallbackLang('en');
     this.loadingStore = this.store.pipe(select(selectLoadingState));
     this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
       this.loading = loading.loading;
@@ -77,6 +80,11 @@ export class AppComponent {
     this.loaderSubscription.unsubscribe();
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
+  }
+  ngAfterViewInit() {
+    requestIdleCallback(() => {
+      this.lazyTranslate.initDefaultLanguage();
+    });
   }
 
   public resetFunctionSelection() {

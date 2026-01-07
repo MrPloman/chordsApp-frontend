@@ -37,9 +37,11 @@
           <br /></span
         >}
       </div>
-      <mat-icon class="soundIcon" (click)="makeChordSound(chord)"
-        >music_note</mat-icon
-      >
+      <mat-icon
+        class="soundIcon"
+        svgIcon="music_note"
+        (click)="makeChordSound(chord)"
+      ></mat-icon>
     </div>
     } @if ((selection === 'guesser' && chords.length <= maxChords ) ) {
     <div class="newChordButton" (click)="addNewChord()">
@@ -83,9 +85,11 @@ handbookChords.length > 0) {
           <br /></span
         >}
       </div>
-      <mat-icon class="soundIcon" (click)="makeChordSound(handbookChord)"
-        >music_note</mat-icon
-      >
+      <mat-icon
+        svgIcon="music_note"
+        class="soundIcon"
+        (click)="makeChordSound(handbookChord)"
+      ></mat-icon>
     </div>
     }
   </div>
@@ -123,9 +127,11 @@ handbookChords.length > 0) {
           <br /></span
         >}
       </div>
-      <mat-icon class="soundIcon" (click)="makeChordSound(alternativeChord)"
-        >music_note</mat-icon
-      >
+      <mat-icon
+        svgIcon="music_note"
+        class="soundIcon"
+        (click)="makeChordSound(alternativeChord)"
+      ></mat-icon>
     </div>
     }
   </div>

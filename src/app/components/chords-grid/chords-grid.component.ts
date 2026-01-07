@@ -29,7 +29,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { AIService } from '@app/services/AIService.service';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatIconRegistry } from '@angular/material/icon';
 
 @Component({
   selector: 'app-chords-grid',

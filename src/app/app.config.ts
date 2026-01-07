@@ -15,6 +15,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { loadingReducer } from './store/reducers/loading.reducer';
 import { provideAnimations } from '@angular/platform-browser/animations'; // Add this line
 import { languageReducer } from './store/reducers/language.reducer';
+import { IconService } from './services/iconService.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [

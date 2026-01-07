@@ -5,7 +5,8 @@
     (click)="selectOption('guesser')"
     [routerLink]="'guesser'"
   >
-    {{ "guesser_title" | translate }} <mat-icon>local_library</mat-icon>
+    {{ "guesser_title" | translate }}
+    <mat-icon svgIcon="local_library"></mat-icon>
   </button>
   <button
     mat-fab
@@ -13,7 +14,7 @@
     (click)="selectOption('handbook')"
     [routerLink]="'handbook'"
   >
-    {{ "handbook_title" | translate }} <mat-icon>book</mat-icon>
+    {{ "handbook_title" | translate }} <mat-icon svgIcon="book"></mat-icon>
   </button>
   <button
     [routerLink]="'options'"
@@ -23,7 +24,8 @@
     [disabled]="!chordsAreGuessed(chords)"
     [routerLink]="'options'"
   >
-    {{ "exchanger_title" | translate }} <mat-icon>auto_stories</mat-icon>
+    {{ "exchanger_title" | translate }}
+    <mat-icon svgIcon="auto_stories"></mat-icon>
   </button>
   <button
     mat-fab
@@ -36,6 +38,7 @@
       !chordsAreGuessed(chords)
     "
   >
-    {{ "progression_title" | translate }} <mat-icon>auto_fix_normal</mat-icon>
+    {{ "progression_title" | translate }}
+    <mat-icon svgIcon="auto_awesome"></mat-icon>
   </button>
 </div>
