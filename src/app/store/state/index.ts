@@ -5,7 +5,6 @@ import { languageInitialState } from './language.state';
 
 export const appState = {
   chords: chordsInitialState,
-  functionSelected: functionSelectionInitialState,
   loading: loadingInitialState,
   language: 'en',
 };

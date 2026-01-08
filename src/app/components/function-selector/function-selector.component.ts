@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, model, signal, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
 import { selectOptionAction } from '@app/store/actions/function-selection.actions';
@@ -14,8 +14,9 @@ import {
 } from '@app/services/chordsService.service';
 import { minimumChordsToMakeProgression } from '../../config/global_variables/rules';
 import { TranslatePipe } from '@ngx-translate/core';
-import { functionType } from '@app/types/index.types';
+import { selectedModeType } from '@app/types/index.types';
 import { RouterLink } from '@angular/router';
+import { SelectedModeService } from '../../services/selectedModeService.service';
 @Component({
   selector: 'app-function-selector',
   imports: [
@@ -31,14 +32,15 @@ import { RouterLink } from '@angular/router';
 })
 export class FunctionSelectorComponent {
   private store = inject(Store);
-  private functionSelectedStoreSubscription: Subscription = new Subscription();
+  // private functionSelectedStoreSubscription: Subscription = new Subscription();
   private chordGuesserSubscription: Subscription = new Subscription();
+  private selectedModeService = inject(SelectedModeService);
 
   public chords: Chord[] = [];
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public validChords = areEveryChordsValid;
   public chordsAreGuessed = checkIfChordsAreGuessed;
-  public functionSelectedStore = this.store.select(selectFunctionSelectedState);
+  // public functionSelectedStore = this.store.select(selectFunctionSelectedState);
   public chordsGuesserStore = this.store.select(selectChordGuesserState);
 
   ngOnInit(): void {
@@ -49,18 +51,15 @@ export class FunctionSelectorComponent {
     );
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
-    this.functionSelectedStoreSubscription =
-      this.functionSelectedStore.subscribe((state) => {});
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chordGuesserSubscription.unsubscribe();
-    this.functionSelectedStoreSubscription.unsubscribe();
     this.chords = [];
   }
 
-  public selectOption(option: functionType) {
-    this.store.dispatch(selectOptionAction({ option }));
+  public selectOption(option: selectedModeType) {
+    this.selectedModeService.setSelectedMode(option);
   }
 }

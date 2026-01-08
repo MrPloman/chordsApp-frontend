@@ -1,7 +1,7 @@
-import { functionType } from '@app/types/index.types';
+import { selectedModeType } from '@app/types/index.types';
 
 export interface IFunctionSelectionState {
-  option: undefined | functionType;
+  option: undefined | selectedModeType;
 }
 
 export const functionSelectionInitialState: IFunctionSelectionState = {

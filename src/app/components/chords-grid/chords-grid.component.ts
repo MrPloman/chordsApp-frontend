@@ -1,6 +1,6 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, signal, Signal } from '@angular/core';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { generateId, makeNoteSound } from '@app/services/chordsService.service';
@@ -15,9 +15,7 @@ import {
   setHandbookChordsSelected,
 } from '@app/store/actions/chords.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
-import { IFunctionSelectionState } from '@app/store/state/function-selection.state';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
@@ -29,6 +27,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { AIService } from '@app/services/AIService.service';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ROUTER_OUTLET_DATA } from '@angular/router';
+import { selectedModeType } from '@app/types/index.types';
+import { SelectedModeService } from '@app/services/selectedModeService.service';
 
 @Component({
   selector: 'app-chords-grid',
@@ -81,8 +82,7 @@ export class ChordsGridComponent {
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public maxChords = maximChords;
 
-  public selection: string = '';
-  public functionSelectedStore: Observable<any> = new Observable();
+  public selectedMode = signal<selectedModeType | undefined>(undefined);
 
   private chordsStore: Observable<any> = new Observable();
   private loadingStore: Observable<any> = new Observable();
@@ -93,6 +93,7 @@ export class ChordsGridComponent {
 
   private store = inject(Store);
   private aiService = inject(AIService);
+  private selectedModeService = inject(SelectedModeService);
 
   constructor() {
     // store loader
@@ -101,16 +102,16 @@ export class ChordsGridComponent {
       this.loading = loading.loading;
     });
 
-    // function store
-    this.functionSelectedStore = this.store.pipe(
-      select(selectFunctionSelectedState)
-    );
-    this.subscriptionFunctionStore = this.functionSelectedStore.subscribe(
-      (value: { functionSelected: IFunctionSelectionState }) => {
-        if (!value.functionSelected.option) return;
-        this.selection = value.functionSelected.option;
-      }
-    );
+    // // function store
+    // this.functionSelectedStore = this.store.pipe(
+    //   select(selectFunctionSelectedState)
+    // );
+    // this.subscriptionFunctionStore = this.functionSelectedStore.subscribe(
+    //   (value: { functionSelected: IFunctionSelectionState }) => {
+    //     if (!value.functionSelected.option) return;
+    //     this.selection = value.functionSelected.option;
+    //   }
+    // );
 
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
 
@@ -145,6 +146,8 @@ export class ChordsGridComponent {
   }
   ngOnInit(): void {
     this.getNewAlternativeChords();
+    this.selectedMode.set(this.selectedModeService.selectedMode());
+    console.log(this.selectedMode());
   }
   ngOnDestroy(): void {
     this.chordsStoreSubscription.unsubscribe();

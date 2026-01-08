@@ -1,6 +1,6 @@
 <h1>{{ "title" | translate }}</h1>
 <app-language-selector></app-language-selector>
-<app-function-selector></app-function-selector>
+<app-function-selector [selectedMode]="selectedMode()"></app-function-selector>
 
 <app-fretboard></app-fretboard>
 
@@ -10,4 +10,4 @@
 </div>
 }
 
-<router-outlet></router-outlet>
+<router-outlet [routerOutletData]="selectedMode()"></router-outlet>

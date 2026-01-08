@@ -1,1 +1,5 @@
-export type functionType = 'progression' | 'guesser' | 'options' | 'handbook';
+export type selectedModeType =
+  | 'progression'
+  | 'guesser'
+  | 'options'
+  | 'handbook';
