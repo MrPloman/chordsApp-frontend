@@ -32,6 +32,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 import { InputSelectorComponent } from '../input-selector/input-selector.component';
 import { noteForms } from '../../config/global_variables/noteForms.options';
 import { noteOptions } from '../../config/global_variables/notes.options';
+import { SelectedModeService } from '@app/services/selectedModeService.service';
 @Component({
   selector: 'app-chords-handbook',
   standalone: true,
@@ -67,6 +68,7 @@ export class ChordsHandbookComponent {
     form: new FormControl('', [Validators.required]),
   });
   private aiService = inject(AIService);
+  private selectedModeService = inject(SelectedModeService);
 
   private chordsStore: Observable<any> = this.store.pipe(
     select(selectChordGuesser)
@@ -76,6 +78,7 @@ export class ChordsHandbookComponent {
   ngOnInit(): void {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
+    this.selectedModeService.setSelectedMode('handbook');
     this.chordsStoreSubscription = this.chordsStore.subscribe(
       (chordsState: IChordsGuesserState) => {
         this.currentChords = chordsState.currentChords

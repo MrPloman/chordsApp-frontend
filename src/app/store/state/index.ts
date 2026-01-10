@@ -1,5 +1,4 @@
 import { chordsInitialState } from './chords.state';
-import { functionSelectionInitialState } from './function-selection.state';
 import { loadingInitialState } from './loading.state';
 import { languageInitialState } from './language.state';
 

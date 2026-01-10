@@ -1,7 +1,5 @@
 import { Component, inject, model, signal, Signal } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { selectFunctionSelectedState } from '@app/store/selectors/function-selection.selector';
-import { selectOptionAction } from '@app/store/actions/function-selection.actions';
 import { Subscription } from 'rxjs';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';

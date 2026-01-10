@@ -16,7 +16,7 @@ import { setCurrentChords } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { TranslatePipe } from '@ngx-translate/core';
 import { selectLanguage } from '@app/store/selectors/language.selector';
-import { selectOptionAction } from '@app/store/actions/function-selection.actions';
+import { SelectedModeService } from '@app/services/selectedModeService.service';
 @Component({
   selector: 'app-chords-guesser',
   standalone: true,
@@ -48,8 +48,9 @@ export class ChordsGuesserComponent {
   );
   private chordsStoreSubscription: Subscription = new Subscription();
 
+  private selectedModeService = inject(SelectedModeService);
+
   constructor() {
-    this.store.dispatch(selectOptionAction({ option: 'guesser' }));
     this.languageStoreSubscription = this.languageStore.subscribe((state) => {
       if (state) this.language = state;
     });
@@ -99,5 +100,10 @@ export class ChordsGuesserComponent {
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
     this.languageStoreSubscription.unsubscribe();
+  }
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    this.selectedModeService.setSelectedMode('guesser');
   }
 }

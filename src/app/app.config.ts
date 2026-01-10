@@ -9,7 +9,6 @@ import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { functionSelectedReducer } from './store/reducers/function-selection.reducer';
 import { chordsReducer } from './store/reducers/chords.reducer';
 import { provideHttpClient } from '@angular/common/http';
 import { loadingReducer } from './store/reducers/loading.reducer';
@@ -23,7 +22,6 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes, withComponentInputBinding()),
     provideStore({
-      functionSelected: functionSelectedReducer,
       chords: chordsReducer,
       loading: loadingReducer,
       language: languageReducer,

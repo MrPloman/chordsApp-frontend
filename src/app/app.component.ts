@@ -3,11 +3,7 @@ import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
 import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 import { select, Store } from '@ngrx/store';
-import { selectFunctionSelectedState } from './store/selectors/function-selection.selector';
-
-import { IFunctionSelectionState } from './store/state/function-selection.state';
 import { Observable, Subscription } from 'rxjs';
-import { resetSelectionAction } from './store/actions/function-selection.actions';
 
 import { selectLoadingState } from './store/selectors/loading.selector';
 import { provideTranslateService } from '@ngx-translate/core';
@@ -78,10 +74,5 @@ export class AppComponent {
     requestIdleCallback(() => {
       this.lazyTranslate.initDefaultLanguage();
     });
-  }
-
-  public resetFunctionSelection() {
-    if (this.loading) return;
-    this.store.dispatch(resetSelectionAction());
   }
 }

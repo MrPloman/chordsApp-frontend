@@ -92,7 +92,6 @@ export class ChordsGridComponent {
   private subscriptionFunctionStore: Subscription = new Subscription();
 
   private store = inject(Store);
-  private aiService = inject(AIService);
   private selectedModeService = inject(SelectedModeService);
 
   constructor() {
