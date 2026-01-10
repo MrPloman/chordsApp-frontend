@@ -1,35 +1,33 @@
+import { animate, style, transition, trigger } from '@angular/animations';
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, signal, Signal } from '@angular/core';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
-import { Chord, NotePosition } from '@app/models/chord.model';
-import { generateId, makeNoteSound } from '@app/services/chordsService.service';
-import {
-  setCurrentChords,
-  setChordSelected,
-  removeChord,
-  removeNoteFromChord,
-  changeChordsOrder,
-  setAlternativeChordSelected,
-  setAlternativeChordsOptions,
-  setHandbookChordsSelected,
-} from '@app/store/actions/chords.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
-import { Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
-import { maximChords } from '../../config/global_variables/rules';
-import { selectLoadingState } from '@app/store/selectors/loading.selector';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { Component, inject, Input, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { AIService } from '@app/services/AIService.service';
-import { loadingStatus } from '@app/store/actions/loading.actions';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { ROUTER_OUTLET_DATA } from '@angular/router';
-import { selectedModeType } from '@app/types/index.types';
+import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { Chord, NotePosition } from '@app/models/chord.model';
+import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
+import {
+  changeChordsOrder,
+  removeChord,
+  removeNoteFromChord,
+  setAlternativeChordSelected,
+  setAlternativeChordsOptions,
+  setChordSelected,
+  setCurrentChords,
+  setHandbookChordsSelected,
+} from '@app/store/actions/chords.actions';
+import { loadingStatus } from '@app/store/actions/loading.actions';
+import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
+import { selectLoadingState } from '@app/store/selectors/loading.selector';
+import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { selectedModeType } from '@app/types/index.types';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
+import { maximChords } from '../../config/global_variables/rules';
 
 @Component({
   selector: 'app-chords-grid',
@@ -50,18 +48,10 @@ import { SelectedModeService } from '@app/services/selectedModeService.service';
       // Define a transition for when the element is added to the DOM (:enter)
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(-20px)' }),
-        animate(
-          '500ms ease-in',
-          style({ opacity: 1, transform: 'translateY(0)' })
-        ),
+        animate('500ms ease-in', style({ opacity: 1, transform: 'translateY(0)' })),
       ]),
       // Optional: Define a transition for when the element is removed from the DOM (:leave)
-      transition(':leave', [
-        animate(
-          '300ms ease-out',
-          style({ opacity: 0, transform: 'translateY(20px)' })
-        ),
-      ]),
+      transition(':leave', [animate('300ms ease-out', style({ opacity: 0, transform: 'translateY(20px)' }))]),
     ]),
   ],
 })
@@ -85,8 +75,7 @@ export class ChordsGridComponent {
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public maxChords = maximChords;
 
-  public selectedMode: Signal<selectedModeType | undefined> =
-    this.selectedModeService.selectedMode;
+  public selectedMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
 
   private chordsStore: Observable<any> = new Observable();
   private loadingStore: Observable<any> = new Observable();
@@ -117,33 +106,19 @@ export class ChordsGridComponent {
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
 
     // if is a normal display get the chords from the state
-    this.chordsStoreSubscription = this.chordsStore.subscribe(
-      (chordsState: IChordsGuesserState) => {
-        this.chords = chordsState.currentChords
-          ? chordsState.currentChords
-          : [];
-        this.chordSelected = chordsState.chordSelected
-          ? chordsState.chordSelected
-          : 0;
-        if (this.chordOptionsDisplay) {
-          this.alternativeChords = chordsState.alternativeChords
-            ? chordsState.alternativeChords
-            : [];
-          this.alternativeChordSelected = chordsState.alternativeChordSelected
-            ? chordsState.alternativeChordSelected
-            : 0;
-        }
-        if (this.handbookDisplay) {
-          this.handbookChords = chordsState.handbookChords
-            ? chordsState.handbookChords
-            : [];
-          this.handbookChordSelected =
-            chordsState.handbookChordsSelected !== undefined
-              ? chordsState.handbookChordsSelected
-              : 0;
-        }
+    this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
+      this.chords = chordsState.currentChords ? chordsState.currentChords : [];
+      this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
+      if (this.chordOptionsDisplay) {
+        this.alternativeChords = chordsState.alternativeChords ? chordsState.alternativeChords : [];
+        this.alternativeChordSelected = chordsState.alternativeChordSelected ? chordsState.alternativeChordSelected : 0;
       }
-    );
+      if (this.handbookDisplay) {
+        this.handbookChords = chordsState.handbookChords ? chordsState.handbookChords : [];
+        this.handbookChordSelected =
+          chordsState.handbookChordsSelected !== undefined ? chordsState.handbookChordsSelected : 0;
+      }
+    });
   }
   ngOnInit(): void {
     this.getNewAlternativeChords();
@@ -178,17 +153,11 @@ export class ChordsGridComponent {
         ],
       })
     );
-    this.store.dispatch(
-      setChordSelected({ chordSelected: this.chords.length - 1 })
-    );
+    this.store.dispatch(setChordSelected({ chordSelected: this.chords.length - 1 }));
   }
 
   public selectChord(position: number) {
-    if (
-      this.loading ||
-      (this.chordSelected === position && this.chords.length > 0)
-    )
-      return;
+    if (this.loading || (this.chordSelected === position && this.chords.length > 0)) return;
     this.chordSelected = position;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
     if (!this.chordOptionsDisplay) return;
@@ -236,16 +205,12 @@ export class ChordsGridComponent {
     if (this.loading) return;
 
     this.alternativeChordSelected = position;
-    this.store.dispatch(
-      setAlternativeChordSelected({ alternativeChordSelected: position })
-    );
+    this.store.dispatch(setAlternativeChordSelected({ alternativeChordSelected: position }));
   }
 
   public selecthandbookChord(position: number) {
     if (this.loading) return;
-    this.store.dispatch(
-      setHandbookChordsSelected({ handbookChordsSelected: position })
-    );
+    this.store.dispatch(setHandbookChordsSelected({ handbookChordsSelected: position }));
     this.handbookChordSelected = position;
   }
 

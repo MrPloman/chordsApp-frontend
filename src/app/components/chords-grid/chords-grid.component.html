@@ -8,7 +8,7 @@
         cdkDrag
         [ngClass]="{ selected: chordIndex === chordSelected }"
       >
-        <div class="header">
+        <header class="header">
           @if (
             selectedMode() === 'guesser' ||
             (selectedMode() === 'progression' && chords.length > minimumChordsToMakeProgression)
@@ -18,7 +18,7 @@
           @if (chord.name) {
             <span class="chordName">{{ chord.name }}</span>
           }
-        </div>
+        </header>
 
         <div class="chordStructure">
           @for (note of chord.notes; track trackById(noteId, note); let noteId = $index) {
@@ -37,73 +37,71 @@
       </article>
     }
     @if (selectedMode() === 'guesser' && chords.length <= maxChords) {
-      <div class="newChordButton" (click)="addNewChord()">
+      <article class="newChordButton" (click)="addNewChord()">
         <h2>+</h2>
-      </div>
+      </article>
     }
   </section>
 </div>
 
 <ng-container>
+  {{ selectedMode() }}
   @switch (selectedMode()) {
-    @case ('guesser') {
-      <ng-template #guesserTemplate></ng-template>
-    }
     @case ('handbook') {
-      <ng-template #handbookTemplate></ng-template>
-    }
-    @case ('progression') {
-      <ng-template #progressionTemplate></ng-template>
+      <ng-container *ngTemplateOutlet="handbookTemplate"></ng-container>
     }
     @case ('options') {
-      <ng-template #optionsTemplate></ng-template>
+      <ng-container *ngTemplateOutlet="optionsTemplate"></ng-container>
     }
   }
 </ng-container>
-@if (handbookDisplay && handbookChords.length > 0 && chords.length > 0) {
-  <span id="separation"></span>
-}
-@if (loading && !chordOptionsDisplay) {
-  <mat-spinner id="spinner"></mat-spinner>
-} @else {
-  <div class="handbookChordsGrid">
-    <div class="handbookChords">
-      @for (
-        handbookChord of handbookChords;
-        track trackById(handbookIndex, handbookChord);
-        let handbookIndex = $index
-      ) {
-        <div
-          [@fadeAndSlide]="'in'"
-          (click)="selecthandbookChord(handbookIndex)"
-          class="handbookChord"
-          [ngClass]="{
-            selected: handbookIndex === handbookChordSelected,
-          }"
-        >
-          <div class="header">
-            @if (handbookChord.name) {
-              <span class="chordName">{{ handbookChord.name }}</span>
-            }
-          </div>
 
-          <div class="chordStructure">
-            @for (note of handbookChord.notes; track trackById(noteId, note); let noteId = $index) {
-              <span class="chordFigure">
-                <span class="stringNumber">{{ note.stringNumber }}th</span> -
-                <span class="notePosition">{{ note.position }}</span> -
-                <span class="noteName">{{ note.name }}</span>
-                <br
-              /></span>
-            }
+<ng-template #handbookTemplate>
+  @if (handbookChords.length > 0 && chords.length > 0) {
+    <span id="separation"></span>
+  }
+  @if (loading) {
+    <mat-spinner id="spinner"></mat-spinner>
+  } @else {
+    <div class="handbookChordsGrid">
+      <div class="handbookChords">
+        @for (
+          handbookChord of handbookChords;
+          track trackById(handbookIndex, handbookChord);
+          let handbookIndex = $index
+        ) {
+          <div
+            [@fadeAndSlide]="'in'"
+            (click)="selecthandbookChord(handbookIndex)"
+            class="handbookChord"
+            [ngClass]="{
+              selected: handbookIndex === handbookChordSelected,
+            }"
+          >
+            <div class="header">
+              @if (handbookChord.name) {
+                <span class="chordName">{{ handbookChord.name }}</span>
+              }
+            </div>
+
+            <div class="chordStructure">
+              @for (note of handbookChord.notes; track trackById(noteId, note); let noteId = $index) {
+                <span class="chordFigure">
+                  <span class="stringNumber">{{ note.stringNumber }}th</span> -
+                  <span class="notePosition">{{ note.position }}</span> -
+                  <span class="noteName">{{ note.name }}</span>
+                  <br
+                /></span>
+              }
+            </div>
+            <mat-icon svgIcon="music_note" class="soundIcon" (click)="makeChordSound(handbookChord)"></mat-icon>
           </div>
-          <mat-icon svgIcon="music_note" class="soundIcon" (click)="makeChordSound(handbookChord)"></mat-icon>
-        </div>
-      }
+        }
+      </div>
     </div>
-  </div>
-}
-@if (chordOptionsDisplay) {
+  }
+</ng-template>
+<ng-template #optionsTemplate>
   @if (alternativeChords.length > 0) {
     <span id="separation"></span>
   }
@@ -147,4 +145,4 @@
       </div>
     </div>
   }
-}
+</ng-template>
