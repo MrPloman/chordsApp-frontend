@@ -69,6 +69,9 @@ export class ChordsGridComponent {
   @Input() chordOptionsDisplay: boolean = false;
   @Input() handbookDisplay: boolean = false;
 
+  private store = inject(Store);
+  private selectedModeService = inject(SelectedModeService);
+
   public chords: Chord[] = [];
   public alternativeChords: Chord[] = [];
   public handbookChords: Chord[] = [];
@@ -82,7 +85,8 @@ export class ChordsGridComponent {
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public maxChords = maximChords;
 
-  public selectedMode = signal<selectedModeType | undefined>(undefined);
+  public selectedMode: Signal<selectedModeType | undefined> =
+    this.selectedModeService.selectedMode;
 
   private chordsStore: Observable<any> = new Observable();
   private loadingStore: Observable<any> = new Observable();
@@ -91,11 +95,9 @@ export class ChordsGridComponent {
   private loaderSubscription: Subscription = new Subscription();
   private subscriptionFunctionStore: Subscription = new Subscription();
 
-  private store = inject(Store);
-  private selectedModeService = inject(SelectedModeService);
-
   constructor() {
     // store loader
+
     this.loadingStore = this.store.pipe(select(selectLoadingState));
     this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
       this.loading = loading.loading;
@@ -145,8 +147,8 @@ export class ChordsGridComponent {
   }
   ngOnInit(): void {
     this.getNewAlternativeChords();
-    this.selectedMode.set(this.selectedModeService.selectedMode());
-    console.log(this.selectedMode());
+    // this.selectedMode.set(this.selectedModeService.selectedMode());
+    // console.log(this.selectedMode());
   }
   ngOnDestroy(): void {
     this.chordsStoreSubscription.unsubscribe();

@@ -51,6 +51,8 @@ export class ChordsGuesserComponent {
   private selectedModeService = inject(SelectedModeService);
 
   constructor() {
+    this.selectedModeService.setSelectedMode('guesser');
+
     this.languageStoreSubscription = this.languageStore.subscribe((state) => {
       if (state) this.language = state;
     });
@@ -100,10 +102,5 @@ export class ChordsGuesserComponent {
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
     this.languageStoreSubscription.unsubscribe();
-  }
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.selectedModeService.setSelectedMode('guesser');
   }
 }

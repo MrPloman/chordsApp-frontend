@@ -80,23 +80,21 @@ export class FretboardComponent {
     if (this.loading) return;
     this.makeItSound(note);
     if (this.chords.length === 0) return;
-    else {
-      switch (this.selectionMode()) {
-        case 'guesser':
-          // If chord was already defined you cannot change the notes
-          if (this.chords[this.chordPosition].name) return;
-          const _id = generateId();
-          this.store.dispatch(
-            editNoteFromChord({
-              notePosition: { ...note, _id },
-              chordSelected: this.chordPosition,
-            })
-          );
-          break;
+    switch (this.selectionMode()) {
+      case 'guesser':
+        // If chord was already defined you cannot change the notes
+        if (this.chords[this.chordPosition].name) return;
+        const _id = generateId();
+        this.store.dispatch(
+          editNoteFromChord({
+            notePosition: { ...note, _id },
+            chordSelected: this.chordPosition,
+          })
+        );
+        break;
 
-        default:
-          break;
-      }
+      default:
+        break;
     }
   }
 
