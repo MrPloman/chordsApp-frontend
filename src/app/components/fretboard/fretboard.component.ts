@@ -1,17 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, Signal } from '@angular/core';
-import { fretboard } from '@app/config/global_variables/fretboard';
+import { Component, inject, Signal } from '@angular/core';
 import { dots } from '@app/config/global_variables/dots';
-import { Observable, Subscription } from 'rxjs';
-import { select, Store } from '@ngrx/store';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
+import { fretboard } from '@app/config/global_variables/fretboard';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
-import { editNoteFromChord } from '@app/store/actions/chords.actions';
 import { generateId, makeNoteSound } from '@app/services/chordsService.service';
-import { selectLoadingState } from '@app/store/selectors/loading.selector';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
+import { editNoteFromChord } from '@app/store/actions/chords.actions';
+import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
+import { selectLoadingState } from '@app/store/selectors/loading.selector';
+import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { selectedModeType } from '@app/types/index.types';
+import { select, Store } from '@ngrx/store';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-fretboard',
@@ -28,8 +28,7 @@ export class FretboardComponent {
   private currentChord: Chord = new Chord([], [], '', generateId());
   private selectedModeService = inject(SelectedModeService);
 
-  private selectionMode: Signal<selectedModeType | undefined> =
-    this.selectedModeService.selectedMode;
+  private selectionMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
   private chordPosition: number = 0;
   private chords: Chord[] = [];
 
@@ -49,23 +48,13 @@ export class FretboardComponent {
       this.loading = loading.loading;
     });
 
-    this.chordsStoreSubscription = this.chordsStore.subscribe(
-      (chordGuesserState: IChordsGuesserState) => {
-        if (
-          !chordGuesserState ||
-          !chordGuesserState.currentChords ||
-          chordGuesserState.chordSelected === undefined
-        ) {
-          return;
-        }
-        this.chordPosition = chordGuesserState.chordSelected;
-        this.currentChord =
-          chordGuesserState.currentChords[chordGuesserState.chordSelected];
-        this.chords = chordGuesserState.currentChords;
+    this.chordsStoreSubscription = this.chordsStore.subscribe((chordGuesserState: IChordsGuesserState) => {
+      if (!chordGuesserState || !chordGuesserState.currentChords || chordGuesserState.chordSelected === undefined) {
+        return;
       }
-    );
-    effect(() => {
-      console.log('Signal value:', this.selectedModeService.selectedMode());
+      this.chordPosition = chordGuesserState.chordSelected;
+      this.currentChord = chordGuesserState.currentChords[chordGuesserState.chordSelected];
+      this.chords = chordGuesserState.currentChords;
     });
   }
   ngOnDestroy(): void {
@@ -76,7 +65,6 @@ export class FretboardComponent {
   }
 
   public selectNote(note: NotePosition) {
-    console.log(this.selectionMode);
     if (this.loading) return;
     this.makeItSound(note);
     if (this.chords.length === 0) return;
@@ -103,10 +91,7 @@ export class FretboardComponent {
       return false;
     } else {
       return this.currentChord.notes.find((notePosition: NotePosition) => {
-        if (
-          notePosition.stringNumber === note.stringNumber &&
-          notePosition.position === note.position
-        ) {
+        if (notePosition.stringNumber === note.stringNumber && notePosition.position === note.position) {
           return true;
         } else return false;
       });

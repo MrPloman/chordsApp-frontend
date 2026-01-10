@@ -45,7 +45,6 @@
 </div>
 
 <ng-container>
-  {{ selectedMode() }}
   @switch (selectedMode()) {
     @case ('handbook') {
       <ng-container *ngTemplateOutlet="handbookTemplate"></ng-container>

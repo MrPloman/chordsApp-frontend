@@ -122,8 +122,6 @@ export class ChordsGridComponent {
   }
   ngOnInit(): void {
     this.getNewAlternativeChords();
-    // this.selectedMode.set(this.selectedModeService.selectedMode());
-    // console.log(this.selectedMode());
   }
   ngOnDestroy(): void {
     this.chordsStoreSubscription.unsubscribe();
