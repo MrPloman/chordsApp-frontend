@@ -1,7 +1,7 @@
 <div class="chordGrid" (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListOrientation="mixed">
-  <div class="chords">
+  <section class="chords">
     @for (chord of chords; track trackById(chordIndex, chord); let chordIndex = $index) {
-      <div
+      <article
         [@fadeAndSlide]="'in'"
         (click)="selectChord(chordIndex)"
         class="chord"
@@ -34,14 +34,14 @@
           }
         </div>
         <mat-icon class="soundIcon" svgIcon="music_note" (click)="makeChordSound(chord)"></mat-icon>
-      </div>
+      </article>
     }
     @if (selectedMode() === 'guesser' && chords.length <= maxChords) {
       <div class="newChordButton" (click)="addNewChord()">
         <h2>+</h2>
       </div>
     }
-  </div>
+  </section>
 </div>
 
 <ng-container>
