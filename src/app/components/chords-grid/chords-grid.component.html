@@ -16,9 +16,6 @@
       ></app-chord-card>
     }
     @if (selectedMode() === 'guesser' && chords.length <= maxChords) {
-      <!-- <article class="newChordButton" (click)="addNewChord()">
-        <h2>+</h2>
-      </article> -->
       <app-chord-card [newChordUI]="true" (emitNewChord)="addNewChord($event)"></app-chord-card>
     }
   </section>
@@ -49,32 +46,16 @@
           track trackById(handbookIndex, handbookChord);
           let handbookIndex = $index
         ) {
-          <div
+          <app-chord-card
             [@fadeAndSlide]="'in'"
+            [newChordUI]="false"
+            [selectedMode]="selectedMode"
+            [currentChordsLength]="chords.length"
+            [chord]="handbookChord"
+            [chordPosition]="handbookIndex"
+            [isSelected]="handbookIndex === handbookChordSelected"
             (click)="selecthandbookChord(handbookIndex)"
-            class="handbookChord"
-            [ngClass]="{
-              selected: handbookIndex === handbookChordSelected,
-            }"
-          >
-            <div class="header">
-              @if (handbookChord.name) {
-                <span class="chordName">{{ handbookChord.name }}</span>
-              }
-            </div>
-
-            <div class="chordStructure">
-              @for (note of handbookChord.notes; track trackById(noteId, note); let noteId = $index) {
-                <span class="chordFigure">
-                  <span class="stringNumber">{{ note.stringNumber }}th</span> -
-                  <span class="notePosition">{{ note.position }}</span> -
-                  <span class="noteName">{{ note.name }}</span>
-                  <br
-                /></span>
-              }
-            </div>
-            <mat-icon svgIcon="music_note" class="soundIcon" (click)="makeChordSound(handbookChord)"></mat-icon>
-          </div>
+          ></app-chord-card>
         }
       </div>
     </div>
@@ -94,32 +75,16 @@
           track trackById(alternativeChordIndex, alternativeChord);
           let alternativeChordIndex = $index
         ) {
-          <div
+          <app-chord-card
             [@fadeAndSlide]="'in'"
+            [newChordUI]="false"
+            [selectedMode]="selectedMode"
+            [currentChordsLength]="chords.length"
+            [chord]="alternativeChord"
+            [chordPosition]="alternativeChordIndex"
+            [isSelected]="alternativeChordIndex === alternativeChordSelected"
             (click)="selectAlternativeChord(alternativeChordIndex)"
-            class="alternativeChord"
-            [ngClass]="{
-              selected: alternativeChordIndex === alternativeChordSelected,
-            }"
-          >
-            <div class="header">
-              @if (alternativeChord.name) {
-                <span class="chordName">{{ alternativeChord.name }}</span>
-              }
-            </div>
-
-            <div class="chordStructure">
-              @for (note of alternativeChord.notes; track trackById(noteId, note); let noteId = $index) {
-                <span class="chordFigure">
-                  <span class="stringNumber">{{ note.stringNumber }}th</span> -
-                  <span class="notePosition">{{ note.position }}</span> -
-                  <span class="noteName">{{ note.name }}</span>
-                  <br
-                /></span>
-              }
-            </div>
-            <mat-icon svgIcon="music_note" class="soundIcon" (click)="makeChordSound(alternativeChord)"></mat-icon>
-          </div>
+          ></app-chord-card>
         }
       </div>
     </div>
