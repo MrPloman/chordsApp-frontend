@@ -43,3 +43,8 @@ Thumbs.db
 
 
 src/environments
+
+
+
+.nx/cache
+.nx/workspace-data

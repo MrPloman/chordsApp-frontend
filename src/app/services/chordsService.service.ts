@@ -109,7 +109,7 @@ export function generateId(): number {
 export function checkAndGenerateID(chords: Chord[]): Chord[] {
   if (!chords) return [];
   return chords.map((chord: Chord) => {
-    let _chord = { ...chord, _id: generateId() };
+    let _chord = chord._id ? chord : { ...chord, _id: generateId() };
     let _notes = _chord.notes.map((note: NotePosition) => {
       return note._id ? note : { ...note, _id: generateId() };
     });
