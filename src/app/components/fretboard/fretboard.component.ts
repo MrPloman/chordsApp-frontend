@@ -85,9 +85,8 @@ export class FretboardComponent {
   }
 
   public isThisNoteSelected = (note: NotePosition) => {
-    if (!note || !this.currentChord) {
-      return false;
-    } else {
+    if (!note || !this.currentChord) return false;
+    else {
       return this.currentChord.notes.find((notePosition: NotePosition) => {
         if (notePosition.stringNumber === note.stringNumber && notePosition.position === note.position) {
           return true;
