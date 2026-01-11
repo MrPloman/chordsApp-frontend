@@ -17,9 +17,7 @@
     font-size: 100px;
   }
 }
-.chord,
-.alternativeChord,
-.handbookChord {
+.chord {
   transition: 0.5s color;
   margin: 10px;
   border: 2px solid globalVars.$secondary-color;
