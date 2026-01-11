@@ -1,45 +1,25 @@
-<div class="chordGrid" (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListOrientation="mixed">
-  <section class="chords">
+<div class="chordGrid">
+  <section class="chords" (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListOrientation="mixed">
     @for (chord of chords; track trackById(chordIndex, chord); let chordIndex = $index) {
-      <article
-        [@fadeAndSlide]="'in'"
-        (click)="selectChord(chordIndex)"
-        class="chord"
+      <app-chord-card
         cdkDrag
-        [ngClass]="{ selected: chordIndex === chordSelected }"
-      >
-        <header class="header">
-          @if (
-            selectedMode() === 'guesser' ||
-            (selectedMode() === 'progression' && chords.length > minimumChordsToMakeProgression)
-          ) {
-            <span class="deleteButton" (click)="deleteChord(chordIndex)">X</span>
-          }
-          @if (chord.name) {
-            <span class="chordName">{{ chord.name }}</span>
-          }
-        </header>
-
-        <div class="chordStructure">
-          @for (note of chord.notes; track trackById(noteId, note); let noteId = $index) {
-            <span class="chordFigure">
-              <span class="stringNumber">{{ note.stringNumber }}th</span> -
-              <span class="notePosition">{{ note.position }}</span> -
-              <span class="noteName">{{ note.name }}</span>
-              @if (selectedMode() === 'guesser' && !chord.name) {
-                <span class="removeNote" (click)="removeNote($index, chordIndex)">X</span>
-              }
-              <br
-            /></span>
-          }
-        </div>
-        <mat-icon class="soundIcon" svgIcon="music_note" (click)="makeChordSound(chord)"></mat-icon>
-      </article>
+        [@fadeAndSlide]="'in'"
+        [newChordUI]="false"
+        [selectedMode]="selectedMode"
+        [currentChordsLength]="chords.length"
+        [chord]="chord"
+        [chordPosition]="chordIndex"
+        [isSelected]="chordIndex === chordSelected"
+        (click)="selectChord(chordIndex)"
+        (emitDeleteChord)="deleteChord(chordIndex)"
+        (emitRemoveNote)="removeNote($event.notePosition, $event.chordPosition)"
+      ></app-chord-card>
     }
     @if (selectedMode() === 'guesser' && chords.length <= maxChords) {
-      <article class="newChordButton" (click)="addNewChord()">
+      <!-- <article class="newChordButton" (click)="addNewChord()">
         <h2>+</h2>
-      </article>
+      </article> -->
+      <app-chord-card [newChordUI]="true" (emitNewChord)="addNewChord($event)"></app-chord-card>
     }
   </section>
 </div>

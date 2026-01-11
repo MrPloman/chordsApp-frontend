@@ -8,7 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { generateId, makeNoteSound } from '@app/services/chordsService.service';
+import { makeNoteSound } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import {
   changeChordsOrder,
@@ -28,6 +28,7 @@ import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
+import { ChordCardComponent } from '../chord-card/chord-card.component';
 
 @Component({
   selector: 'app-chords-grid',
@@ -40,6 +41,7 @@ import { maximChords } from '../../config/global_variables/rules';
     MatDividerModule,
     MatIconModule,
     MatProgressSpinnerModule,
+    ChordCardComponent,
   ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
@@ -115,26 +117,11 @@ export class ChordsGridComponent {
     this.loaderSubscription.unsubscribe();
   }
 
-  public addNewChord() {
+  public addNewChord(chord: Chord) {
     if (this.loading) return;
     this.store.dispatch(
       setCurrentChords({
-        currentChords: [
-          ...this.chords,
-          new Chord(
-            [
-              new NotePosition(1, 0, 'E', generateId()),
-              new NotePosition(2, 0, 'B', generateId()),
-              new NotePosition(3, 0, 'G', generateId()),
-              new NotePosition(4, 0, 'D', generateId()),
-              new NotePosition(5, 0, 'A', generateId()),
-              new NotePosition(6, 0, 'E', generateId()),
-            ],
-            [],
-            '',
-            generateId()
-          ),
-        ],
+        currentChords: [...this.chords, chord],
       })
     );
     this.store.dispatch(setChordSelected({ chordSelected: this.chords.length - 1 }));
@@ -227,7 +214,7 @@ export class ChordsGridComponent {
     });
   }
 
-  public trackById(index: number, item: any): number {
-    return item._id;
+  public trackById(index: number, item: any): number | undefined {
+    return item && item._id ? item._id : undefined;
   }
 }

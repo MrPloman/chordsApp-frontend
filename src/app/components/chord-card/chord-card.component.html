@@ -1,0 +1,37 @@
+@switch (newChordUI) {
+  @case (true) {
+    <article class="newChordButton" (click)="addNewChord()">
+      <h2>+</h2>
+    </article>
+  }
+  @case (false) {
+    <article class="chord" [ngClass]="{ selected: isSelected }">
+      <header class="header">
+        @if (
+          selectedMode() === 'guesser' ||
+          (selectedMode() === 'progression' && currentChordsLength > minimumChordsToMakeProgression)
+        ) {
+          <span class="deleteButton" (click)="deleteChord()">X</span>
+        }
+        @if (chord.name) {
+          <span class="chordName">{{ chord.name }}</span>
+        }
+      </header>
+
+      <div class="chordStructure">
+        @for (note of chord.notes; track trackById(noteId, note); let noteId = $index) {
+          <span class="chordFigure">
+            <span class="stringNumber">{{ note.stringNumber }}th</span> -
+            <span class="notePosition">{{ note.position }}</span> -
+            <span class="noteName">{{ note.name }}</span>
+            @if (selectedMode() === 'guesser' && !chord.name) {
+              <span class="removeNote" (click)="removeNote($index)">X</span>
+            }
+            <br
+          /></span>
+        }
+      </div>
+      <mat-icon class="soundIcon" svgIcon="music_note" (click)="makeChordSound()"></mat-icon>
+    </article>
+  }
+}
