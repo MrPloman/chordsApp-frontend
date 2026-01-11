@@ -1,14 +1,11 @@
 <form id="chordsHandbook-container">
   <section id="information">
-    <h2 id="sectionTitle">{{ "handbook_title" | translate }}</h2>
+    <h2 id="sectionTitle">{{ 'handbook_title' | translate }}</h2>
 
-    <span id="message">{{ "handbook_description" | translate }}</span>
+    <span id="message">{{ 'handbook_description' | translate }}</span>
   </section>
   <section id="chordsSection">
-    <app-chords-grid
-      [handbookDisplay]="true"
-      [chordOptionsDisplay]="false"
-    ></app-chords-grid>
+    <app-chords-grid></app-chords-grid>
     <form id="formSection" [formGroup]="chordRequestForm">
       <div id="inputSection">
         <app-input-selector
@@ -30,11 +27,7 @@
         <app-submit-button
           (click)="getAllFormsChord()"
           id="getAllFormsChord"
-          [disabled]="
-            loading ||
-            chordRequestForm.controls['note'].invalid ||
-            chordRequestForm.controls['form'].invalid
-          "
+          [disabled]="loading || chordRequestForm.controls['note'].invalid || chordRequestForm.controls['form'].invalid"
           [label]="'handbook_get_chords' | translate"
           [icon]="'search'"
         ></app-submit-button>

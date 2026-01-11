@@ -1,7 +1,7 @@
 import { animate, style, transition, trigger } from '@angular/animations';
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, Signal } from '@angular/core';
+import { Component, inject, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -56,9 +56,6 @@ import { maximChords } from '../../config/global_variables/rules';
   ],
 })
 export class ChordsGridComponent {
-  @Input() chordOptionsDisplay: boolean = false;
-  @Input() handbookDisplay: boolean = false;
-
   private store = inject(Store);
   private selectedModeService = inject(SelectedModeService);
 
@@ -92,28 +89,17 @@ export class ChordsGridComponent {
       this.loading = loading.loading;
     });
 
-    // // function store
-    // this.functionSelectedStore = this.store.pipe(
-    //   select(selectFunctionSelectedState)
-    // );
-    // this.subscriptionFunctionStore = this.functionSelectedStore.subscribe(
-    //   (value: { functionSelected: IFunctionSelectionState }) => {
-    //     if (!value.functionSelected.option) return;
-    //     this.selection = value.functionSelected.option;
-    //   }
-    // );
-
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
 
     // if is a normal display get the chords from the state
     this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
       this.chords = chordsState.currentChords ? chordsState.currentChords : [];
       this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
-      if (this.chordOptionsDisplay) {
+      if (this.selectedMode() === 'options') {
         this.alternativeChords = chordsState.alternativeChords ? chordsState.alternativeChords : [];
         this.alternativeChordSelected = chordsState.alternativeChordSelected ? chordsState.alternativeChordSelected : 0;
       }
-      if (this.handbookDisplay) {
+      if (this.selectedMode() === 'handbook') {
         this.handbookChords = chordsState.handbookChords ? chordsState.handbookChords : [];
         this.handbookChordSelected =
           chordsState.handbookChordsSelected !== undefined ? chordsState.handbookChordsSelected : 0;
@@ -158,7 +144,7 @@ export class ChordsGridComponent {
     if (this.loading || (this.chordSelected === position && this.chords.length > 0)) return;
     this.chordSelected = position;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
-    if (!this.chordOptionsDisplay) return;
+    if (!this.selectedMode() || this.selectedMode() !== 'options') return;
     this.getNewAlternativeChords();
   }
 
