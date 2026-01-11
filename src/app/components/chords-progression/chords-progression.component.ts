@@ -1,31 +1,26 @@
 import { Component, inject } from '@angular/core';
-import { InputInstructionComponent } from '../input-instruction/input-instruction.component';
-import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 import { Chord } from '@app/models/chord.model';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
+import { InputInstructionComponent } from '../input-instruction/input-instruction.component';
+import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 
+import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { QueryResponse } from '@app/models/queryResponse.model';
+import { AIService } from '@app/services/AIService.service';
 import {
   areEveryChordsValid,
   getAllNoteChordName,
   removeNonDesiredValuesFromNotesArray,
 } from '@app/services/chordsService.service';
 import { setCurrentChords } from '@app/store/actions/chords.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
-import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
-import { AIService } from '@app/services/AIService.service';
 import { loadingStatus } from '@app/store/actions/loading.actions';
-import { QueryResponse } from '@app/models/queryResponse.model';
-import { TranslatePipe } from '@ngx-translate/core';
+import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { selectLanguage } from '@app/store/selectors/language.selector';
+import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { TranslatePipe } from '@ngx-translate/core';
+import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 
 @Component({
   selector: 'app-chords-progression',
@@ -65,21 +60,16 @@ export class ChordsProgressionComponent {
       if (state) this.language = state;
     });
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
-    this.chordsStoreSubscription = this.chordsStore.subscribe(
-      (chordsState: IChordsGuesserState) => {
-        this.chords = chordsState.currentChords
-          ? chordsState.currentChords
-          : [];
-        this.chordSelected = chordsState.chordSelected
-          ? chordsState.chordSelected
-          : 0;
-      }
-    );
+    this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
+      this.chords = chordsState.currentChords ? chordsState.currentChords : [];
+      this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
+    });
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
+    this.languageStoreSubscription.unsubscribe();
   }
   public async askNewChordProgression() {
     if (
@@ -88,6 +78,8 @@ export class ChordsProgressionComponent {
       this.chords.length >= minimumChordsToMakeProgression &&
       this.progressionForm.controls.prompt.value
     ) {
+      this.progressionForm.disable();
+
       this.loading = true;
       this.store.dispatch(loadingStatus({ loading: true }));
       this.aiService
@@ -106,20 +98,19 @@ export class ChordsProgressionComponent {
             let parsedChords = getAllNoteChordName(value.chords);
             parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
 
-            this.store.dispatch(
-              setCurrentChords({ currentChords: parsedChords })
-            );
+            this.store.dispatch(setCurrentChords({ currentChords: parsedChords }));
           }
           if (value.clarification) this.message = value.clarification;
           this.progressionForm.reset();
           this.progressionForm.controls.prompt.setErrors(null);
+          this.progressionForm.disable();
         })
         .catch((error: any) => {
           this.store.dispatch(loadingStatus({ loading: false }));
           this.progressionForm.reset();
           this.progressionForm.controls.prompt.setErrors(null);
-
           this.loading = false;
+          this.progressionForm.disable();
         });
     }
   }

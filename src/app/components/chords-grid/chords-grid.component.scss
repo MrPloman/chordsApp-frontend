@@ -1,4 +1,4 @@
-@use "../../../variables.scss" as globalVars;
+@use '../../../variables.scss' as globalVars;
 
 .chordGrid,
 .alternativeChordsGrid,
@@ -20,8 +20,9 @@
       border: 2px solid grey;
       padding: 20px;
       border-radius: 10px;
-      min-height: 289px;
       width: 200px;
+      height: 340px;
+
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -52,6 +53,7 @@
   border-radius: 10px;
   min-height: 150px;
   width: 200px;
+  max-height: 340px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -143,13 +145,12 @@
   margin: 100px 0;
 }
 .cdk-drag-preview {
-  box-sizing: border-box;
-  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
-    0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12);
-  border: 2px solid grey;
-  padding: 10px;
-  border-radius: 10px;
-  color: rgba(74, 74, 74, 0.31) !important;
+  @extend .chord;
+  box-shadow:
+    0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0 3px 14px 2px rgba(0, 0, 0, 0.12);
+  max-width: 200px;
 }
 
 .cdk-drag-placeholder {
