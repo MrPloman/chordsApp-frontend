@@ -1,9 +1,6 @@
-import {
-  maximRandomNumber,
-  minimumNotesToMakeChord,
-} from '@app/config/global_variables/rules';
+import { maximRandomNumber, minimumNotesToMakeChord } from '@app/config/global_variables/rules';
+import { chromaticScale, tuning } from '@app/config/global_variables/tuning';
 import { Chord, NotePosition } from '../models/chord.model';
-import { tuning, chromaticScale } from '@app/config/global_variables/tuning';
 
 function noteName(stringNumber: number, fret: number): string {
   const openNote = tuning[6 - stringNumber]; // convert to index
@@ -12,21 +9,14 @@ function noteName(stringNumber: number, fret: number): string {
   return chromaticScale[noteIndex];
 }
 
-export const sortNotePosition = (
-  notePosition: NotePosition[]
-): NotePosition[] => {
+export const sortNotePosition = (notePosition: NotePosition[]): NotePosition[] => {
   return notePosition.sort((a, b) => {
     return a.stringNumber - b.stringNumber;
   });
 };
 
-export const removeNoteFromChordArray = (
-  notePosition: NotePosition[],
-  stringToRemove: number
-) => {
-  return notePosition.filter(
-    (note) => note.stringNumber !== stringToRemove + 1
-  );
+export const removeNoteFromChordArray = (notePosition: NotePosition[], stringToRemove: number) => {
+  return notePosition.filter((note) => note.stringNumber !== stringToRemove + 1);
 };
 
 export function makeNoteSound(note: NotePosition) {
@@ -34,9 +24,7 @@ export function makeNoteSound(note: NotePosition) {
   if (note.name.includes('#')) fretNote = note.name.replace('#', 'sh');
 
   const noteAudio = new Audio(
-    `/audios/${note.stringNumber.toString()}/${note.stringNumber.toString()}_${
-      note.position
-    }_${fretNote}.mp3`
+    `/audios/${note.stringNumber.toString()}/${note.stringNumber.toString()}_${note.position}_${fretNote}.mp3`
   );
   noteAudio.load();
   noteAudio.play();
@@ -44,16 +32,12 @@ export function makeNoteSound(note: NotePosition) {
 
 // function to check if all the notes inside a chord are valid to be considered as a chord
 export function isThisValidChord(chord: Chord): boolean {
-  if (!chord || !chord.notes || chord.notes.length < minimumNotesToMakeChord)
-    return false;
+  if (!chord || !chord.notes || chord.notes.length < minimumNotesToMakeChord) return false;
   if (chord.notes.length >= minimumNotesToMakeChord) {
     const notes: string[] = chord.notes.map((note) => note.name);
     const repeatedNotes: Record<string, number> = {};
-    notes.forEach(
-      (note) => (repeatedNotes[note] = (repeatedNotes[note] || 0) + 1)
-    );
-    if (Object.values(repeatedNotes).length >= minimumNotesToMakeChord)
-      return true;
+    notes.forEach((note) => (repeatedNotes[note] = (repeatedNotes[note] || 0) + 1));
+    if (Object.values(repeatedNotes).length >= minimumNotesToMakeChord) return true;
     else return false;
   } else return false;
 }
@@ -91,10 +75,7 @@ export function checkDuplicateChords(chords: Chord[]): Chord[] {
   });
 }
 
-export function checkDuplicateChordOptions(
-  chords: Chord[],
-  currentChord: Chord
-) {
+export function checkDuplicateChordOptions(chords: Chord[], currentChord: Chord) {
   if (chords.length === 0 || !currentChord || !chords) return [];
   return chords.filter((chordFiltered: Chord) => {
     if (chordFiltered.notes === currentChord.notes) return;
@@ -128,7 +109,7 @@ export function generateId(): number {
 export function checkAndGenerateID(chords: Chord[]): Chord[] {
   if (!chords) return [];
   return chords.map((chord: Chord) => {
-    let _chord = chord._id ? chord : { ...chord, _id: generateId() };
+    let _chord = { ...chord, _id: generateId() };
     let _notes = _chord.notes.map((note: NotePosition) => {
       return note._id ? note : { ...note, _id: generateId() };
     });
@@ -142,9 +123,7 @@ export function removeNonDesiredValuesFromNotesArray(chords: Chord[]) {
       ...chord,
       notes: chord.notes.filter(
         (note: NotePosition) =>
-          note.hasOwnProperty('name') &&
-          note.hasOwnProperty('position') &&
-          note.hasOwnProperty('stringNumber')
+          note.hasOwnProperty('name') && note.hasOwnProperty('position') && note.hasOwnProperty('stringNumber')
       ),
     };
   });

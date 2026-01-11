@@ -1,20 +1,18 @@
 <form id="chordGuesser-container">
-  <h2 id="sectionTitle">{{ "guesser_title" | translate }}</h2>
-  @if(message){<span id="message">{{ message }}</span>
-
+  <h2 id="sectionTitle">{{ 'guesser_title' | translate }}</h2>
+  @if (message) {
+    <span id="message">{{ message }}</span>
   } @else {
-  <span id="message">{{ "guesser_description" | translate }}</span>
+    <span id="message">{{ 'guesser_description' | translate }}</span>
   }
 
-  <app-chords-grid [chordOptionsDisplay]="false"></app-chords-grid>
+  <app-chords-grid></app-chords-grid>
 
   <app-submit-button
     (click)="guessMyChords()"
     id="submitButton"
     [loading]="loading"
-    [disabled]="
-      chords.length < minimumChordsToMakeProgression || !validChords(chords)
-    "
+    [disabled]="chords.length < minimumChordsToMakeProgression || !validChords(chords)"
     [label]="'guesser_button' | translate"
   ></app-submit-button>
 </form>

@@ -3,13 +3,12 @@ import {
   provideZoneChangeDetection,
   isDevMode,
 } from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
 import { provideEffects } from '@ngrx/effects';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { functionSelectedReducer } from './store/reducers/function-selection.reducer';
 import { chordsReducer } from './store/reducers/chords.reducer';
 import { provideHttpClient } from '@angular/common/http';
 import { loadingReducer } from './store/reducers/loading.reducer';
@@ -21,9 +20,8 @@ export const appConfig: ApplicationConfig = {
   providers: [
     provideHttpClient(),
     provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
+    provideRouter(routes, withComponentInputBinding()),
     provideStore({
-      functionSelected: functionSelectedReducer,
       chords: chordsReducer,
       loading: loadingReducer,
       language: languageReducer,

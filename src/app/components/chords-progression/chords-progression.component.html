@@ -1,11 +1,12 @@
 <div id="chordProgression">
-  <h2 id="sectionTitle">{{ "progression_title" | translate }}</h2>
+  <h2 id="sectionTitle">{{ 'progression_title' | translate }}</h2>
 
-  @if(message){<span class="message">{{ message }}</span
-  >} @else {
-  <span class="message">{{ "progression_description" | translate }}</span>
+  @if (message) {
+    <span class="message">{{ message }}</span>
+  } @else {
+    <span class="message">{{ 'progression_description' | translate }}</span>
   }
-  <app-chords-grid [chordOptionsDisplay]="false"></app-chords-grid>
+  <app-chords-grid></app-chords-grid>
 
   <form id="promptSection" [formGroup]="progressionForm">
     <app-input-instruction
