@@ -169,7 +169,7 @@ export const chordsReducer = createReducer(
       ...state,
       currentChords: _currentChords,
       alternativeChords: _alternativeChords,
-      alternativeChordSelected: _selectedChord,
+      alternativeChordSelected: props.alternativeChordSelected,
     };
   }),
   on(setAlternativeChordSelected, (state, props) => {

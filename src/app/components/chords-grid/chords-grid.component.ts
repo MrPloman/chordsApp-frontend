@@ -69,8 +69,8 @@ export class ChordsGridComponent {
 
   // chord selected variables
   public chordSelected: number = 0;
-  public alternativeChordSelected: number = -1;
-  public handbookChordSelected: number = -1;
+  public alternativeChordSelected: number = 0;
+  public handbookChordSelected: number = 0;
 
   // Rules
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
@@ -134,6 +134,7 @@ export class ChordsGridComponent {
   public selectChord(position: number) {
     if (this.loading || (this.chordSelected === position && this.chords.length > 0)) return;
     this.chordSelected = position;
+    this.alternativeChordSelected = 0;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
     if (!this.selectedMode() || this.selectedMode() !== 'options') return;
     this.getNewAlternativeChords();
@@ -145,6 +146,7 @@ export class ChordsGridComponent {
       setAlternativeChordsOptions({
         alternativeChords: this.chords[this.chordSelected].alternativeChords,
         chordSelected: this.chordSelected,
+        alternativeChordSelected: this.alternativeChordSelected,
       })
     );
     this.store.dispatch(loadingStatus({ loading: false }));
@@ -162,11 +164,12 @@ export class ChordsGridComponent {
       return;
     }
     this.alternativeChords = [];
-    this.alternativeChordSelected = -1;
+    this.alternativeChordSelected = 0;
     this.store.dispatch(
       setAlternativeChordsOptions({
         alternativeChords: [],
         chordSelected: this.chordSelected,
+        alternativeChordSelected: this.alternativeChordSelected,
       })
     );
     this.store.dispatch(
@@ -223,8 +226,6 @@ export class ChordsGridComponent {
 
   public hideChord(_chordPosition: number) {
     this.store.dispatch(hideChord({ chord: this.chords[_chordPosition] }));
-
-    // this.chords = this.chords.map((chord, index) => (_chordPosition === index ? { ...chord, visible: false } : chord));
   }
 
   public trackById(index: number, item: any): number | undefined {

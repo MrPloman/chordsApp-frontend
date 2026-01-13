@@ -27,7 +27,7 @@ export const changeChordsOrder = createAction(
 );
 export const setAlternativeChordsOptions = createAction(
   '[Set Alternative Chords for a Chord] Set Alternative Chords',
-  props<{ alternativeChords: Chord[]; chordSelected: number }>()
+  props<{ alternativeChords: Chord[]; chordSelected: number; alternativeChordSelected: number }>()
 );
 export const setAlternativeChordSelected = createAction(
   '[Set Alternative Chord Selected] Set Alternative Chord Selected',
