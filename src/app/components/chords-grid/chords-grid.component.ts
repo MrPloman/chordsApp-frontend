@@ -11,6 +11,7 @@ import { makeNoteSound } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import {
   changeChordsOrder,
+  hideChord,
   removeChord,
   removeNoteFromChord,
   setAlternativeChordSelected,
@@ -190,7 +191,10 @@ export class ChordsGridComponent {
 
   public deleteChord(chordPosition: number) {
     if (this.loading) return;
-    this.store.dispatch(removeChord({ chordToRemove: chordPosition }));
+    this.hideChord(chordPosition);
+    setTimeout(() => {
+      this.store.dispatch(removeChord({ chordToRemove: chordPosition }));
+    }, 300);
   }
 
   public removeNote(notePosition: number, chordPosition: number) {
@@ -215,6 +219,12 @@ export class ChordsGridComponent {
     chord.notes.forEach((note: NotePosition) => {
       makeNoteSound(note);
     });
+  }
+
+  public hideChord(_chordPosition: number) {
+    this.store.dispatch(hideChord({ chord: this.chords[_chordPosition] }));
+
+    // this.chords = this.chords.map((chord, index) => (_chordPosition === index ? { ...chord, visible: false } : chord));
   }
 
   public trackById(index: number, item: any): number | undefined {

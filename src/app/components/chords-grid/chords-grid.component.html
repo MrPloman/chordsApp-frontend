@@ -3,7 +3,7 @@
     @for (chord of chords; track trackById(chordIndex, chord); let chordIndex = $index) {
       <app-chord-card
         cdkDrag
-        [@fadeAndSlide]="'in'"
+        [visible]="chord.visible !== undefined ? chord.visible : true"
         [newChordUI]="false"
         [selectedMode]="selectedMode"
         [currentChordsLength]="chords.length"

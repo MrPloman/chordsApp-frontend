@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { FadeAndSlideDirective } from '@app/directives/fade-and-slide/fade-and-slide.directive';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import { selectedModeType } from '@app/types/index.types';
@@ -9,7 +10,7 @@ import { selectedModeType } from '@app/types/index.types';
 @Component({
   selector: 'app-chord-card',
   standalone: true,
-  imports: [CommonModule, MatIconModule],
+  imports: [CommonModule, MatIconModule, FadeAndSlideDirective],
   templateUrl: './chord-card.component.html',
   styleUrl: './chord-card.component.scss',
 })
@@ -27,6 +28,7 @@ export class ChordCardComponent {
   @Input({ required: false }) chord!: Chord;
   @Input({ required: false }) chordPosition: number = 0;
   @Input({ required: false }) isSelected: boolean = false;
+  @Input({ required: false }) visible: boolean = false;
 
   @Output() emitChordSelected = new EventEmitter<number>();
   @Output() emitDeleteChord = new EventEmitter<number>();
@@ -46,7 +48,8 @@ export class ChordCardComponent {
       ],
       [],
       '',
-      generateId()
+      generateId(),
+      false
     );
     this.emitNewChord.emit(_chord);
   }
