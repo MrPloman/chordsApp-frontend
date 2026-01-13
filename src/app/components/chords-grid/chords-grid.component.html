@@ -47,7 +47,6 @@
           let handbookIndex = $index
         ) {
           <app-chord-card
-            [@fadeAndSlide]="'in'"
             [newChordUI]="false"
             [selectedMode]="selectedMode"
             [currentChordsLength]="chords.length"
@@ -55,6 +54,7 @@
             [chordPosition]="handbookIndex"
             [isSelected]="handbookIndex === handbookChordSelected"
             (click)="selecthandbookChord(handbookIndex)"
+            [visible]="handbookChord.visible !== undefined ? handbookChord.visible : true"
           ></app-chord-card>
         }
       </div>
@@ -76,7 +76,6 @@
           let alternativeChordIndex = $index
         ) {
           <app-chord-card
-            [@fadeAndSlide]="'in'"
             [newChordUI]="false"
             [selectedMode]="selectedMode"
             [currentChordsLength]="chords.length"
@@ -84,6 +83,7 @@
             [chordPosition]="alternativeChordIndex"
             [isSelected]="alternativeChordIndex === alternativeChordSelected"
             (click)="selectAlternativeChord(alternativeChordIndex)"
+            [visible]="alternativeChord.visible !== undefined ? alternativeChord.visible : true"
           ></app-chord-card>
         }
       </div>

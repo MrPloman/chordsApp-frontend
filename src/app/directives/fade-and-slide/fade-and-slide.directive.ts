@@ -20,8 +20,6 @@ export class FadeAndSlideDirective implements OnChanges {
   ngOnChanges(): void {
     if (!this.initialized) {
       this.initialized = true;
-
-      // 👇 fuerza un frame antes de aplicar "show"
       requestAnimationFrame(() => {
         this.applyState();
       });

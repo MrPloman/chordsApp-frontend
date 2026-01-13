@@ -6,7 +6,6 @@
   }
   @case (false) {
     <article appFadeAndSlideDirective [appFadeAndSlide]="visible" class="chord" [ngClass]="{ selected: isSelected }">
-      {{ visible }}
       <header class="header">
         @if (
           selectedMode() === 'guesser' ||
