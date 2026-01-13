@@ -1,4 +1,3 @@
-import { animate, style, transition, trigger } from '@angular/animations';
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Signal } from '@angular/core';
@@ -45,55 +44,59 @@ import { ChordCardComponent } from '../chord-card/chord-card.component';
   ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
-  animations: [
-    trigger('fadeAndSlide', [
-      // Define a transition for when the element is added to the DOM (:enter)
-      transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(-20px)' }),
-        animate('500ms ease-in', style({ opacity: 1, transform: 'translateY(0)' })),
-      ]),
-      // Optional: Define a transition for when the element is removed from the DOM (:leave)
-      transition(':leave', [animate('300ms ease-out', style({ opacity: 0, transform: 'translateY(20px)' }))]),
-    ]),
-  ],
+  // animations: [
+  //   trigger('fadeAndSlide', [
+  //     // Define a transition for when the element is added to the DOM (:enter)
+  //     transition(':enter', [
+  //       style({ opacity: 0, transform: 'translateY(-20px)' }),
+  //       animate('500ms ease-in', style({ opacity: 1, transform: 'translateY(0)' })),
+  //     ]),
+  //     // Optional: Define a transition for when the element is removed from the DOM (:leave)
+  //     transition(':leave', [animate('300ms ease-out', style({ opacity: 0, transform: 'translateY(20px)' }))]),
+  //   ]),
+  // ],
 })
 export class ChordsGridComponent {
+  // services
   private store = inject(Store);
   private selectedModeService = inject(SelectedModeService);
 
+  // chords container variables
   public chords: Chord[] = [];
   public alternativeChords: Chord[] = [];
   public handbookChords: Chord[] = [];
 
+  // chord selected variables
   public chordSelected: number = 0;
   public alternativeChordSelected: number = -1;
   public handbookChordSelected: number = -1;
 
-  public loading = false;
-
+  // Rules
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
   public maxChords = maximChords;
 
+  // Status
   public selectedMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
+  public loading = false;
 
+  // Observavbles for NGRX Store
   private chordsStore: Observable<any> = new Observable();
   private loadingStore: Observable<any> = new Observable();
 
+  //Subscription to Stores
   private chordsStoreSubscription: Subscription = new Subscription();
   private loaderSubscription: Subscription = new Subscription();
   private subscriptionFunctionStore: Subscription = new Subscription();
 
   constructor() {
-    // store loader
-
+    // Global Loading Store Subscription
     this.loadingStore = this.store.pipe(select(selectLoadingState));
     this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
       this.loading = loading.loading;
     });
 
+    // Chords Store Subscription
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
-
-    // if is a normal display get the chords from the state
     this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
       this.chords = chordsState.currentChords ? chordsState.currentChords : [];
       this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;

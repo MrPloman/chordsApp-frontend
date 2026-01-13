@@ -1,11 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output, Signal, signal } from '@angular/core';
+import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import { selectedModeType } from '@app/types/index.types';
-import { Store } from '@ngrx/store';
 
 @Component({
   selector: 'app-chord-card',
@@ -15,9 +14,10 @@ import { Store } from '@ngrx/store';
   styleUrl: './chord-card.component.scss',
 })
 export class ChordCardComponent {
-  private store = inject(Store);
+  // global system
+  public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
 
-  // new chord system
+  // button new chord system
   @Input({ required: false }) newChordUI: boolean = false;
   @Output() emitNewChord = new EventEmitter<Chord>();
 
@@ -31,9 +31,6 @@ export class ChordCardComponent {
   @Output() emitChordSelected = new EventEmitter<number>();
   @Output() emitDeleteChord = new EventEmitter<number>();
   @Output() emitRemoveNote = new EventEmitter<{ notePosition: number; chordPosition: number }>();
-
-  // global system
-  public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
 
   constructor() {}
 
@@ -71,10 +68,5 @@ export class ChordCardComponent {
 
   public trackById(index: number, item: any): number | undefined {
     return item && item._id ? item._id : undefined;
-  }
-
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
   }
 }

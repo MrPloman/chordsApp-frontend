@@ -1,5 +1,13 @@
 @use '../../../variables.scss' as globalVars;
 
+@keyframes slideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
 .newChordButton {
   margin: 10px;
   border: 2px solid grey;
@@ -19,6 +27,8 @@
 }
 .chord {
   transition: 0.5s color;
+  animation: slideIn 0.5s ease-in-out;
+
   margin: 10px;
   border: 2px solid globalVars.$secondary-color;
   padding: 20px;
