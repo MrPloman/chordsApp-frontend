@@ -7,15 +7,14 @@ import {
   changeChordsOrder,
   editNoteFromChord,
   exchangeChordOptionForCurrenChord,
+  getHandbookChords,
   hideChord,
   removeChord,
   removeNoteFromChord,
   setAlternativeChordSelected,
-  setAlternativeChordsOptions,
+  setAlternativeChordsOptionsSuccess,
   setChordSelected,
   setCurrentChords,
-  setHandbookChords,
-  setHandbookChordsSelected,
 } from '../actions/chords.actions';
 import { chordsInitialState, IChordsGuesserState } from '../state/chords.state';
 
@@ -154,7 +153,7 @@ export const chordsReducer = createReducer(
       currentChords: copyOfCurrentChords,
     };
   }),
-  on(setAlternativeChordsOptions, (state, props) => {
+  on(setAlternativeChordsOptionsSuccess, (state, props) => {
     let _alternativeChords = checkAndGenerateID(props.alternativeChords);
     _alternativeChords = _alternativeChords.map((chord: Chord) => {
       if (chord.notes.length === 0) return chord;
@@ -217,14 +216,14 @@ export const chordsReducer = createReducer(
       currentChords: newCurrentChords,
     };
   }),
-  on(setHandbookChords, (state, props) => {
+  on(getHandbookChords, (state, props) => {
     return {
       ...state,
       handbookChords: props.chords,
       handbookChordsSelected: props.chords.length > 0 ? 0 : -1,
     };
   }),
-  on(setHandbookChordsSelected, (state, props) => {
+  on(setHandbookChordssSelected, (state, props) => {
     return {
       ...state,
       handbookChordsSelected: props.handbookChordsSelected,

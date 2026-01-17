@@ -1,3 +1,5 @@
+@let chordsState = chordsStore | async;
+@let loadingState = loadingStore | async;
 <div id="chordProgression">
   <h2 id="sectionTitle">{{ 'progression_title' | translate }}</h2>
 
@@ -18,11 +20,24 @@
     <app-submit-button
       id="getProgressionButton"
       [loading]="loading"
-      [disabled]="progressionForm.invalid || loading"
+      [disabled]="
+        progressionForm.invalid ||
+        (loadingState?.loading ?? true) ||
+        !everyChordsValid(
+          (chordsState?.currentChords ?? []) || (chordsState?.currentChords?.length ?? 0) >= minimumProgression
+        )
+      "
       [label]="'progression_button' | translate"
       [type]="'submit'"
       [icon]="'auto_awesome'"
-      (click)="askNewChordProgression()"
+      (click)="
+        (progressionForm.invalid ||
+          (loadingState?.loading ?? true) ||
+          !everyChordsValid(
+            (chordsState?.currentChords ?? []) || (chordsState?.currentChords?.length ?? 0) >= minimumProgression
+          )) ??
+          askNewChordProgression()
+      "
     ></app-submit-button>
   </form>
 </div>

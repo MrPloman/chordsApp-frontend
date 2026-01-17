@@ -1,11 +1,7 @@
 import { createSelector } from '@ngrx/store';
 import { IChordsGuesserState } from '../state/chords.state';
 
-export const selectChordGuesserState = (state: {
-  chords: IChordsGuesserState;
-}) => state.chords;
+import { AppState } from '../state/index';
 
-export const selectChordGuesser = createSelector(
-  selectChordGuesserState,
-  (chordsState) => chordsState
-);
+export const selectChordGuesserState = (appState: AppState): IChordsGuesserState => appState.chords;
+export const selectCurrentChords = createSelector(selectChordGuesserState, (state) => state.currentChords);

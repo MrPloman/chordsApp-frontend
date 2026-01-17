@@ -126,7 +126,7 @@ export class ChordsGridComponent {
     this.store.dispatch(loadingStatus({ loading: true }));
     this.store.dispatch(setChordSelected({ chordSelected: currentChordSelected }));
     // this.store.dispatch(
-    //   setAlternativeChordsOptions({
+    //   setAlternativeChordsOptionsSuccess({
     //     alternativeChords: this.chords[this.chordSelected].alternativeChords,
     //     chordSelected: this.chordSelected,
     //     alternativeChordSelected: this.alternativeChordSelected,
@@ -149,7 +149,7 @@ export class ChordsGridComponent {
     // this.alternativeChords = [];
     // this.alternativeChordSelected = 0;
     // this.store.dispatch(
-    //   setAlternativeChordsOptions({
+    //   setAlternativeChordsOptionsSuccess({
     //     alternativeChords: [],
     //     chordSelected: this.chordSelected,
     //     alternativeChordSelected: this.alternativeChordSelected,

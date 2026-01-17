@@ -11,13 +11,9 @@ import {
   removeNonDesiredValuesFromNotesArray,
 } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
-import {
-  addHandbookChordToCurrentChords,
-  setHandbookChords,
-  setHandbookChordsSelected,
-} from '@app/store/actions/chords.actions';
+import { addHandbookChordToCurrentChords, setHandbookChordsSelected } from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesser } from '@app/store/selectors/chords.selector';
+import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -65,7 +61,7 @@ export class ChordsHandbookComponent {
   private aiService = inject(AIService);
   private selectedModeService = inject(SelectedModeService);
 
-  public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesser));
+  public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesserState));
   public loadingStore: Observable<{ loading: boolean }> = this.store.pipe(select(selectLoading));
 
   // private chordsStoreSubscription: Subscription = new Subscription();
@@ -102,7 +98,7 @@ export class ChordsHandbookComponent {
           parsedChords = checkDuplicateChords(parsedChords);
           parsedChords = checkAndGenerateID(parsedChords);
           parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
-          this.store.dispatch(setHandbookChords({ chords: parsedChords }));
+          // this.store.dispatch(setHandbookChords({ chords: parsedChords }));
         }
 
         this.store.dispatch(loadingStatus({ loading: false }));
@@ -113,7 +109,7 @@ export class ChordsHandbookComponent {
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    this.store.dispatch(setHandbookChords({ chords: [] }));
+    // this.store.dispatch(({ chords: [] }));
     this.store.dispatch(setHandbookChordsSelected({ handbookChordsSelected: -1 }));
 
     // this.chordsStoreSubscription.unsubscribe();

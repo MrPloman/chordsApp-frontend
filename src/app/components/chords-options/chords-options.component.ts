@@ -13,7 +13,10 @@ import {
   getAllNoteChordName,
   removeNonDesiredValuesFromNotesArray,
 } from '@app/services/chordsService.service';
-import { exchangeChordOptionForCurrenChord, setAlternativeChordsOptions } from '@app/store/actions/chords.actions';
+import {
+  exchangeChordOptionForCurrenChord,
+  setAlternativeChordsOptionsSuccess,
+} from '@app/store/actions/chords.actions';
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { selectLoadingState } from '@app/store/selectors/loading.selector';
@@ -91,7 +94,7 @@ export class ChordsOptionsComponent {
           parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
 
           this.store.dispatch(
-            setAlternativeChordsOptions({
+            setAlternativeChordsOptionsSuccess({
               alternativeChords: parsedChords,
               // chordSelected: this.chordSelected,
               // alternativeChordSelected: this.alternativeChordSelected,
