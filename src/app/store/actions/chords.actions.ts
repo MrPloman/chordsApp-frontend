@@ -12,6 +12,10 @@ export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
   props<{ chordSelected: number }>()
 );
+export const addChordToCurrentChords = createAction(
+  '[Add Current Chord] Add Current Chord',
+  props<{ newChord: Chord }>()
+);
 export const removeChord = createAction('[Remove Chord] Remove Chord', props<{ chordToRemove: number }>());
 export const removeNoteFromChord = createAction(
   '[Remove Note From Chord] Remove Note From Chord',
@@ -27,7 +31,7 @@ export const changeChordsOrder = createAction(
 );
 export const setAlternativeChordsOptions = createAction(
   '[Set Alternative Chords for a Chord] Set Alternative Chords',
-  props<{ alternativeChords: Chord[]; chordSelected: number; alternativeChordSelected: number }>()
+  props<{ alternativeChords: Chord[] }>()
 );
 export const setAlternativeChordSelected = createAction(
   '[Set Alternative Chord Selected] Set Alternative Chord Selected',
@@ -42,4 +46,4 @@ export const setHandbookChordsSelected = createAction(
   '[Set Handbook Selected]',
   props<{ handbookChordsSelected: number }>()
 );
-export const hideChord = createAction('[Hide Chord]', props<{ chord: Chord }>());
+export const hideChord = createAction('[Hide Chord]', props<{ chordPosition: number }>());

@@ -2,6 +2,7 @@ import { Chord, NotePosition } from '@app/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
 import { checkAndGenerateID, sortNotePosition } from '../../services/chordsService.service';
 import {
+  addChordToCurrentChords,
   changeChordsOrder,
   editNoteFromChord,
   exchangeChordOptionForCurrenChord,
@@ -37,10 +38,15 @@ export const chordsReducer = createReducer(
     };
   }),
   on(setChordSelected, (state, props) => {
+    if (props.chordSelected === state.chordSelected && state.currentChords.length > 0) return { ...state };
     return {
       ...state,
       chordSelected: props.chordSelected,
     };
+  }),
+  on(addChordToCurrentChords, (state, props) => {
+    const chords = checkAndGenerateID([...state.currentChords, props.newChord]);
+    return { ...state, currentChords: chords, chordSelected: chords.length - 1 };
   }),
   on(removeChord, (state, props) => {
     return removeChordHelper(state, props.chordToRemove);
@@ -155,7 +161,7 @@ export const chordsReducer = createReducer(
         return { ...chord, notes: sortNotePosition(chord.notes) };
       }
     });
-    const _selectedChord = props.chordSelected;
+    const _selectedChord = state.chordSelected;
     let _currentChords = state.currentChords ? state.currentChords : [];
     _currentChords = _currentChords.map((_chord: Chord, index: number) => {
       if (index === _selectedChord) {
@@ -169,7 +175,7 @@ export const chordsReducer = createReducer(
       ...state,
       currentChords: _currentChords,
       alternativeChords: _alternativeChords,
-      alternativeChordSelected: props.alternativeChordSelected,
+      alternativeChordSelected: 0,
     };
   }),
   on(setAlternativeChordSelected, (state, props) => {
@@ -223,9 +229,9 @@ export const chordsReducer = createReducer(
       handbookChordsSelected: props.handbookChordsSelected,
     };
   }),
-  on(hideChord, (state, { chord }) => {
-    const _chords = state.currentChords?.map((_chord) => {
-      if (chord._id === _chord._id) return { ..._chord, visible: false };
+  on(hideChord, (state, { chordPosition }) => {
+    const _chords = state.currentChords?.map((_chord, index) => {
+      if (index === chordPosition) return { ..._chord, visible: false };
       else return _chord;
     });
     return {

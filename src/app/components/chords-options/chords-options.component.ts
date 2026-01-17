@@ -93,8 +93,8 @@ export class ChordsOptionsComponent {
           this.store.dispatch(
             setAlternativeChordsOptions({
               alternativeChords: parsedChords,
-              chordSelected: this.chordSelected,
-              alternativeChordSelected: this.alternativeChordSelected,
+              // chordSelected: this.chordSelected,
+              // alternativeChordSelected: this.alternativeChordSelected,
             })
           );
           this.alternativeChords = parsedChords;
