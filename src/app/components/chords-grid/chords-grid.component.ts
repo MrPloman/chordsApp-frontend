@@ -25,7 +25,7 @@ import { selectLoadingState } from '@app/store/selectors/loading.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
 import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
 import { ChordCardComponent } from '../chord-card/chord-card.component';
 
@@ -70,19 +70,16 @@ export class ChordsGridComponent {
 
   // Observavbles for NGRX Store
   public chordsStore: Observable<IChordsGuesserState>;
-  private loadingStore: Observable<any> = new Observable();
+  public loadingStore: Observable<{ loading: boolean }> = new Observable();
 
   //Subscription to Stores
-  private chordsStoreSubscription: Subscription = new Subscription();
-  private loaderSubscription: Subscription = new Subscription();
-  private subscriptionFunctionStore: Subscription = new Subscription();
+  // private chordsStoreSubscription: Subscription = new Subscription();
+  // private loaderSubscription: Subscription = new Subscription();
+  // private subscriptionFunctionStore: Subscription = new Subscription();
 
   constructor() {
     // Global Loading Store Subscription
     this.loadingStore = this.store.pipe(select(selectLoadingState));
-    this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
-      this.loading = loading.loading;
-    });
 
     // Chords Store Subscription
     this.chordsStore = this.store.pipe(select(selectChordGuesserState));
@@ -104,9 +101,9 @@ export class ChordsGridComponent {
     if (this.selectedMode() === 'options') this.getNewAlternativeChords();
   }
   ngOnDestroy(): void {
-    this.chordsStoreSubscription.unsubscribe();
-    this.subscriptionFunctionStore.unsubscribe();
-    this.loaderSubscription.unsubscribe();
+    // this.chordsStoreSubscription.unsubscribe();
+    // this.subscriptionFunctionStore.unsubscribe();
+    // this.loaderSubscription.unsubscribe();
   }
 
   public addNewChord(chord: Chord) {

@@ -5,8 +5,6 @@ import { loadingInitialState } from '../state/loading.state';
 export const loadingReducer = createReducer(
   loadingInitialState,
   on(loadingStatus, (state, props) => {
-    return {
-      loading: props.loading,
-    };
+    return props.loading;
   })
 );

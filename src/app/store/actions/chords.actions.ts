@@ -46,4 +46,5 @@ export const setHandbookChordsSelected = createAction(
   '[Set Handbook Selected]',
   props<{ handbookChordsSelected: number }>()
 );
+export const addHandbookChordToCurrentChords = createAction('[Add New Handbook to Current Chords]');
 export const hideChord = createAction('[Hide Chord]', props<{ chordPosition: number }>());

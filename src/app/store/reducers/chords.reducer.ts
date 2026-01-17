@@ -3,6 +3,7 @@ import { createReducer, on } from '@ngrx/store';
 import { checkAndGenerateID, sortNotePosition } from '../../services/chordsService.service';
 import {
   addChordToCurrentChords,
+  addHandbookChordToCurrentChords,
   changeChordsOrder,
   editNoteFromChord,
   exchangeChordOptionForCurrenChord,
@@ -220,13 +221,21 @@ export const chordsReducer = createReducer(
     return {
       ...state,
       handbookChords: props.chords,
-      handbookChordsSelected: props.chords.length > 0 ? 0 : undefined,
+      handbookChordsSelected: props.chords.length > 0 ? 0 : -1,
     };
   }),
   on(setHandbookChordsSelected, (state, props) => {
     return {
       ...state,
       handbookChordsSelected: props.handbookChordsSelected,
+    };
+  }),
+  on(addHandbookChordToCurrentChords, (state, props) => {
+    if (state.handbookChords.length === 0 || state.handbookChordsSelected < 0) return { ...state };
+
+    return {
+      ...state,
+      currentChords: [...state.currentChords, state.handbookChords[state.handbookChordsSelected]],
     };
   }),
   on(hideChord, (state, { chordPosition }) => {
