@@ -28,7 +28,6 @@ export class FretboardComponent {
   private store = inject(Store);
 
   private selectionMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
-
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   constructor() {}

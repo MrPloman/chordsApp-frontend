@@ -2,41 +2,27 @@
 <div id="chordProgression">
   <h2 id="sectionTitle">{{ 'progression_title' | translate }}</h2>
 
-  @if (message) {
-    <span class="message">{{ message }}</span>
+  @if (chordsState?.message) {
+    <span class="message">{{ chordsState?.message }}</span>
   } @else {
     <span class="message">{{ 'progression_description' | translate }}</span>
   }
   <app-chords-grid></app-chords-grid>
-
   <form id="promptSection" [formGroup]="progressionForm">
     <app-input-instruction
-      [disabled]="loading"
+      [disabled]="chordsState?.loading ?? false"
       [name]="'prompt'"
       [instruction]="progressionForm.controls['prompt']"
       [placeholder]="'progression_prompt' | translate"
     ></app-input-instruction>
     <app-submit-button
       id="getProgressionButton"
-      [loading]="loading"
-      [disabled]="
-        progressionForm.invalid ||
-        (chordsState?.loading ?? true) ||
-        !everyChordsValid(
-          (chordsState?.currentChords ?? []) || (chordsState?.currentChords?.length ?? 0) >= minimumProgression
-        )
-      "
+      [loading]="chordsState?.loading ?? false"
+      [disabled]="(chordsState?.loading ?? false) || progressionForm.invalid"
       [label]="'progression_button' | translate"
       [type]="'submit'"
       [icon]="'auto_awesome'"
-      (click)="
-        (progressionForm.invalid ||
-          (chordsState?.loading ?? true) ||
-          !everyChordsValid(
-            (chordsState?.currentChords ?? []) || (chordsState?.currentChords?.length ?? 0) >= minimumProgression
-          )) ??
-          askNewChordProgression()
-      "
+      (click)="askNewChordProgression()"
     ></app-submit-button>
   </form>
 </div>

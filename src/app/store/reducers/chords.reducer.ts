@@ -1,12 +1,21 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
-import { checkAndGenerateID, sortNotePosition } from '../../services/chordsService.service';
+import {
+  checkAndGenerateID,
+  checkIfChordsAreGuessed,
+  getAllNoteChordName,
+  removeNonDesiredValuesFromNotesArray,
+  sortNotePosition,
+} from '../../services/chordsService.service';
 import {
   addChordToCurrentChords,
   addHandbookChordToCurrentChords,
   changeChordsOrder,
   editNoteFromChord,
   exchangeChordOptionForCurrenChord,
+  getChordProgression,
+  getChordProgressionError,
+  getChordProgressionSuccess,
   getHandbookChords,
   getHandbookChordsError,
   getHandbookChordsSuccess,
@@ -38,23 +47,13 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
 export const chordsReducer = createReducer(
   chordsInitialState,
 
-  // Guesser and Progression section
+  // Selection section
   on(setCurrentChords, (state, props) => {
     const _chordsParsed = checkAndGenerateID(props.currentChords);
     return {
       ...state,
       currentChords: _chordsParsed,
     };
-  }),
-  on(guessCurrentChords, (state, props) => {
-    return { ...state, loading: true };
-  }),
-  on(guessCurrentChordsSuccess, (state, props) => {
-    const _currentChords = checkAndGenerateID(props.currentChords);
-    return { ...state, currentChords: _currentChords, message: props.message, error: '', loading: false };
-  }),
-  on(guessCurrentChordsError, (state, props) => {
-    return { ...state, currentChords: state.currentChords, message: '', error: props.error, loading: false };
   }),
   on(setChordSelected, (state, props) => {
     if (props.chordSelected === state.chordSelected) return { ...state };
@@ -171,6 +170,37 @@ export const chordsReducer = createReducer(
       chordSelected: props.destinationChordPosition,
       currentChords: copyOfCurrentChords,
     };
+  }),
+
+  // Guesser section
+  on(guessCurrentChords, (state, props) => {
+    return { ...state, loading: true };
+  }),
+  on(guessCurrentChordsSuccess, (state, props) => {
+    const _currentChords = checkAndGenerateID(props.currentChords);
+    return { ...state, currentChords: _currentChords, message: props.message, error: '', loading: false };
+  }),
+  on(guessCurrentChordsError, (state, props) => {
+    return { ...state, currentChords: state.currentChords, message: '', error: props.error, loading: false };
+  }),
+
+  // Progression Section
+  on(getChordProgression, (state, props) => {
+    if (!checkIfChordsAreGuessed(state.currentChords)) return { ...state, error: 'Chords not guessed yet' };
+    return { ...state, loading: true };
+  }),
+  on(getChordProgressionSuccess, (state, props) => {
+    const _chords = removeNonDesiredValuesFromNotesArray(getAllNoteChordName(checkAndGenerateID(props.currentChords)));
+    return {
+      ...state,
+      loading: false,
+      currentChords: [..._chords],
+      message: props.clarification ? props.clarification : props.response,
+      error: '',
+    };
+  }),
+  on(getChordProgressionError, (state, props) => {
+    return { ...state, loading: false, error: props.error };
   }),
 
   // Options section
