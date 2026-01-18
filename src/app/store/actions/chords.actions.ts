@@ -1,11 +1,11 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { createAction, props } from '@ngrx/store';
+
+// Guesser Section
 export const setLastNoteSelected = createAction(
   '[Set Last Note Selected] Set Last Note Selected',
   props<{ note: NotePosition }>()
 );
-
-// Guesser Section
 export const setCurrentChords = createAction(
   '[Set Current Chords] Set Current Chords',
   props<{ currentChords: Chord[] }>()
@@ -14,9 +14,12 @@ export const setCurrentChords = createAction(
 export const guessCurrentChords = createAction('[Guess Current Chords] Guess Current Chords');
 export const guessCurrentChordsSuccess = createAction(
   '[Guess Current Chords Success] Guess Current Chords',
-  props<{ currentChords: Chord[] }>()
+  props<{ currentChords: Chord[]; message: string }>()
 );
-export const guessCurrentChordsError = createAction('[Guess Current Chords Success] Guess Current Chords');
+export const guessCurrentChordsError = createAction(
+  '[Guess Current Chords Success] Guess Current Chords',
+  props<{ currentChords: Chord[]; error: string }>()
+);
 
 export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
@@ -72,12 +75,12 @@ export const exchangeChordOptionForCurrenChord = createAction(
 );
 
 // Handbook Section
-export const getHandbookChords = createAction('[Get Handbook]');
+export const getHandbookChords = createAction('[Get Handbook]', props<{ chordName: string }>());
 export const getHandbookChordsSuccess = createAction(
-  '[Get Handbooks Success]',
-  props<{ handbookChordsSelected: Chord[] }>
+  '[Get Handbook Chords Success]',
+  props<{ handbookChords: Chord[] }>()
 );
-export const getHandbookChordsError = createAction('[Get Handbooks Error]');
+export const getHandbookChordsError = createAction('[Get Handbooks Error]', props<{ error: string }>());
 
 export const setHandbookChordsSelected = createAction(
   '[Set Handbook Selected]',

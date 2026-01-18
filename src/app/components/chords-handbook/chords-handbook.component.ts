@@ -15,6 +15,7 @@ import { addHandbookChordToCurrentChords, setHandbookChordsSelected } from '@app
 import { loadingStatus } from '@app/store/actions/loading.actions';
 import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { LoadingState } from '@app/store/state/loading.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
@@ -62,7 +63,7 @@ export class ChordsHandbookComponent {
   private selectedModeService = inject(SelectedModeService);
 
   public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesserState));
-  public loadingStore: Observable<{ loading: boolean }> = this.store.pipe(select(selectLoading));
+  public loadingStore: Observable<LoadingState> = this.store.pipe(select(selectLoading));
 
   // private chordsStoreSubscription: Subscription = new Subscription();
 

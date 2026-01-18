@@ -10,7 +10,7 @@ import { minimumChordsToMakeProgression } from '@app/config/global_variables/rul
 import { AIService } from '@app/services/AIService.service';
 import { areEveryChordsValid } from '@app/services/chordsService.service';
 import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesser, selectChordGuesserState } from '@app/store/selectors/chords.selector';
+import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
 import { selectLanguage } from '@app/store/selectors/language.selector';
 import { selectLoading } from '@app/store/selectors/loading.selector';
 import { IChordsGuesserState } from '@app/store/state/chords.state';
@@ -50,7 +50,7 @@ export class ChordsProgressionComponent {
 
   protected chordSelected: number = 0;
 
-  public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesser));
+  public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesserState));
   public loadingStore: Observable<{ loading: boolean }> = this.store.pipe(select(selectLoading));
 
   // private chordsStoreSubscription: Subscription = new Subscription();

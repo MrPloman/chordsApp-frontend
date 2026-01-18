@@ -8,6 +8,10 @@ import {
   editNoteFromChord,
   exchangeChordOptionForCurrenChord,
   getHandbookChords,
+  getHandbookChordsError,
+  getHandbookChordsSuccess,
+  guessCurrentChordsError,
+  guessCurrentChordsSuccess,
   hideChord,
   removeChord,
   removeNoteFromChord,
@@ -15,6 +19,7 @@ import {
   setAlternativeChordsOptionsSuccess,
   setChordSelected,
   setCurrentChords,
+  setHandbookChordsSelected,
 } from '../actions/chords.actions';
 import { chordsInitialState, IChordsGuesserState } from '../state/chords.state';
 
@@ -36,6 +41,15 @@ export const chordsReducer = createReducer(
       ...state,
       currentChords: _chordsParsed,
     };
+  }),
+  // on(guessCurrentChords, (state, props) => {
+  //   return { ...state };
+  // }),
+  on(guessCurrentChordsSuccess, (state, props) => {
+    return { ...state, currentChords: props.currentChords, message: props.message };
+  }),
+  on(guessCurrentChordsError, (state, props) => {
+    return { ...state, currentChords: state.currentChords, message: '', error: props.error };
   }),
   on(setChordSelected, (state, props) => {
     if (props.chordSelected === state.chordSelected && state.currentChords.length > 0) return { ...state };
@@ -219,11 +233,24 @@ export const chordsReducer = createReducer(
   on(getHandbookChords, (state, props) => {
     return {
       ...state,
-      handbookChords: props.chords,
-      handbookChordsSelected: props.chords.length > 0 ? 0 : -1,
     };
   }),
-  on(setHandbookChordssSelected, (state, props) => {
+  on(getHandbookChordsSuccess, (state, props) => {
+    return {
+      ...state,
+      handbookChords: props.handbookChords,
+      handbookChordsSelected: props.handbookChords.length > 0 ? 0 : -1,
+    };
+  }),
+  on(getHandbookChordsError, (state, props) => {
+    return {
+      ...state,
+      handbookChords: [],
+      handbookChordsSelected: -1,
+      error: props.error,
+    };
+  }),
+  on(setHandbookChordsSelected, (state, props) => {
     return {
       ...state,
       handbookChordsSelected: props.handbookChordsSelected,

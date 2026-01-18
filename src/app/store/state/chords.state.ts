@@ -8,6 +8,8 @@ export interface IChordsGuesserState {
   alternativeChordSelected: number | undefined;
   handbookChords: Chord[];
   handbookChordsSelected: number;
+  message: string;
+  error: string;
 }
 
 export const chordsInitialState: IChordsGuesserState = {
@@ -18,4 +20,6 @@ export const chordsInitialState: IChordsGuesserState = {
   alternativeChordSelected: undefined,
   handbookChords: [],
   handbookChordsSelected: -1,
+  message: '',
+  error: '',
 };

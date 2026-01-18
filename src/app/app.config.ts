@@ -7,6 +7,7 @@ import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { AIHttpInterceptor } from 'interceptors/AiHttpInterceptor.interceptor';
 import { routes } from './app.routes';
+import { ChordsEffects } from './store/effects/chords.effect';
 import { chordsReducer } from './store/reducers/chords.reducer';
 import { languageReducer } from './store/reducers/language.reducer';
 import { loadingReducer } from './store/reducers/loading.reducer';
@@ -21,7 +22,8 @@ export const appConfig: ApplicationConfig = {
       loading: loadingReducer,
       language: languageReducer,
     }),
-    provideEffects(),
+
+    provideEffects([ChordsEffects]),
     provideStoreDevtools({ maxAge: 25, logOnly: !isDevMode() }),
   ],
 };
