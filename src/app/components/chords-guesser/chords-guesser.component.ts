@@ -4,11 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { areEveryChordsValid } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import { guessCurrentChords } from '@app/store/actions/chords.actions';
-import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { selectLoading } from '@app/store/selectors/loading.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
-import { LoadingState } from '@app/store/state/loading.state';
+import { selectChordState } from '@app/store/selectors/chords.selector';
+import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs/internal/Observable';
@@ -36,8 +33,7 @@ export class ChordsGuesserComponent {
   // private language: 'es' | 'en' = 'en';
 
   // private aiService = inject(AIService);
-  public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesserState));
-  public loadingStore: Observable<LoadingState> = this.store.pipe(select(selectLoading));
+  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   // private chordsStoreSubscription: Subscription = new Subscription();
 
@@ -50,7 +46,7 @@ export class ChordsGuesserComponent {
     //   if (state) this.language = state;
     // });
     // this.chordsStoreSubscription = this.chordsStore.subscribe(
-    //   (chordsState: IChordsGuesserState) => {
+    //   (chordsState: ChordsState) => {
     //     this.chords = chordsState.currentChords
     //       ? chordsState.currentChords
     //       : [];
@@ -62,7 +58,6 @@ export class ChordsGuesserComponent {
   }
 
   public async guessMyChords() {
-    this.store.dispatch(loadingStatus({ loading: true }));
     this.store.dispatch(guessCurrentChords());
 
     // if (this.validChords(this.chords) && this.chords.length >= minimumChordsToMakeProgression) {

@@ -11,7 +11,6 @@ import {
   guessCurrentChordsError,
   guessCurrentChordsSuccess,
 } from '../actions/chords.actions';
-import { loadingStatus } from '../actions/loading.actions';
 import { selectCurrentChords } from '../selectors/chords.selector';
 import { selectLanguage } from '../selectors/language.selector';
 import { AppState } from '../state';
@@ -28,16 +27,8 @@ export class ChordsEffects {
       withLatestFrom(this.store.select(selectCurrentChords), this.store.select(selectLanguage)),
       switchMap(([_, currentChords, language]) =>
         from(this.aiService.guessMyChords({ chords: currentChords }, language)).pipe(
-          concatMap((response) => [
-            guessCurrentChordsSuccess({ currentChords: response.chords, message: '' }),
-            loadingStatus({ loading: false }),
-          ]),
-          catchError((error) =>
-            of(
-              guessCurrentChordsError({ currentChords: currentChords, error: error }) &&
-                loadingStatus({ loading: false })
-            )
-          )
+          concatMap((response) => [guessCurrentChordsSuccess({ currentChords: response.chords, message: '' })]),
+          catchError((error) => of(guessCurrentChordsError({ currentChords: currentChords, error: error })))
         )
       )
     )
@@ -48,17 +39,14 @@ export class ChordsEffects {
       withLatestFrom(this.store.select(selectCurrentChords), this.store.select(selectLanguage)),
       switchMap(([props, currentChords, language]) =>
         from(this.aiService.makeChordsProgression({ prompt: props.prompt, chords: currentChords }, language)).pipe(
-          map(
-            (response) =>
-              getChordProgressionSuccess({
-                currentChords: response?.chords ?? [],
-                clarification: response?.clarification ?? '',
-                response: response?.response ?? '',
-              }) && loadingStatus({ loading: false })
+          map((response) =>
+            getChordProgressionSuccess({
+              currentChords: response?.chords ?? [],
+              clarification: response?.clarification ?? '',
+              response: response?.response ?? '',
+            })
           ),
-          catchError((error) =>
-            of(getChordProgressionError({ currentChords: currentChords, error }) && loadingStatus({ loading: false }))
-          )
+          catchError((error) => of(getChordProgressionError({ currentChords: currentChords, error })))
         )
       )
     )

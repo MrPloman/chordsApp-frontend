@@ -9,11 +9,9 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { AIService } from '@app/services/AIService.service';
 import { areEveryChordsValid } from '@app/services/chordsService.service';
-import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
+import { selectChordState } from '@app/store/selectors/chords.selector';
 import { selectLanguage } from '@app/store/selectors/language.selector';
-import { selectLoading } from '@app/store/selectors/loading.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { ChordsState } from '@app/store/state/chords.state';
 import { TranslatePipe } from '@ngx-translate/core';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 
@@ -50,8 +48,7 @@ export class ChordsProgressionComponent {
 
   protected chordSelected: number = 0;
 
-  public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesserState));
-  public loadingStore: Observable<{ loading: boolean }> = this.store.pipe(select(selectLoading));
+  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   // private chordsStoreSubscription: Subscription = new Subscription();
 
@@ -59,8 +56,8 @@ export class ChordsProgressionComponent {
     this.languageStoreSubscription = this.languageStore.subscribe((state) => {
       if (state) this.language = state;
     });
-    this.chordsStore = this.store.pipe(select(selectChordGuesserState));
-    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
+    this.chordsStore = this.store.pipe(select(selectChordState));
+    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
     //   this.chords = chordsState.currentChords ? chordsState.currentChords : [];
     //   this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
     // });
@@ -75,7 +72,6 @@ export class ChordsProgressionComponent {
     if (!this.progressionForm.invalid && this.progressionForm.controls.prompt.value) {
       this.progressionForm.disable();
 
-      this.store.dispatch(loadingStatus({ loading: true }));
       // this.aiService
       //   .makeChordsProgression(
       //     {

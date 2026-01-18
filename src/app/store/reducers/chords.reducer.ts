@@ -10,6 +10,7 @@ import {
   getHandbookChords,
   getHandbookChordsError,
   getHandbookChordsSuccess,
+  guessCurrentChords,
   guessCurrentChordsError,
   guessCurrentChordsSuccess,
   hideChord,
@@ -21,9 +22,9 @@ import {
   setCurrentChords,
   setHandbookChordsSelected,
 } from '../actions/chords.actions';
-import { chordsInitialState, IChordsGuesserState } from '../state/chords.state';
+import { chordsInitialState, ChordsState } from '../state/chords.state';
 
-function removeChordHelper(state: IChordsGuesserState, chordToRemove: number): IChordsGuesserState {
+function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsState {
   if (!state.currentChords) return { ...state };
   const chords = state.currentChords.filter((chord: Chord, index: number) => index !== chordToRemove);
   return {
@@ -35,6 +36,7 @@ function removeChordHelper(state: IChordsGuesserState, chordToRemove: number): I
 
 export const chordsReducer = createReducer(
   chordsInitialState,
+  // Guesser and Progression section
   on(setCurrentChords, (state, props) => {
     const _chordsParsed = checkAndGenerateID(props.currentChords);
     return {
@@ -42,17 +44,18 @@ export const chordsReducer = createReducer(
       currentChords: _chordsParsed,
     };
   }),
-  // on(guessCurrentChords, (state, props) => {
-  //   return { ...state };
-  // }),
+  on(guessCurrentChords, (state, props) => {
+    return { ...state, loading: true };
+  }),
   on(guessCurrentChordsSuccess, (state, props) => {
-    return { ...state, currentChords: props.currentChords, message: props.message };
+    const _currentChords = checkAndGenerateID(props.currentChords);
+    return { ...state, currentChords: _currentChords, message: props.message, error: '', loading: false };
   }),
   on(guessCurrentChordsError, (state, props) => {
-    return { ...state, currentChords: state.currentChords, message: '', error: props.error };
+    return { ...state, currentChords: state.currentChords, message: '', error: props.error, loading: false };
   }),
   on(setChordSelected, (state, props) => {
-    if (props.chordSelected === state.chordSelected && state.currentChords.length > 0) return { ...state };
+    if (props.chordSelected === state.chordSelected) return { ...state };
     return {
       ...state,
       chordSelected: props.chordSelected,
@@ -167,6 +170,8 @@ export const chordsReducer = createReducer(
       currentChords: copyOfCurrentChords,
     };
   }),
+
+  // Options section
   on(setAlternativeChordsOptionsSuccess, (state, props) => {
     let _alternativeChords = checkAndGenerateID(props.alternativeChords);
     _alternativeChords = _alternativeChords.map((chord: Chord) => {
@@ -230,6 +235,8 @@ export const chordsReducer = createReducer(
       currentChords: newCurrentChords,
     };
   }),
+
+  // Handbook section
   on(getHandbookChords, (state, props) => {
     return {
       ...state,

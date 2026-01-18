@@ -19,10 +19,8 @@ import {
   setChordSelected,
   setHandbookChordsSelected,
 } from '@app/store/actions/chords.actions';
-import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { selectLoadingState } from '@app/store/selectors/loading.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { selectChordState } from '@app/store/selectors/chords.selector';
+import { ChordsState } from '@app/store/state/chords.state';
 import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -69,7 +67,7 @@ export class ChordsGridComponent {
   public loading = false;
 
   // Observavbles for NGRX Store
-  public chordsStore: Observable<IChordsGuesserState>;
+  public chordsStore: Observable<ChordsState>;
   public loadingStore: Observable<{ loading: boolean }> = new Observable();
 
   //Subscription to Stores
@@ -79,11 +77,10 @@ export class ChordsGridComponent {
 
   constructor() {
     // Global Loading Store Subscription
-    this.loadingStore = this.store.pipe(select(selectLoadingState));
 
     // Chords Store Subscription
-    this.chordsStore = this.store.pipe(select(selectChordGuesserState));
-    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
+    this.chordsStore = this.store.pipe(select(selectChordState));
+    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
     //   this.chords = chordsState.currentChords ? chordsState.currentChords : [];
     //   this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
     //   if (this.selectedMode() === 'options') {
@@ -123,7 +120,6 @@ export class ChordsGridComponent {
   }
 
   private setAlternativeChords(currentChordSelected: number) {
-    this.store.dispatch(loadingStatus({ loading: true }));
     this.store.dispatch(setChordSelected({ chordSelected: currentChordSelected }));
     // this.store.dispatch(
     //   setAlternativeChordsOptionsSuccess({
@@ -132,7 +128,6 @@ export class ChordsGridComponent {
     //     alternativeChordSelected: this.alternativeChordSelected,
     //   })
     // );
-    this.store.dispatch(loadingStatus({ loading: false }));
   }
 
   private getNewAlternativeChords() {

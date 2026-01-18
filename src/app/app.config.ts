@@ -10,7 +10,6 @@ import { routes } from './app.routes';
 import { ChordsEffects } from './store/effects/chords.effect';
 import { chordsReducer } from './store/reducers/chords.reducer';
 import { languageReducer } from './store/reducers/language.reducer';
-import { loadingReducer } from './store/reducers/loading.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,7 +18,6 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes, withComponentInputBinding()),
     provideStore({
       chords: chordsReducer,
-      loading: loadingReducer,
       language: languageReducer,
     }),
 

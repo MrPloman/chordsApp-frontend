@@ -1,5 +1,4 @@
 @let chordsState = chordsStore | async;
-@let loadingState = loadingStore | async;
 <form id="chordGuesser-container">
   <h2 id="sectionTitle">{{ 'guesser_title' | translate }}</h2>
   @if (chordsState?.message) {
@@ -17,7 +16,7 @@
         guessMyChords()
     "
     id="submitButton"
-    [loading]="loadingState?.loading ?? false"
+    [loading]="chordsState?.loading ?? false"
     [disabled]="
       (chordsState?.currentChords ?? []).length < minimumChordsToMakeProgression ||
       !validChords(chordsState?.currentChords ?? [])

@@ -1,5 +1,4 @@
 @let chordsState = chordsStore | async;
-@let loadingState = loadingStore | async;
 <div id="chordProgression">
   <h2 id="sectionTitle">{{ 'progression_title' | translate }}</h2>
 
@@ -22,7 +21,7 @@
       [loading]="loading"
       [disabled]="
         progressionForm.invalid ||
-        (loadingState?.loading ?? true) ||
+        (chordsState?.loading ?? true) ||
         !everyChordsValid(
           (chordsState?.currentChords ?? []) || (chordsState?.currentChords?.length ?? 0) >= minimumProgression
         )
@@ -32,7 +31,7 @@
       [icon]="'auto_awesome'"
       (click)="
         (progressionForm.invalid ||
-          (loadingState?.loading ?? true) ||
+          (chordsState?.loading ?? true) ||
           !everyChordsValid(
             (chordsState?.currentChords ?? []) || (chordsState?.currentChords?.length ?? 0) >= minimumProgression
           )) ??

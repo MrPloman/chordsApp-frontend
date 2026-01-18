@@ -12,16 +12,13 @@ import {
 } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import { addHandbookChordToCurrentChords, setHandbookChordsSelected } from '@app/store/actions/chords.actions';
-import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
-import { LoadingState } from '@app/store/state/loading.state';
+import { selectChordState } from '@app/store/selectors/chords.selector';
+import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { noteForms } from '../../config/global_variables/noteForms.options';
 import { noteOptions } from '../../config/global_variables/notes.options';
-import { selectLoading } from '../../store/selectors/loading.selector';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 import { InputSelectorComponent } from '../input-selector/input-selector.component';
 import { SubmitButtonComponent } from '../submit-button/submit-button.component';
@@ -62,8 +59,7 @@ export class ChordsHandbookComponent {
   private aiService = inject(AIService);
   private selectedModeService = inject(SelectedModeService);
 
-  public chordsStore: Observable<IChordsGuesserState> = this.store.pipe(select(selectChordGuesserState));
-  public loadingStore: Observable<LoadingState> = this.store.pipe(select(selectLoading));
+  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   // private chordsStoreSubscription: Subscription = new Subscription();
 
@@ -71,7 +67,7 @@ export class ChordsHandbookComponent {
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
     this.selectedModeService.setSelectedMode('handbook');
-    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
+    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
     //   this.currentChords = chordsState.currentChords ? chordsState.currentChords : [];
     //   this.currentChordSelected = chordsState.chordSelected !== undefined ? chordsState.chordSelected : -1;
     //   this.handbookChords = chordsState.handbookChords ? chordsState.handbookChords : [];
@@ -92,7 +88,6 @@ export class ChordsHandbookComponent {
     const chordName = `${this.chordRequestForm.controls.note.value}${this.chordRequestForm.controls.form.value}`;
     if (chordName) {
       this.chordRequestForm.disable();
-      this.store.dispatch(loadingStatus({ loading: true }));
       this.aiService.getFullHandbookChord({ chordName }).then((value: QueryResponse) => {
         if (value.chords) {
           let parsedChords = getAllNoteChordName(value.chords);
@@ -102,7 +97,6 @@ export class ChordsHandbookComponent {
           // this.store.dispatch(setHandbookChords({ chords: parsedChords }));
         }
 
-        this.store.dispatch(loadingStatus({ loading: false }));
         this.chordRequestForm.enable();
       });
     }

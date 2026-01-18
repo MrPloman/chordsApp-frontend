@@ -17,10 +17,8 @@ import {
   exchangeChordOptionForCurrenChord,
   setAlternativeChordsOptionsSuccess,
 } from '@app/store/actions/chords.actions';
-import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { selectLoadingState } from '@app/store/selectors/loading.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { selectChordState } from '@app/store/selectors/chords.selector';
+import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
@@ -48,18 +46,11 @@ export class ChordsOptionsComponent {
   private aiService = inject(AIService);
   private store = inject(Store);
 
-  private chordsStore: Observable<any> = this.store.pipe(select(selectChordGuesserState));
+  private chordsStore: Observable<any> = this.store.pipe(select(selectChordState));
   private chordsStoreSubscription: Subscription = new Subscription();
 
-  private loadingStore: Observable<any> = this.store.pipe(select(selectLoadingState));
-  private loaderSubscription: Subscription = new Subscription();
-
   constructor() {
-    this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
-      this.loading = loading.loading;
-    });
-
-    this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
+    this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
       this.chords = chordsState.currentChords ? chordsState.currentChords : [];
       this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
       this.alternativeChords = chordsState.alternativeChords ? chordsState.alternativeChords : [];
@@ -78,7 +69,6 @@ export class ChordsOptionsComponent {
   public setOtherChordOption() {
     // if (this.chords[this.chordSelected].alternativeChords.length > 0) return;
     this.loading = true;
-    this.store.dispatch(loadingStatus({ loading: true }));
 
     this.aiService
       .getOtherChordOptions({
@@ -102,11 +92,9 @@ export class ChordsOptionsComponent {
           );
           this.alternativeChords = parsedChords;
         }
-        this.store.dispatch(loadingStatus({ loading: false }));
         this.loading = false;
       })
       .catch((error: any) => {
-        this.store.dispatch(loadingStatus({ loading: false }));
         this.loading = false;
       });
   }
@@ -129,6 +117,5 @@ export class ChordsOptionsComponent {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
     this.chordsStoreSubscription.unsubscribe();
-    this.loaderSubscription.unsubscribe();
   }
 }

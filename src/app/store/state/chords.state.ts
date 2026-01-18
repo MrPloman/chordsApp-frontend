@@ -1,6 +1,6 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 
-export interface IChordsGuesserState {
+export interface ChordsState {
   lastNoteSelected: NotePosition | undefined;
   currentChords: Chord[];
   chordSelected: number | undefined;
@@ -10,9 +10,10 @@ export interface IChordsGuesserState {
   handbookChordsSelected: number;
   message: string;
   error: string;
+  loading: boolean;
 }
 
-export const chordsInitialState: IChordsGuesserState = {
+export const chordsInitialState: ChordsState = {
   lastNoteSelected: undefined,
   currentChords: [],
   chordSelected: undefined,
@@ -22,4 +23,5 @@ export const chordsInitialState: IChordsGuesserState = {
   handbookChordsSelected: -1,
   message: '',
   error: '',
+  loading: false,
 };
