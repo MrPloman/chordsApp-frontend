@@ -10,7 +10,7 @@ import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-fretboard',
@@ -20,55 +20,31 @@ import { Observable, Subscription } from 'rxjs';
   styleUrl: './fretboard.component.scss',
 })
 export class FretboardComponent {
+  // Rules
   public currentFretboard = fretboard;
   public currentDots = dots;
-  public loading: boolean = false;
 
-  private currentChord: Chord = new Chord([], [], '', generateId());
   private selectedModeService = inject(SelectedModeService);
-
-  private selectionMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
-  private chordPosition: number = 0;
-  private chords: Chord[] = [];
-
   private store = inject(Store);
 
-  private chordsStoreSubscription: Subscription = new Subscription();
-  private loaderSubscription: Subscription = new Subscription();
+  private selectionMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
 
-  private chordsStore: Observable<any> = new Observable();
-  private loadingStore: Observable<any> = new Observable();
+  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
-  constructor() {
-    this.chordsStore = this.store.pipe(select(selectChordState));
+  constructor() {}
 
-    this.chordsStoreSubscription = this.chordsStore.subscribe((chordGuesserState: ChordsState) => {
-      if (!chordGuesserState || !chordGuesserState.currentChords || chordGuesserState.chordSelected === undefined) {
-        return;
-      }
-      this.chordPosition = chordGuesserState.chordSelected;
-      this.currentChord = chordGuesserState.currentChords[chordGuesserState.chordSelected];
-      this.chords = chordGuesserState.currentChords;
-    });
-  }
-  ngOnDestroy(): void {
-    this.chordsStoreSubscription.unsubscribe();
-    this.loaderSubscription.unsubscribe();
-  }
-
-  public selectNote(note: NotePosition) {
-    if (this.loading) return;
+  public selectNote(note: NotePosition, chords: Chord[], chordPosition: number) {
     this.makeItSound(note);
-    if (this.chords.length === 0) return;
+    if (chords.length === 0) return;
     switch (this.selectionMode()) {
       case 'guesser':
         // If chord was already defined you cannot change the notes
-        if (this.chords[this.chordPosition].name) return;
+        if (chords[chordPosition].name) return;
         const _id = generateId();
         this.store.dispatch(
           editNoteFromChord({
             notePosition: { ...note, _id },
-            chordSelected: this.chordPosition,
+            chordSelected: chordPosition,
           })
         );
         break;
@@ -78,10 +54,13 @@ export class FretboardComponent {
     }
   }
 
-  public isThisNoteSelected = (note: NotePosition) => {
-    if (!note || !this.currentChord) return false;
+  public makeItSound(note: NotePosition) {
+    makeNoteSound(note);
+  }
+  public isThisNoteSelected = (note: NotePosition, chords: Chord[], chordPosition: number) => {
+    if (!note || chordPosition < 0 || chords.length === 0) return false;
     else {
-      return this.currentChord.notes.find((notePosition: NotePosition) => {
+      return chords[chordPosition].notes.find((notePosition: NotePosition) => {
         if (notePosition.stringNumber === note.stringNumber && notePosition.position === note.position) {
           return true;
         } else return false;
@@ -89,7 +68,12 @@ export class FretboardComponent {
     }
   };
 
-  public makeItSound(note: NotePosition) {
-    makeNoteSound(note);
+  public getChordSelected(chordState: ChordsState | null): number {
+    if (!chordState) return -1;
+    return chordState.chordSelected;
+  }
+  public getChords(chordState: ChordsState | null) {
+    if (!chordState) return [];
+    return chordState.currentChords;
   }
 }

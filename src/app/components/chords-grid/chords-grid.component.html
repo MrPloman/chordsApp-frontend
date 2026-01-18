@@ -1,5 +1,4 @@
 @let chordsState = chordsStore | async;
-@let loadingState = loadingStore | async;
 
 <div class="chordGrid">
   <section class="chords" (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListOrientation="mixed">
@@ -39,7 +38,7 @@
   @if ((chordsState?.handbookChords?.length ?? 0) > 0 && (chordsState?.handbookChords?.length ?? 0) > 0) {
     <span id="separation"></span>
   }
-  @if (loadingState?.loading) {
+  @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
   } @else {
     <div class="handbookChordsGrid">
@@ -68,7 +67,7 @@
   @if ((chordsState?.alternativeChords?.length ?? 0) > 0) {
     <span id="separation"></span>
   }
-  @if (loadingState?.loading) {
+  @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
   } @else {
     <div class="alternativeChordsGrid">

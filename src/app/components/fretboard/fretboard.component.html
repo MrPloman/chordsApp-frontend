@@ -1,34 +1,32 @@
+@let chordsState = chordsStore | async;
 <div id="fretboard">
   @for (dot of currentDots; track $index; let indexDot = $index) {
-  <img
-    class="dot"
-    [src]="dot.src"
-    alt="dot"
-    [style.left]="dot.left"
-    [style.top]="dot.top"
-  />
-  } @for ( string of currentFretboard; track $index; let indexDot = $index) {
-  <div class="stringBoard">
-    @for (note of string; track $index; let indexNote = $index) {
-    <div class="fret" (click)="selectNote(note)">
-      <span
-        class="noteName"
-        [ngClass]="{ selected: isThisNoteSelected(note) }"
-        >{{ note.name }}</span
-      >
-      <hr class="stringLine" />
+    <img class="dot" [src]="dot.src" alt="dot" [style.left]="dot.left" [style.top]="dot.top" />
+  }
+  @for (string of currentFretboard; track $index; let indexDot = $index) {
+    <div class="stringBoard">
+      @for (note of string; track $index; let indexNote = $index) {
+        <div class="fret" (click)="selectNote(note, getChords(chordsState), getChordSelected(chordsState))">
+          <span
+            class="noteName"
+            [ngClass]="{
+              selected: isThisNoteSelected(note, getChords(chordsState), getChordSelected(chordsState)),
+            }"
+            >{{ note.name }}</span
+          >
+          <hr class="stringLine" />
+        </div>
+      }
     </div>
-    }
-  </div>
   }
 
   <div class="positions">
     @for (item of currentFretboard[0]; track $index; let indexItem = $index) {
-    <div class="fretPosition">
-      <span>
-        {{ item.position }}
-      </span>
-    </div>
+      <div class="fretPosition">
+        <span>
+          {{ item.position }}
+        </span>
+      </div>
     }
   </div>
 </div>
