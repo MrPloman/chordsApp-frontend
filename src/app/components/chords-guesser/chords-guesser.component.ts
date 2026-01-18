@@ -20,74 +20,20 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
   styleUrl: './chords-guesser.component.scss',
 })
 export class ChordsGuesserComponent {
-  // public loading: boolean = false;
-  // public chords: Chord[] = [];
-  // public chordSelected: number = 0;
-  // public message: string = '';
   private store = inject(Store);
 
   public validChords = areEveryChordsValid;
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
-  // private languageStoreSubscription: Subscription = new Subscription();
-  // public languageStore = this.store.select(selectLanguage);
-  // private language: 'es' | 'en' = 'en';
 
-  // private aiService = inject(AIService);
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
-
-  // private chordsStoreSubscription: Subscription = new Subscription();
 
   private selectedModeService = inject(SelectedModeService);
 
   constructor() {
     this.selectedModeService.setSelectedMode('guesser');
-
-    // this.languageStoreSubscription = this.languageStore.subscribe((state) => {
-    //   if (state) this.language = state;
-    // });
-    // this.chordsStoreSubscription = this.chordsStore.subscribe(
-    //   (chordsState: ChordsState) => {
-    //     this.chords = chordsState.currentChords
-    //       ? chordsState.currentChords
-    //       : [];
-    //     this.chordSelected = chordsState.chordSelected
-    //       ? chordsState.chordSelected
-    //       : 0;
-    //   }
-    // );
   }
 
   public async guessMyChords() {
     this.store.dispatch(guessCurrentChords());
-
-    // if (this.validChords(this.chords) && this.chords.length >= minimumChordsToMakeProgression) {
-    //   this.loading = true;
-    // this.aiService
-    //   .guessMyChords(
-    //     {
-    //       chords: this.chords,
-    //     },
-    //     this.language
-    //   )
-    //   .then((value: QueryResponse) => {
-    //     const { chords, response } = value;
-    //     if (chords && chords.length > 0) {
-    //       this.store.dispatch(setCurrentChords({ currentChords: chords }));
-    //     }
-    //     if (response) this.message = response;
-    //     this.store.dispatch(loadingStatus({ loading: false }));
-    //     this.loading = false;
-    //   })
-    //   .catch((error: any) => {
-    //     this.store.dispatch(loadingStatus({ loading: false }));
-    //     this.loading = false;
-    //   });
-    // }
-  }
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    // this.chordsStoreSubscription.unsubscribe();
-    // this.languageStoreSubscription.unsubscribe();
   }
 }
