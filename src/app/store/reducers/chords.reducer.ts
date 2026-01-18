@@ -24,6 +24,7 @@ import {
 } from '../actions/chords.actions';
 import { chordsInitialState, ChordsState } from '../state/chords.state';
 
+// Helpers
 function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsState {
   if (!state.currentChords) return { ...state };
   const chords = state.currentChords.filter((chord: Chord, index: number) => index !== chordToRemove);
@@ -36,6 +37,7 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
 
 export const chordsReducer = createReducer(
   chordsInitialState,
+
   // Guesser and Progression section
   on(setCurrentChords, (state, props) => {
     const _chordsParsed = checkAndGenerateID(props.currentChords);

@@ -1,7 +1,7 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { createAction, props } from '@ngrx/store';
 
-// Guesser Section
+// Set Chords
 export const setLastNoteSelected = createAction(
   '[Set Last Note Selected] Set Last Note Selected',
   props<{ note: NotePosition }>()
@@ -10,17 +10,6 @@ export const setCurrentChords = createAction(
   '[Set Current Chords] Set Current Chords',
   props<{ currentChords: Chord[] }>()
 );
-
-export const guessCurrentChords = createAction('[Guess Current Chords] Guess Current Chords');
-export const guessCurrentChordsSuccess = createAction(
-  '[Guess Current Chords Success] Guess Current Chords',
-  props<{ currentChords: Chord[]; message: string }>()
-);
-export const guessCurrentChordsError = createAction(
-  '[Guess Current Chords Success] Guess Current Chords',
-  props<{ currentChords: Chord[]; error: string }>()
-);
-
 export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
   props<{ chordSelected: number }>()
@@ -42,8 +31,18 @@ export const changeChordsOrder = createAction(
   '[Change Chords Order] Change Chords Order',
   props<{ originChordPosition: number; destinationChordPosition: number }>()
 );
-
 export const hideChord = createAction('[Hide Chord]', props<{ chordPosition: number }>());
+
+// Guess Actions
+export const guessCurrentChords = createAction('[Guess Current Chords] Guess Current Chords');
+export const guessCurrentChordsSuccess = createAction(
+  '[Guess Current Chords Success] Guess Current Chords',
+  props<{ currentChords: Chord[]; message: string }>()
+);
+export const guessCurrentChordsError = createAction(
+  '[Guess Current Chords Success] Guess Current Chords',
+  props<{ currentChords: Chord[]; error: string }>()
+);
 
 // Progression Section
 export const getChordProgression = createAction('[Make a chords progression]', props<{ prompt: string }>());

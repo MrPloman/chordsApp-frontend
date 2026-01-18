@@ -1,11 +1,11 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 
 export interface ChordsState {
-  lastNoteSelected: NotePosition | undefined;
+  lastNoteSelected: NotePosition;
   currentChords: Chord[];
-  chordSelected: number | undefined;
-  alternativeChords: Chord[] | undefined;
-  alternativeChordSelected: number | undefined;
+  chordSelected: number;
+  alternativeChords: Chord[];
+  alternativeChordSelected: number;
   handbookChords: Chord[];
   handbookChordsSelected: number;
   message: string;
@@ -14,11 +14,11 @@ export interface ChordsState {
 }
 
 export const chordsInitialState: ChordsState = {
-  lastNoteSelected: undefined,
+  lastNoteSelected: { stringNumber: -1, position: -1, name: '' },
   currentChords: [],
-  chordSelected: undefined,
-  alternativeChords: undefined,
-  alternativeChordSelected: undefined,
+  chordSelected: -1,
+  alternativeChords: [],
+  alternativeChordSelected: -1,
   handbookChords: [],
   handbookChordsSelected: -1,
   message: '',
