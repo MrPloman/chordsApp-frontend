@@ -32,7 +32,6 @@ import {
   setAlternativeChordsOptionsError,
   setAlternativeChordsOptionsSuccess,
   setChordSelected,
-  setCurrentChords,
   setCurrentChordSelectedAndCheckAlternativeChords,
   setHandbookChordsSelected,
 } from '../actions/chords.actions';
@@ -61,13 +60,6 @@ export const chordsReducer = createReducer(
   chordsInitialState,
 
   // Selection section
-  on(setCurrentChords, (state, props) => {
-    const _chordsParsed = checkAndGenerateID(props.currentChords);
-    return {
-      ...state,
-      currentChords: _chordsParsed,
-    };
-  }),
   on(setChordSelected, (state, props) => {
     if (props.chordSelected === state.chordSelected) return { ...state };
     return {

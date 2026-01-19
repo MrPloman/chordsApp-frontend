@@ -2,14 +2,7 @@ import { Chord, NotePosition } from '@app/models/chord.model';
 import { createAction, props } from '@ngrx/store';
 
 // Set Chords
-export const setLastNoteSelected = createAction(
-  '[Set Last Note Selected] Set Last Note Selected',
-  props<{ note: NotePosition }>()
-);
-export const setCurrentChords = createAction(
-  '[Set Current Chords] Set Current Chords',
-  props<{ currentChords: Chord[] }>()
-);
+
 export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
   props<{ chordSelected: number }>()
@@ -72,7 +65,6 @@ export const setAlternativeChordSelected = createAction(
 export const exchangeChordOptionForCurrenChord = createAction(
   '[Exchange Current Chord for Option Chord] Exchange Chords'
 );
-
 export const setCurrentChordSelectedAndCheckAlternativeChords = createAction(
   '[Set Current Chord Selected and Check Alternative Chords]',
   props<{ chordSelected: number }>()
