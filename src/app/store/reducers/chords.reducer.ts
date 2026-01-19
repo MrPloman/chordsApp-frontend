@@ -27,6 +27,7 @@ import {
   hideChord,
   removeChord,
   removeNoteFromChord,
+  resetMessages,
   setAlternativeChordSelected,
   setAlternativeChordsOptionsError,
   setAlternativeChordsOptionsSuccess,
@@ -218,18 +219,6 @@ export const chordsReducer = createReducer(
 
   // Options section
   on(getAlternativeChordsOptions, (state, props) => {
-    // if (
-    //   state.chordSelected > -1 &&
-    //   state.currentChords.length > 0 &&
-    //   state.currentChords[state.chordSelected].alternativeChords.length > 0
-    // ) {
-    //   return {
-    //     ...state,
-    //     alternativeChords: [...state.currentChords[state.chordSelected].alternativeChords],
-    //     alternativeChordSelected: 0,
-    //     loading: false,
-    //   };
-    // } else {
     return { ...state, alternativeChords: [], alternativeChordSelected: -1, loading: true };
   }),
   on(setAlternativeChordsOptionsSuccess, (state, props) => {
@@ -362,5 +351,11 @@ export const chordsReducer = createReducer(
       ...state,
       currentChords: _chords,
     };
+  }),
+
+  // Reset Section
+
+  on(resetMessages, (state) => {
+    return { ...state, error: '', message: '' };
   })
 );

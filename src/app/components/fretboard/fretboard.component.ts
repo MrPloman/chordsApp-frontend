@@ -56,7 +56,8 @@ export class FretboardComponent {
     makeNoteSound(note);
   }
   public isThisNoteSelected = (note: NotePosition, chords: Chord[], chordPosition: number) => {
-    if (!note || chordPosition < 0 || chords.length === 0) return false;
+    if (!note || chordPosition < 0 || chords.length === 0 || !chords[chordPosition] || !chords[chordPosition].notes)
+      return false;
     else {
       return chords[chordPosition].notes.find((notePosition: NotePosition) => {
         if (notePosition.stringNumber === note.stringNumber && notePosition.position === note.position) {

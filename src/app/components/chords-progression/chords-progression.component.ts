@@ -6,7 +6,7 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
 
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { getChordProgression } from '@app/store/actions/chords.actions';
+import { getChordProgression, resetMessages } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { TranslatePipe } from '@ngx-translate/core';
@@ -51,5 +51,6 @@ export class ChordsProgressionComponent {
   }
   ngOnDestroy(): void {
     this.chordStoreSubscription.unsubscribe();
+    this.store.dispatch(resetMessages());
   }
 }
