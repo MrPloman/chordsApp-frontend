@@ -81,6 +81,7 @@ export class ChordsGridComponent {
   }
 
   private getNewAlternativeChords() {
+    this.selectHandbookChord;
     // if (
     //   this.chords &&
     //   this.chords.length > 0 &&
@@ -111,7 +112,7 @@ export class ChordsGridComponent {
     this.store.dispatch(setAlternativeChordSelected({ alternativeChordSelected: position }));
   }
 
-  public selecthandbookChord(position: number) {
+  public selectHandbookChord(position: number) {
     this.store.dispatch(setHandbookChordsSelected({ handbookChordsSelected: position }));
   }
 

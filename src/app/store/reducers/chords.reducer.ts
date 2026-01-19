@@ -2,6 +2,7 @@ import { Chord, NotePosition } from '@app/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
 import {
   checkAndGenerateID,
+  checkDuplicateChords,
   checkIfChordsAreGuessed,
   getAllNoteChordName,
   removeNonDesiredValuesFromNotesArray,
@@ -13,6 +14,7 @@ import {
   changeChordsOrder,
   editNoteFromChord,
   exchangeChordOptionForCurrenChord,
+  getAlternativeChordsOptions,
   getChordProgression,
   getChordProgressionError,
   getChordProgressionSuccess,
@@ -26,6 +28,7 @@ import {
   removeChord,
   removeNoteFromChord,
   setAlternativeChordSelected,
+  setAlternativeChordsOptionsError,
   setAlternativeChordsOptionsSuccess,
   setChordSelected,
   setCurrentChords,
@@ -42,6 +45,14 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
     chordSelected: 0,
     currentChords: chords,
   };
+}
+
+function cleaningChordsArray(chords: Chord[]) {
+  let _currentChords = getAllNoteChordName(chords);
+  _currentChords = checkDuplicateChords(_currentChords);
+  _currentChords = checkAndGenerateID(_currentChords);
+  _currentChords = removeNonDesiredValuesFromNotesArray(_currentChords);
+  return _currentChords;
 }
 
 export const chordsReducer = createReducer(
@@ -190,11 +201,11 @@ export const chordsReducer = createReducer(
     return { ...state, loading: true };
   }),
   on(getChordProgressionSuccess, (state, props) => {
-    const _chords = removeNonDesiredValuesFromNotesArray(getAllNoteChordName(checkAndGenerateID(props.currentChords)));
+    const _currentChords = cleaningChordsArray(props.currentChords);
     return {
       ...state,
       loading: false,
-      currentChords: [..._chords],
+      currentChords: [..._currentChords],
       message: props.clarification ? props.clarification : props.response,
       error: '',
     };
@@ -204,18 +215,25 @@ export const chordsReducer = createReducer(
   }),
 
   // Options section
+  on(getAlternativeChordsOptions, (state, props) => {
+    // if (
+    //   state.chordSelected > -1 &&
+    //   state.currentChords.length > 0 &&
+    //   state.currentChords[state.chordSelected].alternativeChords.length > 0
+    // ) {
+    //   return {
+    //     ...state,
+    //     alternativeChords: [...state.currentChords[state.chordSelected].alternativeChords],
+    //     alternativeChordSelected: 0,
+    //     loading: false,
+    //   };
+    // } else {
+    return { ...state, handbookChords: [], handbookChordsSelected: -1, loading: true };
+  }),
   on(setAlternativeChordsOptionsSuccess, (state, props) => {
-    let _alternativeChords = checkAndGenerateID(props.alternativeChords);
-    _alternativeChords = _alternativeChords.map((chord: Chord) => {
-      if (chord.notes.length === 0) return chord;
-      else {
-        return { ...chord, notes: sortNotePosition(chord.notes) };
-      }
-    });
-    const _selectedChord = state.chordSelected;
-    let _currentChords = state.currentChords ? state.currentChords : [];
-    _currentChords = _currentChords.map((_chord: Chord, index: number) => {
-      if (index === _selectedChord) {
+    const _alternativeChords = cleaningChordsArray(props.alternativeChords);
+    const _currentChords = state.currentChords.map((_chord: Chord, index: number) => {
+      if (index === state.chordSelected) {
         return {
           ..._chord,
           alternativeChords: _alternativeChords,
@@ -224,10 +242,38 @@ export const chordsReducer = createReducer(
     });
     return {
       ...state,
-      currentChords: _currentChords,
       alternativeChords: _alternativeChords,
       alternativeChordSelected: 0,
+      currentChords: _currentChords,
+      loading: false,
+      error: '',
     };
+    // let _alternativeChords = cleaningChordsArray(props.alternativeChords);
+    // _alternativeChords = _alternativeChords.map((chord: Chord) => {
+    //   if (chord.notes.length === 0) return chord;
+    //   else {
+    //     return { ...chord, notes: sortNotePosition(chord.notes) };
+    //   }
+    // });
+    // const _selectedChord = state.chordSelected;
+    // let _currentChords = state.currentChords ? state.currentChords : [];
+    // _currentChords = _currentChords.map((_chord: Chord, index: number) => {
+    //   if (index === _selectedChord) {
+    //     return {
+    //       ..._chord,
+    //       alternativeChords: _alternativeChords,
+    //     };
+    //   } else return _chord;
+    // });
+    // return {
+    //   ...state,
+    //   currentChords: _currentChords,
+    //   alternativeChords: _alternativeChords,
+    //   alternativeChordSelected: 0,
+    // };
+  }),
+  on(setAlternativeChordsOptionsError, (state, props) => {
+    return { ...state, loading: false, error: props.error };
   }),
   on(setAlternativeChordSelected, (state, props) => {
     return {
@@ -272,18 +318,25 @@ export const chordsReducer = createReducer(
   on(getHandbookChords, (state, props) => {
     return {
       ...state,
+      handbookChords: [],
+      handbookChordsSelected: -1,
+      loading: true,
     };
   }),
   on(getHandbookChordsSuccess, (state, props) => {
+    const _handbookChords = cleaningChordsArray(props.handbookChords);
+
     return {
       ...state,
-      handbookChords: props.handbookChords,
-      handbookChordsSelected: props.handbookChords.length > 0 ? 0 : -1,
+      loading: false,
+      handbookChords: _handbookChords,
+      handbookChordsSelected: _handbookChords.length > 0 ? 0 : -1,
     };
   }),
   on(getHandbookChordsError, (state, props) => {
     return {
       ...state,
+      loading: false,
       handbookChords: [],
       handbookChordsSelected: -1,
       error: props.error,

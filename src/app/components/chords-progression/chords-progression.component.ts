@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { InputInstructionComponent } from '../input-instruction/input-instruction.component';
 import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 
@@ -33,11 +33,23 @@ export class ChordsProgressionComponent {
     prompt: new FormControl('', [Validators.required]),
   });
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
+  private chordStoreSubscription!: Subscription;
+
+  constructor() {
+    this.chordStoreSubscription = this.chordsStore.subscribe((chordState: ChordsState) => {
+      if (!chordState.loading) {
+        this.progressionForm.enable();
+        this.progressionForm.reset();
+        this.progressionForm.controls.prompt.setErrors(null);
+      } else this.progressionForm.disable();
+    });
+  }
 
   public askNewChordProgression() {
     if (this.progressionForm.invalid || !this.progressionForm.controls.prompt.value) return;
     this.store.dispatch(getChordProgression({ prompt: this.progressionForm.controls.prompt.value }));
-    this.progressionForm.controls.prompt.reset('');
-    this.progressionForm.controls.prompt.setErrors(null);
+  }
+  ngOnDestroy(): void {
+    this.chordStoreSubscription.unsubscribe();
   }
 }

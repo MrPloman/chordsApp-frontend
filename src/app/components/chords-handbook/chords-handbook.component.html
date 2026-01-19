@@ -24,24 +24,19 @@
           [options]="forms"
         ></app-input-selector>
       </div>
-
       <div id="buttonsSection">
         <app-submit-button
-          (click)="!chordsState?.loading && getAllFormsChord()"
+          (click)="getAllFormsChord(chordsState?.loading ?? false)"
           id="getAllFormsChord"
-          [disabled]="
-            chordsState?.loading ||
-            chordRequestForm.controls['note'].invalid ||
-            chordRequestForm.controls['form'].invalid
-          "
+          [disabled]="disableRequestButton(chordsState?.loading ?? false)"
           [label]="'handbook_get_chords' | translate"
           [icon]="'search'"
         ></app-submit-button>
         <app-submit-button
-          (click)="!chordsState?.loading && addNewChord()"
+          (click)="addNewChord(chordsState?.loading ?? false, chordsState?.handbookChordsSelected ?? -1)"
           id="addNewChord"
           [icon]="'add'"
-          [disabled]="(chordsState?.handbookChordsSelected ?? -1) < 0 || (chordsState?.loading ?? false)"
+          [disabled]="disableAddButton(chordsState?.loading ?? false, chordsState?.handbookChordsSelected ?? -1)"
           [label]="'handbook_add_chord' | translate"
         ></app-submit-button>
       </div>

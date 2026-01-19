@@ -1,3 +1,5 @@
+@let chordsState = chordsStore | async;
+
 <form id="chordsOptions-container">
   <section id="information">
     <h2 id="sectionTitle">{{ 'exchanger_title' | translate }}</h2>
@@ -11,7 +13,7 @@
       <app-submit-button
         (click)="getOtherOptions()"
         id="getOtherOptionsButton"
-        [disabled]="chords.length === 0 || loading"
+        [disabled]="chordsState?.loading ?? false"
         [label]="'other_options_button' | translate"
         [icon]="'search'"
       ></app-submit-button>
@@ -19,13 +21,7 @@
         (click)="exchangeChords()"
         id="exchangeButton"
         [icon]="'cached'"
-        [disabled]="
-          chordSelected < 0 ||
-          alternativeChordSelected < 0 ||
-          alternativeChords.length === 0 ||
-          chords.length === 0 ||
-          loading
-        "
+        [disabled]="chordsState?.loading ?? false"
         [label]="'exchanger_button' | translate"
       ></app-submit-button>
     </div>

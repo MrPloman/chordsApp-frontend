@@ -2,21 +2,17 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { QueryResponse } from '@app/models/queryResponse.model';
-import { AIService } from '@app/services/AIService.service';
-import {
-  checkAndGenerateID,
-  checkDuplicateChords,
-  getAllNoteChordName,
-  removeNonDesiredValuesFromNotesArray,
-} from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
-import { addHandbookChordToCurrentChords, setHandbookChordsSelected } from '@app/store/actions/chords.actions';
+import {
+  addHandbookChordToCurrentChords,
+  getHandbookChords,
+  setHandbookChordsSelected,
+} from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { noteForms } from '../../config/global_variables/noteForms.options';
 import { noteOptions } from '../../config/global_variables/notes.options';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
@@ -44,69 +40,52 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
   styleUrl: './chords-handbook.component.scss',
 })
 export class ChordsHandbookComponent {
-  private store = inject(Store);
-
   public forms = noteForms;
   public notes = noteOptions;
-  // public currentChords: Chord[] = [];
-  // public handbookChords: Chord[] = [];
-  // public currentChordSelected: number = -1;
-  // public handbookChordSelected: number = -1;
+
   public chordRequestForm = new FormGroup({
     note: new FormControl('', [Validators.required]),
     form: new FormControl('', [Validators.required]),
   });
-  private aiService = inject(AIService);
+  private store = inject(Store);
+
   private selectedModeService = inject(SelectedModeService);
 
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
-
-  // private chordsStoreSubscription: Subscription = new Subscription();
+  private chordStoreSubscription!: Subscription;
+  constructor() {
+    this.chordStoreSubscription = this.chordsStore.subscribe((chordState: ChordsState) => {
+      if (!chordState.loading) this.chordRequestForm.enable();
+      else this.chordRequestForm.disable();
+    });
+  }
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
     this.selectedModeService.setSelectedMode('handbook');
-    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
-    //   this.currentChords = chordsState.currentChords ? chordsState.currentChords : [];
-    //   this.currentChordSelected = chordsState.chordSelected !== undefined ? chordsState.chordSelected : -1;
-    //   this.handbookChords = chordsState.handbookChords ? chordsState.handbookChords : [];
-    //   this.handbookChordSelected =
-    //     chordsState.handbookChordsSelected !== undefined ? chordsState.handbookChordsSelected : -1;
-    // });
-  }
-  public addNewChord() {
-    this.store.dispatch(
-      addHandbookChordToCurrentChords()
-      // setCurrentChords({
-      //   currentChords: [...this.currentChords, this.handbookChords[this.handbookChordSelected]],
-      // })
-    );
-  }
-
-  public getAllFormsChord() {
-    const chordName = `${this.chordRequestForm.controls.note.value}${this.chordRequestForm.controls.form.value}`;
-    if (chordName) {
-      this.chordRequestForm.disable();
-      this.aiService.getFullHandbookChord({ chordName }).then((value: QueryResponse) => {
-        if (value.chords) {
-          let parsedChords = getAllNoteChordName(value.chords);
-          parsedChords = checkDuplicateChords(parsedChords);
-          parsedChords = checkAndGenerateID(parsedChords);
-          parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
-          // this.store.dispatch(setHandbookChords({ chords: parsedChords }));
-        }
-
-        this.chordRequestForm.enable();
-      });
-    }
   }
   ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    // this.store.dispatch(({ chords: [] }));
     this.store.dispatch(setHandbookChordsSelected({ handbookChordsSelected: -1 }));
 
-    // this.chordsStoreSubscription.unsubscribe();
+    this.chordStoreSubscription.unsubscribe();
+  }
+  public addNewChord(loading: boolean, handbookChordSelected: number) {
+    if (loading || handbookChordSelected < 0) return;
+    this.store.dispatch(addHandbookChordToCurrentChords());
+  }
+
+  public getAllFormsChord(loading: boolean) {
+    if (this.chordRequestForm.invalid || loading) return;
+    const chordName = `${this.chordRequestForm.controls.note.value}${this.chordRequestForm.controls.form.value}`;
+    this.store.dispatch(getHandbookChords({ chordName }));
+  }
+
+  public disableRequestButton(loading: boolean): boolean {
+    if (loading || this.chordRequestForm.invalid) return true;
+    else return false;
+  }
+
+  public disableAddButton(loading: boolean, handbookChordSelected: number): boolean {
+    if (loading || handbookChordSelected < 0) return true;
+    else return false;
   }
 }

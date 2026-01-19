@@ -1,121 +1,114 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
-import { Chord } from '@app/models/chord.model';
-import { QueryResponse } from '@app/models/queryResponse.model';
-import { AIService } from '@app/services/AIService.service';
-import {
-  areEveryChordsValid,
-  checkAndGenerateID,
-  checkDuplicateChordOptions,
-  checkDuplicateChords,
-  getAllNoteChordName,
-  removeNonDesiredValuesFromNotesArray,
-} from '@app/services/chordsService.service';
-import {
-  exchangeChordOptionForCurrenChord,
-  setAlternativeChordsOptionsSuccess,
-} from '@app/store/actions/chords.actions';
+import { areEveryChordsValid } from '@app/services/chordsService.service';
+import { getAlternativeChordsOptions } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 
 @Component({
   selector: 'app-chords-options',
   standalone: true,
-  imports: [SubmitButtonComponent, ChordsGridComponent, FormsModule, MatProgressSpinnerModule, TranslatePipe],
+  imports: [
+    SubmitButtonComponent,
+    ChordsGridComponent,
+    FormsModule,
+    MatProgressSpinnerModule,
+    TranslatePipe,
+    CommonModule,
+  ],
   templateUrl: './chords-options.component.html',
   styleUrl: './chords-options.component.scss',
 })
 export class ChordsOptionsComponent {
-  public loading: boolean = true;
-  public chords: Chord[] = [];
-  public alternativeChords: Chord[] = [];
-  public chordSelected: number = 0;
-  public alternativeChordSelected: number = 0;
+  // public loading: boolean = true;
+  // public chords: Chord[] = [];
+  // public alternativeChords: Chord[] = [];
+  // public chordSelected: number = 0;
+  // public alternativeChordSelected: number = 0;
 
-  public message: string = '';
+  // public message: string = '';
 
   public validChords = areEveryChordsValid;
-  public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
-  private aiService = inject(AIService);
+  // public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
+  // private aiService = inject(AIService);
   private store = inject(Store);
 
-  private chordsStore: Observable<any> = this.store.pipe(select(selectChordState));
-  private chordsStoreSubscription: Subscription = new Subscription();
+  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
+  // private chordsStoreSubscription: Subscription = new Subscription();
 
   constructor() {
-    this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
-      this.chords = chordsState.currentChords ? chordsState.currentChords : [];
-      this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
-      this.alternativeChords = chordsState.alternativeChords ? chordsState.alternativeChords : [];
-      this.alternativeChordSelected = chordsState.alternativeChordSelected ? chordsState.alternativeChordSelected : 0;
-    });
+    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
+    //   this.chords = chordsState.currentChords ? chordsState.currentChords : [];
+    //   this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
+    //   this.alternativeChords = chordsState.alternativeChords ? chordsState.alternativeChords : [];
+    //   this.alternativeChordSelected = chordsState.alternativeChordSelected ? chordsState.alternativeChordSelected : 0;
+    // });
   }
 
   ngOnInit(): void {
-    if (this.chordSelected !== undefined && this.chords.length > 0) {
-      // this.setOtherChordOption();
-    }
+    // if (this.chordSelected !== undefined && this.chords.length > 0) {
+    //   // this.setOtherChordOption();
+    // }
     //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
     //Add 'implements OnInit' to the class.
   }
 
   public setOtherChordOption() {
+    this.store.dispatch(getAlternativeChordsOptions());
     // if (this.chords[this.chordSelected].alternativeChords.length > 0) return;
-    this.loading = true;
-
-    this.aiService
-      .getOtherChordOptions({
-        chord: this.chords[this.chordSelected],
-      })
-      .then((value: QueryResponse) => {
-        const { chords } = value;
-        if (chords && chords.length > 0) {
-          let parsedChords = getAllNoteChordName(chords);
-          parsedChords = checkDuplicateChords(parsedChords);
-          parsedChords = checkDuplicateChordOptions(parsedChords, this.chords[this.chordSelected]);
-          parsedChords = checkAndGenerateID(parsedChords);
-          parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
-
-          this.store.dispatch(
-            setAlternativeChordsOptionsSuccess({
-              alternativeChords: parsedChords,
-              // chordSelected: this.chordSelected,
-              // alternativeChordSelected: this.alternativeChordSelected,
-            })
-          );
-          this.alternativeChords = parsedChords;
-        }
-        this.loading = false;
-      })
-      .catch((error: any) => {
-        this.loading = false;
-      });
+    // this.loading = true;
+    // this.aiService
+    //   .getOtherChordOptions({
+    //     chord: this.chords[this.chordSelected],
+    //   })
+    //   .then((value: QueryResponse) => {
+    //     const { chords } = value;
+    //     if (chords && chords.length > 0) {
+    //       let parsedChords = getAllNoteChordName(chords);
+    //       parsedChords = checkDuplicateChords(parsedChords);
+    //       parsedChords = checkDuplicateChordOptions(parsedChords, this.chords[this.chordSelected]);
+    //       parsedChords = checkAndGenerateID(parsedChords);
+    //       parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
+    //       this.store.dispatch(
+    //         setAlternativeChordsOptionsSuccess({
+    //           alternativeChords: parsedChords,
+    //           // chordSelected: this.chordSelected,
+    //           // alternativeChordSelected: this.alternativeChordSelected,
+    //         })
+    //       );
+    //       this.alternativeChords = parsedChords;
+    //     }
+    //     this.loading = false;
+    //   })
+    //   .catch((error: any) => {
+    //     this.loading = false;
+    //   });
   }
 
   public exchangeChords() {
-    if (this.chordSelected < 0 || this.alternativeChordSelected < 0) return;
-    this.store.dispatch(
-      exchangeChordOptionForCurrenChord({
-        chordSelected: this.chordSelected,
-        alternativeChordSelected: this.alternativeChordSelected,
-      })
-    );
+    // if (this.chordSelected < 0 || this.alternativeChordSelected < 0) return;
+    // this.store.dispatch(
+    //   exchangeChordOptionForCurrenChord({
+    //     chordSelected: this.chordSelected,
+    //     alternativeChordSelected: this.alternativeChordSelected,
+    //   })
+    // );
   }
 
   public getOtherOptions() {
-    if (this.loading) return;
+    // if (this.loading) return;
     this.setOtherChordOption();
   }
   ngOnDestroy(): void {
     //Called once, before the instance is destroyed.
     //Add 'implements OnDestroy' to the class.
-    this.chordsStoreSubscription.unsubscribe();
+    // this.chordsStoreSubscription.unsubscribe();
   }
 }

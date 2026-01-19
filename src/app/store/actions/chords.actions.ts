@@ -62,7 +62,8 @@ export const setAlternativeChordsOptionsSuccess = createAction(
   props<{ alternativeChords: Chord[] }>()
 );
 export const setAlternativeChordsOptionsError = createAction(
-  '[Set Alternative Chords for a Chord Error] Set Alternative Chords Error'
+  '[Set Alternative Chords for a Chord Error] Set Alternative Chords Error',
+  props<{ error: string }>()
 );
 export const setAlternativeChordSelected = createAction(
   '[Set Alternative Chord Selected] Set Alternative Chord Selected',

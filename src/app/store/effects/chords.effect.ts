@@ -4,14 +4,25 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, concatMap, from, map, of, switchMap, withLatestFrom } from 'rxjs';
 import {
+  getAlternativeChordsOptions,
   getChordProgression,
   getChordProgressionError,
   getChordProgressionSuccess,
+  getHandbookChords,
+  getHandbookChordsError,
+  getHandbookChordsSuccess,
   guessCurrentChords,
   guessCurrentChordsError,
   guessCurrentChordsSuccess,
+  setAlternativeChordSelected,
+  setAlternativeChordsOptionsError,
+  setAlternativeChordsOptionsSuccess,
 } from '../actions/chords.actions';
-import { selectCurrentChords } from '../selectors/chords.selector';
+import {
+  selectChordState,
+  selectCurrentChords,
+  selectHasAlternativeChordsForSelected,
+} from '../selectors/chords.selector';
 import { selectLanguage } from '../selectors/language.selector';
 import { AppState } from '../state';
 @Injectable({
@@ -47,6 +58,52 @@ export class ChordsEffects {
             })
           ),
           catchError((error) => of(getChordProgressionError({ currentChords: currentChords, error })))
+        )
+      )
+    )
+  );
+
+  public getOtherChordOptions = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getAlternativeChordsOptions || setAlternativeChordSelected),
+      withLatestFrom(this.store.select(selectHasAlternativeChordsForSelected), this.store.select(selectChordState)),
+      switchMap(([_, hasAlternatives, state]) => {
+        if (hasAlternatives) {
+          return of(
+            setAlternativeChordsOptionsSuccess({
+              alternativeChords: state.currentChords[state.chordSelected].alternativeChords,
+            })
+          );
+        }
+
+        // 🌍 LLAMADA REMOTA
+        return from(
+          this.aiService.getOtherChordOptions({
+            chord: state.currentChords[state.chordSelected],
+          })
+        ).pipe(
+          map((response) =>
+            setAlternativeChordsOptionsSuccess({
+              alternativeChords: response?.chords ?? [],
+            })
+          ),
+          catchError((error) => of(setAlternativeChordsOptionsError({ error })))
+        );
+      })
+    )
+  );
+
+  public getHandbookChords = createEffect(() =>
+    this.actions$.pipe(
+      ofType(getHandbookChords),
+      switchMap(({ chordName }) =>
+        from(this.aiService.getFullHandbookChord({ chordName: chordName })).pipe(
+          map((response) =>
+            getHandbookChordsSuccess({
+              handbookChords: response.chords,
+            })
+          ),
+          catchError((error) => of(getHandbookChordsError({ error })))
         )
       )
     )
