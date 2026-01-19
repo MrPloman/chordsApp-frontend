@@ -14,15 +14,10 @@ import {
   guessCurrentChords,
   guessCurrentChordsError,
   guessCurrentChordsSuccess,
-  setAlternativeChordSelected,
   setAlternativeChordsOptionsError,
   setAlternativeChordsOptionsSuccess,
 } from '../actions/chords.actions';
-import {
-  selectChordState,
-  selectCurrentChords,
-  selectHasAlternativeChordsForSelected,
-} from '../selectors/chords.selector';
+import { selectChordState, selectCurrentChords } from '../selectors/chords.selector';
 import { selectLanguage } from '../selectors/language.selector';
 import { AppState } from '../state';
 @Injectable({
@@ -65,18 +60,9 @@ export class ChordsEffects {
 
   public getOtherChordOptions = createEffect(() =>
     this.actions$.pipe(
-      ofType(getAlternativeChordsOptions || setAlternativeChordSelected),
-      withLatestFrom(this.store.select(selectHasAlternativeChordsForSelected), this.store.select(selectChordState)),
-      switchMap(([_, hasAlternatives, state]) => {
-        if (hasAlternatives) {
-          return of(
-            setAlternativeChordsOptionsSuccess({
-              alternativeChords: state.currentChords[state.chordSelected].alternativeChords,
-            })
-          );
-        }
-
-        // 🌍 LLAMADA REMOTA
+      ofType(getAlternativeChordsOptions),
+      withLatestFrom(this.store.select(selectChordState)),
+      switchMap(([_, state]) => {
         return from(
           this.aiService.getOtherChordOptions({
             chord: state.currentChords[state.chordSelected],

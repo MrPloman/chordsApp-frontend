@@ -70,8 +70,12 @@ export const setAlternativeChordSelected = createAction(
   props<{ alternativeChordSelected: number }>()
 );
 export const exchangeChordOptionForCurrenChord = createAction(
-  '[Exchange Current Chord for Option Chord] Exchange Chords',
-  props<{ chordSelected: number; alternativeChordSelected: number }>()
+  '[Exchange Current Chord for Option Chord] Exchange Chords'
+);
+
+export const setCurrentChordSelectedAndCheckAlternativeChords = createAction(
+  '[Set Current Chord Selected and Check Alternative Chords]',
+  props<{ chordSelected: number }>()
 );
 
 // Handbook Section

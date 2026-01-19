@@ -17,6 +17,7 @@ import {
   removeNoteFromChord,
   setAlternativeChordSelected,
   setChordSelected,
+  setCurrentChordSelectedAndCheckAlternativeChords,
   setHandbookChordsSelected,
 } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
@@ -59,7 +60,7 @@ export class ChordsGridComponent {
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   ngOnInit(): void {
-    if (this.selectedMode() === 'options') this.getNewAlternativeChords();
+    // if (this.selectedMode() === 'options') this.getNewAlternativeChords();
   }
 
   public addNewChord(chord: Chord) {
@@ -73,39 +74,11 @@ export class ChordsGridComponent {
   public selectChord(position: number) {
     this.store.dispatch(setChordSelected({ chordSelected: position }));
     if (!this.selectedMode() || this.selectedMode() !== 'options') return;
-    this.getNewAlternativeChords();
+    this.store.dispatch(setCurrentChordSelectedAndCheckAlternativeChords({ chordSelected: position }));
   }
 
   private setAlternativeChords(currentChordSelected: number) {
     this.store.dispatch(setChordSelected({ chordSelected: currentChordSelected }));
-  }
-
-  private getNewAlternativeChords() {
-    this.selectHandbookChord;
-    // if (
-    //   this.chords &&
-    //   this.chords.length > 0 &&
-    //   this.chordSelected !== undefined &&
-    //   this.chords[this.chordSelected].alternativeChords &&
-    //   this.chords[this.chordSelected].alternativeChords.length > 0
-    // ) {
-    //   this.setAlternativeChords();
-    //   return;
-    // }
-    // this.alternativeChords = [];
-    // this.alternativeChordSelected = 0;
-    // this.store.dispatch(
-    //   setAlternativeChordsOptionsSuccess({
-    //     alternativeChords: [],
-    //     chordSelected: this.chordSelected,
-    //     alternativeChordSelected: this.alternativeChordSelected,
-    //   })
-    // );
-    // this.store.dispatch(
-    //   setAlternativeChordSelected({
-    //     alternativeChordSelected: this.alternativeChordSelected,
-    //   })
-    // );
   }
 
   public selectAlternativeChord(position: number) {

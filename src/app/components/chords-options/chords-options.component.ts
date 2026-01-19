@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { areEveryChordsValid } from '@app/services/chordsService.service';
-import { getAlternativeChordsOptions } from '@app/store/actions/chords.actions';
+import { exchangeChordOptionForCurrenChord, getAlternativeChordsOptions } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
@@ -27,88 +26,26 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
   styleUrl: './chords-options.component.scss',
 })
 export class ChordsOptionsComponent {
-  // public loading: boolean = true;
-  // public chords: Chord[] = [];
-  // public alternativeChords: Chord[] = [];
-  // public chordSelected: number = 0;
-  // public alternativeChordSelected: number = 0;
-
-  // public message: string = '';
-
-  public validChords = areEveryChordsValid;
-  // public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
-  // private aiService = inject(AIService);
   private store = inject(Store);
-
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
-  // private chordsStoreSubscription: Subscription = new Subscription();
-
-  constructor() {
-    // this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
-    //   this.chords = chordsState.currentChords ? chordsState.currentChords : [];
-    //   this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
-    //   this.alternativeChords = chordsState.alternativeChords ? chordsState.alternativeChords : [];
-    //   this.alternativeChordSelected = chordsState.alternativeChordSelected ? chordsState.alternativeChordSelected : 0;
-    // });
-  }
-
-  ngOnInit(): void {
-    // if (this.chordSelected !== undefined && this.chords.length > 0) {
-    //   // this.setOtherChordOption();
-    // }
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-  }
-
-  public setOtherChordOption() {
-    this.store.dispatch(getAlternativeChordsOptions());
-    // if (this.chords[this.chordSelected].alternativeChords.length > 0) return;
-    // this.loading = true;
-    // this.aiService
-    //   .getOtherChordOptions({
-    //     chord: this.chords[this.chordSelected],
-    //   })
-    //   .then((value: QueryResponse) => {
-    //     const { chords } = value;
-    //     if (chords && chords.length > 0) {
-    //       let parsedChords = getAllNoteChordName(chords);
-    //       parsedChords = checkDuplicateChords(parsedChords);
-    //       parsedChords = checkDuplicateChordOptions(parsedChords, this.chords[this.chordSelected]);
-    //       parsedChords = checkAndGenerateID(parsedChords);
-    //       parsedChords = removeNonDesiredValuesFromNotesArray(parsedChords);
-    //       this.store.dispatch(
-    //         setAlternativeChordsOptionsSuccess({
-    //           alternativeChords: parsedChords,
-    //           // chordSelected: this.chordSelected,
-    //           // alternativeChordSelected: this.alternativeChordSelected,
-    //         })
-    //       );
-    //       this.alternativeChords = parsedChords;
-    //     }
-    //     this.loading = false;
-    //   })
-    //   .catch((error: any) => {
-    //     this.loading = false;
-    //   });
-  }
 
   public exchangeChords() {
-    // if (this.chordSelected < 0 || this.alternativeChordSelected < 0) return;
-    // this.store.dispatch(
-    //   exchangeChordOptionForCurrenChord({
-    //     chordSelected: this.chordSelected,
-    //     alternativeChordSelected: this.alternativeChordSelected,
-    //   })
-    // );
+    this.store.dispatch(exchangeChordOptionForCurrenChord());
   }
 
   public getOtherOptions() {
-    // if (this.loading) return;
-    this.setOtherChordOption();
+    this.store.dispatch(getAlternativeChordsOptions());
   }
-  ngOnDestroy(): void {
-    //Called once, before the instance is destroyed.
-    //Add 'implements OnDestroy' to the class.
-    // this.chordsStoreSubscription.unsubscribe();
+  public checkExchangeChordIsAvailable(chordState: ChordsState | null): boolean {
+    if (
+      !chordState ||
+      (chordState?.loading ?? false) ||
+      (chordState?.alternativeChordSelected ?? -1) < 0 ||
+      (chordState?.chordSelected ?? -1) < 0
+    )
+      return false;
+    else {
+      return true;
+    }
   }
 }

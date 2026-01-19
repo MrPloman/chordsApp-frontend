@@ -11,17 +11,17 @@
 
     <div id="buttonsSection">
       <app-submit-button
-        (click)="getOtherOptions()"
+        (click)="!chordsState?.loading && getOtherOptions()"
         id="getOtherOptionsButton"
         [disabled]="chordsState?.loading ?? false"
         [label]="'other_options_button' | translate"
         [icon]="'search'"
       ></app-submit-button>
       <app-submit-button
-        (click)="exchangeChords()"
+        (click)="checkExchangeChordIsAvailable(chordsState) && exchangeChords()"
         id="exchangeButton"
         [icon]="'cached'"
-        [disabled]="chordsState?.loading ?? false"
+        [disabled]="!checkExchangeChordIsAvailable(chordsState)"
         [label]="'exchanger_button' | translate"
       ></app-submit-button>
     </div>
