@@ -1,16 +1,9 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  CanActivateFn,
-  createUrlTreeFromSnapshot,
-  Router,
-  RouterStateSnapshot,
-} from '@angular/router';
+import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
 import { Chord } from '@app/models/chord.model';
 import { checkIfChordsAreGuessed } from '@app/services/chordsService.service';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { selectChordState } from '@app/store/selectors/chords.selector';
+import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -24,23 +17,13 @@ export class ChordsGuard implements CanActivate {
   private router = inject(Router);
 
   constructor() {
-    this.chordsStore = this.store.pipe(select(selectChordGuesserState));
-    this.chordsStoreSubscription = this.chordsStore.subscribe(
-      (chordsState: IChordsGuesserState) => {
-        this.chords = chordsState.currentChords
-          ? chordsState.currentChords
-          : [];
-      }
-    );
+    this.chordsStore = this.store.pipe(select(selectChordState));
+    this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: ChordsState) => {
+      this.chords = chordsState.currentChords ? chordsState.currentChords : [];
+    });
   }
-  canActivate(
-    route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot
-  ): boolean {
-    if (
-      (state.url === '/options' || state.url === '/progression') &&
-      !this.checkChords(this.chords)
-    ) {
+  canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
+    if ((state.url === '/options' || state.url === '/progression') && !this.checkChords(this.chords)) {
       this.router.navigate(['/']);
     }
     return true;

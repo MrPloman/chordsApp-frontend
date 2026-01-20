@@ -10,23 +10,21 @@ import { Chord, NotePosition } from '@app/models/chord.model';
 import { makeNoteSound } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import {
+  addChordToCurrentChords,
   changeChordsOrder,
   hideChord,
   removeChord,
   removeNoteFromChord,
   setAlternativeChordSelected,
-  setAlternativeChordsOptions,
   setChordSelected,
-  setCurrentChords,
+  setCurrentChordSelectedAndCheckAlternativeChords,
   setHandbookChordsSelected,
 } from '@app/store/actions/chords.actions';
-import { loadingStatus } from '@app/store/actions/loading.actions';
-import { selectChordGuesserState } from '@app/store/selectors/chords.selector';
-import { selectLoadingState } from '@app/store/selectors/loading.selector';
-import { IChordsGuesserState } from '@app/store/state/chords.state';
+import { selectChordState } from '@app/store/selectors/chords.selector';
+import { ChordsState } from '@app/store/state/chords.state';
 import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
 import { ChordCardComponent } from '../chord-card/chord-card.component';
 
@@ -45,32 +43,11 @@ import { ChordCardComponent } from '../chord-card/chord-card.component';
   ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
-  // animations: [
-  //   trigger('fadeAndSlide', [
-  //     // Define a transition for when the element is added to the DOM (:enter)
-  //     transition(':enter', [
-  //       style({ opacity: 0, transform: 'translateY(-20px)' }),
-  //       animate('500ms ease-in', style({ opacity: 1, transform: 'translateY(0)' })),
-  //     ]),
-  //     // Optional: Define a transition for when the element is removed from the DOM (:leave)
-  //     transition(':leave', [animate('300ms ease-out', style({ opacity: 0, transform: 'translateY(20px)' }))]),
-  //   ]),
-  // ],
 })
 export class ChordsGridComponent {
   // services
   private store = inject(Store);
   private selectedModeService = inject(SelectedModeService);
-
-  // chords container variables
-  public chords: Chord[] = [];
-  public alternativeChords: Chord[] = [];
-  public handbookChords: Chord[] = [];
-
-  // chord selected variables
-  public chordSelected: number = 0;
-  public alternativeChordSelected: number = 0;
-  public handbookChordSelected: number = 0;
 
   // Rules
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
@@ -78,122 +55,41 @@ export class ChordsGridComponent {
 
   // Status
   public selectedMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
-  public loading = false;
 
   // Observavbles for NGRX Store
-  private chordsStore: Observable<any> = new Observable();
-  private loadingStore: Observable<any> = new Observable();
+  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
-  //Subscription to Stores
-  private chordsStoreSubscription: Subscription = new Subscription();
-  private loaderSubscription: Subscription = new Subscription();
-  private subscriptionFunctionStore: Subscription = new Subscription();
-
-  constructor() {
-    // Global Loading Store Subscription
-    this.loadingStore = this.store.pipe(select(selectLoadingState));
-    this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
-      this.loading = loading.loading;
-    });
-
-    // Chords Store Subscription
-    this.chordsStore = this.store.pipe(select(selectChordGuesserState));
-    this.chordsStoreSubscription = this.chordsStore.subscribe((chordsState: IChordsGuesserState) => {
-      this.chords = chordsState.currentChords ? chordsState.currentChords : [];
-      this.chordSelected = chordsState.chordSelected ? chordsState.chordSelected : 0;
-      if (this.selectedMode() === 'options') {
-        this.alternativeChords = chordsState.alternativeChords ? chordsState.alternativeChords : [];
-        this.alternativeChordSelected = chordsState.alternativeChordSelected ? chordsState.alternativeChordSelected : 0;
-      }
-      if (this.selectedMode() === 'handbook') {
-        this.handbookChords = chordsState.handbookChords ? chordsState.handbookChords : [];
-        this.handbookChordSelected =
-          chordsState.handbookChordsSelected !== undefined ? chordsState.handbookChordsSelected : 0;
-      }
-    });
-  }
   ngOnInit(): void {
-    this.getNewAlternativeChords();
-  }
-  ngOnDestroy(): void {
-    this.chordsStoreSubscription.unsubscribe();
-    this.subscriptionFunctionStore.unsubscribe();
-    this.loaderSubscription.unsubscribe();
+    // if (this.selectedMode() === 'options') this.getNewAlternativeChords();
   }
 
   public addNewChord(chord: Chord) {
-    if (this.loading) return;
     this.store.dispatch(
-      setCurrentChords({
-        currentChords: [...this.chords, chord],
+      addChordToCurrentChords({
+        newChord: chord,
       })
     );
-    this.store.dispatch(setChordSelected({ chordSelected: this.chords.length - 1 }));
   }
 
   public selectChord(position: number) {
-    if (this.loading || (this.chordSelected === position && this.chords.length > 0)) return;
-    this.chordSelected = position;
-    this.alternativeChordSelected = 0;
     this.store.dispatch(setChordSelected({ chordSelected: position }));
     if (!this.selectedMode() || this.selectedMode() !== 'options') return;
-    this.getNewAlternativeChords();
+    this.store.dispatch(setCurrentChordSelectedAndCheckAlternativeChords({ chordSelected: position }));
   }
 
-  private setAlternativeChords() {
-    this.store.dispatch(loadingStatus({ loading: true }));
-    this.store.dispatch(
-      setAlternativeChordsOptions({
-        alternativeChords: this.chords[this.chordSelected].alternativeChords,
-        chordSelected: this.chordSelected,
-        alternativeChordSelected: this.alternativeChordSelected,
-      })
-    );
-    this.store.dispatch(loadingStatus({ loading: false }));
-  }
-
-  private getNewAlternativeChords() {
-    if (
-      this.chords &&
-      this.chords.length > 0 &&
-      this.chordSelected !== undefined &&
-      this.chords[this.chordSelected].alternativeChords &&
-      this.chords[this.chordSelected].alternativeChords.length > 0
-    ) {
-      this.setAlternativeChords();
-      return;
-    }
-    this.alternativeChords = [];
-    this.alternativeChordSelected = 0;
-    this.store.dispatch(
-      setAlternativeChordsOptions({
-        alternativeChords: [],
-        chordSelected: this.chordSelected,
-        alternativeChordSelected: this.alternativeChordSelected,
-      })
-    );
-    this.store.dispatch(
-      setAlternativeChordSelected({
-        alternativeChordSelected: this.alternativeChordSelected,
-      })
-    );
+  private setAlternativeChords(currentChordSelected: number) {
+    this.store.dispatch(setChordSelected({ chordSelected: currentChordSelected }));
   }
 
   public selectAlternativeChord(position: number) {
-    if (this.loading) return;
-
-    this.alternativeChordSelected = position;
     this.store.dispatch(setAlternativeChordSelected({ alternativeChordSelected: position }));
   }
 
-  public selecthandbookChord(position: number) {
-    if (this.loading) return;
+  public selectHandbookChord(position: number) {
     this.store.dispatch(setHandbookChordsSelected({ handbookChordsSelected: position }));
-    this.handbookChordSelected = position;
   }
 
   public deleteChord(chordPosition: number) {
-    if (this.loading) return;
     this.hideChord(chordPosition);
     setTimeout(() => {
       this.store.dispatch(removeChord({ chordToRemove: chordPosition }));
@@ -201,7 +97,6 @@ export class ChordsGridComponent {
   }
 
   public removeNote(notePosition: number, chordPosition: number) {
-    if (this.loading) return;
     this.store.dispatch(
       removeNoteFromChord({
         noteToRemove: notePosition,
@@ -210,7 +105,6 @@ export class ChordsGridComponent {
     );
   }
   public drop(event: CdkDragDrop<any[]>) {
-    if (this.loading) return;
     this.store.dispatch(
       changeChordsOrder({
         originChordPosition: event.previousIndex,
@@ -225,7 +119,7 @@ export class ChordsGridComponent {
   }
 
   public hideChord(_chordPosition: number) {
-    this.store.dispatch(hideChord({ chord: this.chords[_chordPosition] }));
+    this.store.dispatch(hideChord({ chordPosition: _chordPosition }));
   }
 
   public trackById(index: number, item: any): number | undefined {

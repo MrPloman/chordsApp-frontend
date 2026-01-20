@@ -1,21 +1,27 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 
-export interface IChordsGuesserState {
-  lastNoteSelected: NotePosition | undefined;
-  currentChords: Chord[] | undefined;
-  chordSelected: number | undefined;
-  alternativeChords: Chord[] | undefined;
-  alternativeChordSelected: number | undefined;
-  handbookChords: Chord[] | undefined;
-  handbookChordsSelected: undefined | number;
+export interface ChordsState {
+  lastNoteSelected: NotePosition;
+  currentChords: Chord[];
+  chordSelected: number;
+  alternativeChords: Chord[];
+  alternativeChordSelected: number;
+  handbookChords: Chord[];
+  handbookChordsSelected: number;
+  message: string;
+  error: string;
+  loading: boolean;
 }
 
-export const chordsInitialState: IChordsGuesserState = {
-  lastNoteSelected: undefined,
-  currentChords: undefined,
-  chordSelected: undefined,
-  alternativeChords: undefined,
-  alternativeChordSelected: undefined,
-  handbookChords: undefined,
-  handbookChordsSelected: undefined,
+export const chordsInitialState: ChordsState = {
+  lastNoteSelected: { stringNumber: -1, position: -1, name: '' },
+  currentChords: [],
+  chordSelected: -1,
+  alternativeChords: [],
+  alternativeChordSelected: -1,
+  handbookChords: [],
+  handbookChordsSelected: -1,
+  message: '',
+  error: '',
+  loading: false,
 };

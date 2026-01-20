@@ -4,7 +4,6 @@ import { setLanguageAction } from '@app/store/actions/language.actions';
 import { selectLanguage } from '@app/store/selectors/language.selector';
 import { Store } from '@ngrx/store';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
-import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-language-selector',
@@ -21,10 +20,5 @@ export class LanguageSelectorComponent {
   public selectLanguage(language: 'es' | 'en') {
     this.translate.use(language);
     this.store.dispatch(setLanguageAction({ language }));
-  }
-
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
   }
 }

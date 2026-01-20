@@ -54,7 +54,6 @@ export class AIService {
   }
   public async getFullHandbookChord(_body: { chordName: string }) {
     const { body, status, statusText } = await this._httpService.post(`${environment.API}/forms`, _body);
-    console.log(body, status, statusText);
     if (status === 200 && body) {
       const { chords } = body;
       return new QueryResponse(chords, '');

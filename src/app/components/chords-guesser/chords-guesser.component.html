@@ -1,7 +1,8 @@
+@let chordsState = chordsStore | async;
 <form id="chordGuesser-container">
   <h2 id="sectionTitle">{{ 'guesser_title' | translate }}</h2>
-  @if (message) {
-    <span id="message">{{ message }}</span>
+  @if (chordsState?.message) {
+    <span id="message">{{ chordsState?.message }}</span>
   } @else {
     <span id="message">{{ 'guesser_description' | translate }}</span>
   }
@@ -9,10 +10,10 @@
   <app-chords-grid></app-chords-grid>
 
   <app-submit-button
-    (click)="guessMyChords()"
+    (click)="enableSubmitButton(chordsState) && guessMyChords()"
     id="submitButton"
-    [loading]="loading"
-    [disabled]="chords.length < minimumChordsToMakeProgression || !validChords(chords)"
+    [loading]="chordsState?.loading ?? false"
+    [disabled]="!enableSubmitButton(chordsState)"
     [label]="'guesser_button' | translate"
   ></app-submit-button>
 </form>

@@ -1,21 +1,23 @@
+@let chordsState = chordsStore | async;
+
 <div class="chordGrid">
   <section class="chords" (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListOrientation="mixed">
-    @for (chord of chords; track trackById(chordIndex, chord); let chordIndex = $index) {
+    @for (chord of chordsState?.currentChords; track trackById(chordIndex, chord); let chordIndex = $index) {
       <app-chord-card
         cdkDrag
         [visible]="chord.visible !== undefined ? chord.visible : true"
         [newChordUI]="false"
         [selectedMode]="selectedMode"
-        [currentChordsLength]="chords.length"
+        [currentChordsLength]="chordsState?.currentChords?.length ?? 0"
         [chord]="chord"
         [chordPosition]="chordIndex"
-        [isSelected]="chordIndex === chordSelected"
+        [isSelected]="chordIndex === chordsState?.chordSelected"
         (click)="selectChord(chordIndex)"
         (emitDeleteChord)="deleteChord(chordIndex)"
         (emitRemoveNote)="removeNote($event.notePosition, $event.chordPosition)"
       ></app-chord-card>
     }
-    @if (selectedMode() === 'guesser' && chords.length <= maxChords) {
+    @if (selectedMode() === 'guesser' && (chordsState?.currentChords?.length ?? 0) <= maxChords) {
       <app-chord-card [newChordUI]="true" (emitNewChord)="addNewChord($event)"></app-chord-card>
     }
   </section>
@@ -33,27 +35,27 @@
 </ng-container>
 
 <ng-template #handbookTemplate>
-  @if (handbookChords.length > 0 && chords.length > 0) {
+  @if ((chordsState?.handbookChords?.length ?? 0) > 0 && (chordsState?.handbookChords?.length ?? 0) > 0) {
     <span id="separation"></span>
   }
-  @if (loading) {
+  @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
   } @else {
     <div class="handbookChordsGrid">
       <div class="handbookChords">
         @for (
-          handbookChord of handbookChords;
+          handbookChord of chordsState?.handbookChords;
           track trackById(handbookIndex, handbookChord);
           let handbookIndex = $index
         ) {
           <app-chord-card
             [newChordUI]="false"
             [selectedMode]="selectedMode"
-            [currentChordsLength]="chords.length"
+            [currentChordsLength]="chordsState?.handbookChords?.length ?? 0"
             [chord]="handbookChord"
             [chordPosition]="handbookIndex"
-            [isSelected]="handbookIndex === handbookChordSelected"
-            (click)="selecthandbookChord(handbookIndex)"
+            [isSelected]="handbookIndex === chordsState?.handbookChordsSelected"
+            (click)="selectHandbookChord(handbookIndex)"
             [visible]="handbookChord.visible !== undefined ? handbookChord.visible : true"
           ></app-chord-card>
         }
@@ -62,26 +64,26 @@
   }
 </ng-template>
 <ng-template #optionsTemplate>
-  @if (alternativeChords.length > 0) {
+  @if ((chordsState?.alternativeChords?.length ?? 0) > 0) {
     <span id="separation"></span>
   }
-  @if (loading) {
+  @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
   } @else {
     <div class="alternativeChordsGrid">
       <div class="alternativeChords">
         @for (
-          alternativeChord of alternativeChords;
+          alternativeChord of chordsState?.alternativeChords;
           track trackById(alternativeChordIndex, alternativeChord);
           let alternativeChordIndex = $index
         ) {
           <app-chord-card
             [newChordUI]="false"
             [selectedMode]="selectedMode"
-            [currentChordsLength]="chords.length"
+            [currentChordsLength]="chordsState?.alternativeChords?.length ?? 0"
             [chord]="alternativeChord"
             [chordPosition]="alternativeChordIndex"
-            [isSelected]="alternativeChordIndex === alternativeChordSelected"
+            [isSelected]="alternativeChordIndex === chordsState?.alternativeChordSelected"
             (click)="selectAlternativeChord(alternativeChordIndex)"
             [visible]="alternativeChord.visible !== undefined ? alternativeChord.visible : true"
           ></app-chord-card>

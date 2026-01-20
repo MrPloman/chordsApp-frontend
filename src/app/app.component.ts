@@ -1,32 +1,23 @@
-import { Component, inject, model, Signal, signal } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { Component, inject, model, Signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
 import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
-import { select, Store } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
 
-import { selectLoadingState } from './store/selectors/loading.selector';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { TranslateService, TranslatePipe } from '@ngx-translate/core';
+import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { IconService } from './services/iconService.service';
 import { LazyTranslateService } from './services/lazyTranslateService.service';
 import { selectedModeType } from './types/index.types';
 
-import { ROUTER_OUTLET_DATA } from '@angular/router';
-
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [
-    FretboardComponent,
-    FunctionSelectorComponent,
-    LanguageSelectorComponent,
-    TranslatePipe,
-    RouterOutlet,
-  ],
+  imports: [FretboardComponent, FunctionSelectorComponent, LanguageSelectorComponent, TranslatePipe, RouterOutlet],
   providers: [
     LazyTranslateService,
     provideTranslateService({
@@ -52,15 +43,9 @@ export class AppComponent {
   public selectedMode: Signal<selectedModeType | undefined> = model(undefined);
   public loading = false;
   private loaderSubscription: Subscription = new Subscription();
-  private loadingStore: Observable<any>;
   private subscriptionFunctionStore: Subscription = new Subscription();
 
-  constructor() {
-    this.loadingStore = this.store.pipe(select(selectLoadingState));
-    this.loaderSubscription = this.loadingStore.subscribe(({ loading }) => {
-      this.loading = loading.loading;
-    });
-  }
+  constructor() {}
 
   onVolumeChange(event: any) {
     // Use the updated volume value as needed (e.g., set audio volume)

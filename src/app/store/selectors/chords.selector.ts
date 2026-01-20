@@ -1,11 +1,20 @@
 import { createSelector } from '@ngrx/store';
-import { IChordsGuesserState } from '../state/chords.state';
+import { ChordsState } from '../state/chords.state';
 
-export const selectChordGuesserState = (state: {
-  chords: IChordsGuesserState;
-}) => state.chords;
+import { AppState } from '../state/index';
 
-export const selectChordGuesser = createSelector(
-  selectChordGuesserState,
-  (chordsState) => chordsState
+export const selectChordState = (appState: AppState): ChordsState => appState.chords;
+export const selectCurrentChords = createSelector(selectChordState, (state) => state.currentChords);
+export const selectHandbookChords = createSelector(selectChordState, (state) => state.handbookChords);
+export const selectAlternativeChords = createSelector(selectChordState, (state) => state.alternativeChords);
+export const selectLoading = createSelector(selectChordState, (state) => state.loading);
+export const selectAlternativeChordsParams = createSelector(selectChordState, (state) => {
+  (state.currentChords, state.chordSelected);
+});
+export const selectHasAlternativeChordsForSelected = createSelector(
+  selectChordState,
+  (state) =>
+    state.chordSelected > -1 &&
+    state.currentChords.length > 0 &&
+    state.currentChords[state.chordSelected]?.alternativeChords?.length > 0
 );

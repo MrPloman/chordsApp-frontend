@@ -1,3 +1,5 @@
+@let chordsState = chordsStore | async;
+
 <form id="chordsHandbook-container">
   <section id="information">
     <h2 id="sectionTitle">{{ 'handbook_title' | translate }}</h2>
@@ -22,20 +24,19 @@
           [options]="forms"
         ></app-input-selector>
       </div>
-
       <div id="buttonsSection">
         <app-submit-button
-          (click)="getAllFormsChord()"
+          (click)="getAllFormsChord(chordsState?.loading ?? false)"
           id="getAllFormsChord"
-          [disabled]="loading || chordRequestForm.controls['note'].invalid || chordRequestForm.controls['form'].invalid"
+          [disabled]="disableRequestButton(chordsState?.loading ?? false)"
           [label]="'handbook_get_chords' | translate"
           [icon]="'search'"
         ></app-submit-button>
         <app-submit-button
-          (click)="addNewChord()"
+          (click)="addNewChord(chordsState?.loading ?? false, chordsState?.handbookChordsSelected ?? -1)"
           id="addNewChord"
           [icon]="'add'"
-          [disabled]="handbookChordSelected < 0 || loading"
+          [disabled]="disableAddButton(chordsState?.loading ?? false, chordsState?.handbookChordsSelected ?? -1)"
           [label]="'handbook_add_chord' | translate"
         ></app-submit-button>
       </div>

@@ -1,9 +1,12 @@
-import { chordsInitialState } from './chords.state';
-import { loadingInitialState } from './loading.state';
+import { chordsInitialState, ChordsState } from './chords.state';
 import { languageInitialState } from './language.state';
 
-export const appState = {
+export interface AppState {
+  chords: ChordsState;
+  language: 'es' | 'en';
+}
+
+export const appState: AppState = {
   chords: chordsInitialState,
-  loading: loadingInitialState,
-  language: 'en',
+  language: languageInitialState,
 };
