@@ -10,17 +10,10 @@
   <app-chords-grid></app-chords-grid>
 
   <app-submit-button
-    (click)="
-      ((chordsState?.currentChords ?? []).length >= minimumChordsToMakeProgression ||
-        validChords(chordsState?.currentChords ?? [])) &&
-        guessMyChords()
-    "
+    (click)="enableSubmitButton(chordsState) && guessMyChords()"
     id="submitButton"
     [loading]="chordsState?.loading ?? false"
-    [disabled]="
-      (chordsState?.currentChords ?? []).length < minimumChordsToMakeProgression ||
-      !validChords(chordsState?.currentChords ?? [])
-    "
+    [disabled]="!enableSubmitButton(chordsState)"
     [label]="'guesser_button' | translate"
   ></app-submit-button>
 </form>

@@ -33,7 +33,18 @@ export class ChordsGuesserComponent {
     this.selectedModeService.setSelectedMode('guesser');
   }
 
-  public async guessMyChords() {
+  public guessMyChords() {
     this.store.dispatch(guessCurrentChords());
+  }
+
+  public enableSubmitButton(chordsState: ChordsState | null): boolean {
+    if (
+      !chordsState ||
+      !chordsState.currentChords ||
+      chordsState?.currentChords.length < minimumChordsToMakeProgression ||
+      !this.validChords(chordsState?.currentChords)
+    )
+      return false;
+    else return true;
   }
 }

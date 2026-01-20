@@ -6,6 +6,8 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
 
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { checkIfChordsAreGuessed } from '@app/services/chordsService.service';
 import { getChordProgression, resetMessages } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
@@ -45,6 +47,18 @@ export class ChordsProgressionComponent {
     });
   }
 
+  public enableSubmitButton(chordsState: ChordsState | null): boolean {
+    if (
+      !chordsState ||
+      chordsState.loading ||
+      !chordsState.currentChords ||
+      chordsState.currentChords.length < minimumChordsToMakeProgression ||
+      !checkIfChordsAreGuessed(chordsState.currentChords) ||
+      !this.progressionForm.valid
+    )
+      return false;
+    else return true;
+  }
   public askNewChordProgression() {
     if (this.progressionForm.invalid || !this.progressionForm.controls.prompt.value) return;
     this.store.dispatch(getChordProgression({ prompt: this.progressionForm.controls.prompt.value }));

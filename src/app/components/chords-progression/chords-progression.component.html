@@ -18,11 +18,11 @@
     <app-submit-button
       id="getProgressionButton"
       [loading]="chordsState?.loading ?? false"
-      [disabled]="(chordsState?.loading ?? false) || progressionForm.invalid"
+      [disabled]="!enableSubmitButton(chordsState)"
       [label]="'progression_button' | translate"
       [type]="'submit'"
       [icon]="'auto_awesome'"
-      (click)="askNewChordProgression()"
+      (click)="enableSubmitButton(chordsState) && askNewChordProgression()"
     ></app-submit-button>
   </form>
 </div>
