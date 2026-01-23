@@ -1,4 +1,4 @@
-import { generateId } from '@app/services/chordsService.service';
+import { chordsHelper } from '@app/helpers/chords.helper';
 
 export class NotePosition {
   stringNumber: number;
@@ -9,7 +9,7 @@ export class NotePosition {
     this.name = name;
     this.position = position;
     this.stringNumber = stringNumber;
-    this._id = _id ? _id : generateId();
+    this._id = _id ? _id : chordsHelper.generateId();
   }
 }
 
@@ -23,7 +23,7 @@ export class Chord {
   constructor(notes: NotePosition[], alternativeChords: Chord[], name?: string, _id?: number, visible?: boolean) {
     this.name = name ? name : '';
     this.notes = notes;
-    this._id = _id ? _id : generateId();
+    this._id = _id ? _id : chordsHelper.generateId();
     this.alternativeChords = alternativeChords ? alternativeChords : [];
     this.visible = visible ? visible : true;
   }

@@ -1,23 +1,22 @@
 import { maximRandomNumber, minimumNotesToMakeChord } from '@app/config/global_variables/rules';
 import { chromaticScale, tuning } from '@app/config/global_variables/tuning';
-import { Chord, NotePosition } from '../models/chord.model';
+import { Chord, NotePosition } from '@app/models/chord.model';
 
-function noteName(stringNumber: number, fret: number): string {
+export function noteName(stringNumber: number, fret: number): string {
   const openNote = tuning[6 - stringNumber]; // convert to index
   const startIndex = chromaticScale.indexOf(openNote);
   const noteIndex = (startIndex + fret) % 12;
   return chromaticScale[noteIndex];
 }
-
-export const sortNotePosition = (notePosition: NotePosition[]): NotePosition[] => {
+export function sortNotePosition(notePosition: NotePosition[]): NotePosition[] {
   return notePosition.sort((a, b) => {
     return a.stringNumber - b.stringNumber;
   });
-};
+}
 
-export const removeNoteFromChordArray = (notePosition: NotePosition[], stringToRemove: number) => {
+export function removeNoteFromChordArray(notePosition: NotePosition[], stringToRemove: number) {
   return notePosition.filter((note) => note.stringNumber !== stringToRemove + 1);
-};
+}
 
 export function makeNoteSound(note: NotePosition) {
   let fretNote = note.name;
@@ -128,3 +127,18 @@ export function removeNonDesiredValuesFromNotesArray(chords: Chord[]) {
     };
   });
 }
+export const chordsHelper = {
+  noteName,
+  sortNotePosition,
+  removeNoteFromChordArray,
+  makeNoteSound,
+  isThisValidChord,
+  areEveryChordsValid,
+  checkIfChordsAreGuessed,
+  checkDuplicateChords,
+  checkDuplicateChordOptions,
+  getAllNoteChordName,
+  generateId,
+  checkAndGenerateID,
+  removeNonDesiredValuesFromNotesArray,
+};

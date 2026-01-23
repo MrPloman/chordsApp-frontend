@@ -7,11 +7,11 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
-import { checkIfChordsAreGuessed } from '@app/services/chordsService.service';
 import { getChordProgression, resetMessages } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { TranslatePipe } from '@ngx-translate/core';
+import * as chordsHelper from '../../helpers/chords.helper';
 import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 
 @Component({
@@ -31,6 +31,8 @@ import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 })
 export class ChordsProgressionComponent {
   private store = inject(Store);
+  private chordsService = chordsHelper;
+
   public progressionForm = new FormGroup({
     prompt: new FormControl('', [Validators.required]),
   });
@@ -53,7 +55,7 @@ export class ChordsProgressionComponent {
       chordsState.loading ||
       !chordsState.currentChords ||
       chordsState.currentChords.length < minimumChordsToMakeProgression ||
-      !checkIfChordsAreGuessed(chordsState.currentChords) ||
+      !this.chordsService.checkIfChordsAreGuessed(chordsState.currentChords) ||
       !this.progressionForm.valid
     )
       return false;

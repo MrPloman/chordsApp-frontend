@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { areEveryChordsValid } from '@app/services/chordsService.service';
+
+import { chordsHelper } from '@app/helpers/chords.helper';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import { guessCurrentChords } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
@@ -21,8 +22,8 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
 })
 export class ChordsGuesserComponent {
   private store = inject(Store);
+  private chordsService = chordsHelper;
 
-  public validChords = areEveryChordsValid;
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
 
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
@@ -42,7 +43,7 @@ export class ChordsGuesserComponent {
       !chordsState ||
       !chordsState.currentChords ||
       chordsState?.currentChords.length < minimumChordsToMakeProgression ||
-      !this.validChords(chordsState?.currentChords)
+      !this.chordsService.areEveryChordsValid(chordsState?.currentChords)
     )
       return false;
     else return true;

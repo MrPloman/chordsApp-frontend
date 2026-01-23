@@ -3,8 +3,8 @@ import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular
 import { MatIconModule } from '@angular/material/icon';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { FadeAndSlideDirective } from '@app/directives/fade-and-slide/fade-and-slide.directive';
+import { chordsHelper } from '@app/helpers/chords.helper';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import { selectedModeType } from '@app/types/index.types';
 
 @Component({
@@ -18,6 +18,7 @@ export class ChordCardComponent {
   // global system
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
 
+  private chordsService = chordsHelper;
   // button new chord system
   @Input({ required: false }) newChordUI: boolean = false;
   @Output() emitNewChord = new EventEmitter<Chord>();
@@ -39,16 +40,16 @@ export class ChordCardComponent {
   public addNewChord() {
     const _chord = new Chord(
       [
-        new NotePosition(1, 0, 'E', generateId()),
-        new NotePosition(2, 0, 'B', generateId()),
-        new NotePosition(3, 0, 'G', generateId()),
-        new NotePosition(4, 0, 'D', generateId()),
-        new NotePosition(5, 0, 'A', generateId()),
-        new NotePosition(6, 0, 'E', generateId()),
+        new NotePosition(1, 0, 'E', this.chordsService.generateId()),
+        new NotePosition(2, 0, 'B', this.chordsService.generateId()),
+        new NotePosition(3, 0, 'G', this.chordsService.generateId()),
+        new NotePosition(4, 0, 'D', this.chordsService.generateId()),
+        new NotePosition(5, 0, 'A', this.chordsService.generateId()),
+        new NotePosition(6, 0, 'E', this.chordsService.generateId()),
       ],
       [],
       '',
-      generateId(),
+      this.chordsService.generateId(),
       false
     );
     this.emitNewChord.emit(_chord);
@@ -65,7 +66,7 @@ export class ChordCardComponent {
   public makeChordSound() {
     if (!this.chord || this.chord.notes.length <= 0) return;
     this.chord.notes.forEach((note: NotePosition) => {
-      makeNoteSound(note);
+      this.chordsService.makeNoteSound(note);
     });
   }
 

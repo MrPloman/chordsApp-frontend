@@ -1,13 +1,7 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
-import {
-  checkAndGenerateID,
-  checkDuplicateChords,
-  checkIfChordsAreGuessed,
-  getAllNoteChordName,
-  removeNonDesiredValuesFromNotesArray,
-  sortNotePosition,
-} from '../../services/chordsService.service';
+
+import * as chordsHelper from '../../helpers/chords.helper';
 import {
   addChordToCurrentChords,
   addHandbookChordToCurrentChords,
@@ -49,10 +43,10 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
 }
 
 function cleaningChordsArray(chords: Chord[]) {
-  let _currentChords = getAllNoteChordName(chords);
-  _currentChords = checkDuplicateChords(_currentChords);
-  _currentChords = checkAndGenerateID(_currentChords);
-  _currentChords = removeNonDesiredValuesFromNotesArray(_currentChords);
+  let _currentChords = chordsHelper.getAllNoteChordName(chords);
+  _currentChords = chordsHelper.checkDuplicateChords(_currentChords);
+  _currentChords = chordsHelper.checkAndGenerateID(_currentChords);
+  _currentChords = chordsHelper.removeNonDesiredValuesFromNotesArray(_currentChords);
   return _currentChords;
 }
 
@@ -69,7 +63,7 @@ export const chordsReducer = createReducer(
   }),
   on(addChordToCurrentChords, (state, props) => {
     const _chordSelected = state.chordSelected < 0 ? 0 : state.chordSelected;
-    const chords = checkAndGenerateID([...state.currentChords, props.newChord]);
+    const chords = chordsHelper.checkAndGenerateID([...state.currentChords, props.newChord]);
     return { ...state, currentChords: chords, chordSelected: _chordSelected };
   }),
   on(removeChord, (state, props) => {
@@ -81,7 +75,7 @@ export const chordsReducer = createReducer(
       if (chordIndex !== props.chordSelected) {
         return chordElement;
       }
-      const notes: NotePosition[] = sortNotePosition(
+      const notes: NotePosition[] = chordsHelper.sortNotePosition(
         chordElement.notes.filter((note: NotePosition, index: number) => {
           if (props.noteToRemove !== index) return note;
           else return;
@@ -143,7 +137,7 @@ export const chordsReducer = createReducer(
 
     // If we did not find the note to modify we have sort it because the new one was added at the end of the array.
     if (noteNotFound) {
-      notesModified = sortNotePosition([...notesModified, props.notePosition]);
+      notesModified = chordsHelper.sortNotePosition([...notesModified, props.notePosition]);
     }
     // time to infer these notes inside the notes value of the desired chord.
     let chordsLeft = state.currentChords.map((chord: Chord, index) => {
@@ -183,7 +177,7 @@ export const chordsReducer = createReducer(
     return { ...state, loading: true };
   }),
   on(guessCurrentChordsSuccess, (state, props) => {
-    const _currentChords = checkAndGenerateID(props.currentChords);
+    const _currentChords = chordsHelper.checkAndGenerateID(props.currentChords);
     return { ...state, currentChords: _currentChords, message: props.message, error: '', loading: false };
   }),
   on(guessCurrentChordsError, (state, props) => {
@@ -192,7 +186,8 @@ export const chordsReducer = createReducer(
 
   // Progression Section
   on(getChordProgression, (state, props) => {
-    if (!checkIfChordsAreGuessed(state.currentChords)) return { ...state, error: 'Chords not guessed yet' };
+    if (!chordsHelper.checkIfChordsAreGuessed(state.currentChords))
+      return { ...state, error: 'Chords not guessed yet' };
     return { ...state, loading: true };
   }),
   on(getChordProgressionSuccess, (state, props) => {

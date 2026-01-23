@@ -6,8 +6,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { chordsHelper } from '@app/helpers/chords.helper';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { makeNoteSound } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import {
   addChordToCurrentChords,
@@ -46,6 +46,8 @@ import { ChordCardComponent } from '../chord-card/chord-card.component';
 })
 export class ChordsGridComponent {
   // services
+  private chordsService = chordsHelper;
+
   private store = inject(Store);
   private selectedModeService = inject(SelectedModeService);
 
@@ -114,7 +116,7 @@ export class ChordsGridComponent {
   }
   public makeChordSound(chord: Chord) {
     chord.notes.forEach((note: NotePosition) => {
-      makeNoteSound(note);
+      this.chordsService.makeNoteSound(note);
     });
   }
 

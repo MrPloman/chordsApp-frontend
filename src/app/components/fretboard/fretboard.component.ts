@@ -2,8 +2,8 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Signal } from '@angular/core';
 import { dots } from '@app/config/global_variables/dots';
 import { fretboard } from '@app/config/global_variables/fretboard';
+import { chordsHelper } from '@app/helpers/chords.helper';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { generateId, makeNoteSound } from '@app/services/chordsService.service';
 import { SelectedModeService } from '@app/services/selectedModeService.service';
 import { editNoteFromChord } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
@@ -26,6 +26,7 @@ export class FretboardComponent {
 
   private selectedModeService = inject(SelectedModeService);
   private store = inject(Store);
+  private chordsService = chordsHelper;
 
   private selectionMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
@@ -39,7 +40,7 @@ export class FretboardComponent {
       case 'guesser':
         // If chord was already defined you cannot change the notes
         if (chords[chordPosition].name) return;
-        const _id = generateId();
+        const _id = this.chordsService.generateId();
         this.store.dispatch(
           editNoteFromChord({
             notePosition: { ...note, _id },
@@ -53,7 +54,7 @@ export class FretboardComponent {
   }
 
   public makeItSound(note: NotePosition) {
-    makeNoteSound(note);
+    this.chordsService.makeNoteSound(note);
   }
   public isThisNoteSelected = (note: NotePosition, chords: Chord[], chordPosition: number) => {
     if (!note || chordPosition < 0 || chords.length === 0 || !chords[chordPosition] || !chords[chordPosition].notes)
