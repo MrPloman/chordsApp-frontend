@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { chordsHelper } from '@app/helpers/chords.helper';
 import { Chord } from '@app/models/chord.model';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import * as chordsHelper from '../helpers/chords.helper';
 
 @Injectable({ providedIn: 'root' })
 export class ChordsGuard implements CanActivate {
@@ -24,7 +24,7 @@ export class ChordsGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (
       (state.url === '/options' || state.url === '/progression') &&
-      chordsHelper.checkIfChordsAreGuessed(this.chords)
+      !chordsHelper.checkIfChordsAreGuessed(this.chords)
     ) {
       this.router.navigate(['/']);
     }
