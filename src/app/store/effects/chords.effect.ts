@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { AIService } from '@app/services/AIService.service';
+import { AIService } from '@app/services/AIService/ai-service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, concatMap, from, map, of, switchMap, withLatestFrom } from 'rxjs';

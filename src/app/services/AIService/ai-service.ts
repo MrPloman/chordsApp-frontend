@@ -3,10 +3,12 @@ import { Chord } from '@app/models/chord.model';
 import { queryOptions } from '@app/models/queryOptions.model';
 import { queryPrompt } from '@app/models/queryPrompt.model';
 import { QueryResponse } from '@app/models/queryResponse.model';
-import { environment } from '../../environments/environment';
-import { HTTPService } from './httpService.service';
+import { environment } from 'environments/environment';
+import { HTTPService } from '../httpService.service';
 
-@Injectable({ providedIn: 'root' })
+@Injectable({
+  providedIn: 'root',
+})
 export class AIService {
   private _httpService: HTTPService;
 
