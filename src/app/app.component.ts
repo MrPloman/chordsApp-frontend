@@ -11,7 +11,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { IconService } from './services/iconService.service';
-import { LazyTranslateService } from './services/lazyTranslateService.service';
+import { LazyTranslateService } from './services/LazyTranslateService/lazy-translate-service';
 import { selectedModeType } from './types/index.types';
 
 @Component({
