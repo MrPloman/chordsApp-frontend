@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { SelectedModeService } from '@app/services/selectedModeService.service';
+import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import {
   addHandbookChordToCurrentChords,
   getHandbookChords,

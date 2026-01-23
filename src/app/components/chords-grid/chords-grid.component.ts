@@ -8,7 +8,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { chordsHelper } from '@app/helpers/chords.helper';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { SelectedModeService } from '@app/services/selectedModeService.service';
+import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import {
   addChordToCurrentChords,
   changeChordsOrder,

@@ -4,7 +4,7 @@ import { dots } from '@app/config/global_variables/dots';
 import { fretboard } from '@app/config/global_variables/fretboard';
 import { chordsHelper } from '@app/helpers/chords.helper';
 import { Chord, NotePosition } from '@app/models/chord.model';
-import { SelectedModeService } from '@app/services/selectedModeService.service';
+import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import { editNoteFromChord } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';

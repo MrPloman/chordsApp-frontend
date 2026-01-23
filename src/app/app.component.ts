@@ -10,7 +10,7 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { IconService } from './services/iconService.service';
+import { IconService } from './services/IconService/icon-service';
 import { LazyTranslateService } from './services/LazyTranslateService/lazy-translate-service';
 import { selectedModeType } from './types/index.types';
 
