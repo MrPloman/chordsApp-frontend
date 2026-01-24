@@ -30,6 +30,7 @@ export class ChordsGuard implements CanActivate {
     }
     return true;
   }
+
   ngOnDestroy(): void {
     this.chordsStoreSubscription.unsubscribe();
   }

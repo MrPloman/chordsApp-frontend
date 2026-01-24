@@ -29,6 +29,7 @@ import {
   setChordSelected,
   setCurrentChordSelectedAndCheckAlternativeChords,
   setHandbookChordsSelected,
+  setWholeChordsState,
 } from '../actions/chords.actions';
 import { chordsInitialState, ChordsState } from '../state/chords.state';
 
@@ -36,6 +37,11 @@ import { chordsInitialState, ChordsState } from '../state/chords.state';
 function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsState {
   if (!state.currentChords) return { ...state };
   const chords = state.currentChords.filter((chord: Chord, index: number) => index !== chordToRemove);
+  setLocalStorage('chords', {
+    ...state,
+    chordSelected: 0,
+    currentChords: chords,
+  });
   return {
     ...state,
     chordSelected: 0,
@@ -53,6 +59,16 @@ function cleaningChordsArray(chords: Chord[]) {
 
 export const chordsReducer = createReducer(
   chordsInitialState,
+
+  // Set Whole Chords State from Local Storage
+  on(setWholeChordsState, (state, props) => {
+    return {
+      ...props.chordsState,
+      lastNoteSelected: props.chordsState.lastNoteSelected
+        ? props.chordsState.lastNoteSelected
+        : { name: '', position: -1, stringNumber: -1 },
+    };
+  }),
 
   // Selection section
   on(setChordSelected, (state, props) => {
@@ -74,8 +90,7 @@ export const chordsReducer = createReducer(
   }),
   on(removeChord, (state, props) => {
     const _state = removeChordHelper(state, props.chordToRemove);
-    setLocalStorage('chords', { ..._state });
-    return { ...state };
+    return { ..._state };
   }),
   on(removeNoteFromChord, (state, props) => {
     if (!state.currentChords) return state;

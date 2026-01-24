@@ -1,8 +1,11 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { createAction, props } from '@ngrx/store';
+import { ChordsState } from '../state/chords.state';
+
+// Set Whole Chords State
+export const setWholeChordsState = createAction('[Set Whole Chords State]', props<{ chordsState: ChordsState }>());
 
 // Set Chords
-
 export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
   props<{ chordSelected: number }>()

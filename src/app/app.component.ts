@@ -10,8 +10,13 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
 import { TranslatePipe, TranslateService } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
+import { chordsHelper } from './helpers/chords.helper';
+import { languageHelper } from './helpers/language.helper';
+import { getLocalStorage } from './helpers/local-storage.helper';
 import { IconService } from './services/IconService/icon-service';
 import { LazyTranslateService } from './services/LazyTranslateService/lazy-translate-service';
+import { setWholeChordsState } from './store/actions/chords.actions';
+import { setLanguageAction } from './store/actions/language.actions';
 import { selectedModeType } from './types/index.types';
 
 @Component({
@@ -45,7 +50,24 @@ export class AppComponent {
   private loaderSubscription: Subscription = new Subscription();
   private subscriptionFunctionStore: Subscription = new Subscription();
 
-  constructor() {}
+  constructor() {
+    const _language = getLocalStorage('language');
+    if (languageHelper.languageIsEmptyObject(_language)) this.store.dispatch(setLanguageAction({ language: 'en' }));
+    else this.store.dispatch(setLanguageAction({ language: _language }));
+    const _chordStore = getLocalStorage('chords');
+    // if (_language !== {}) this.store.dispatch(setLanguageAction({ language: _language }));
+    // else this.store.dispatch(setLanguageAction({ language: 'en' }));
+
+    if (chordsHelper.isChordState(_chordStore)) {
+      console.log('entra');
+      this.store.dispatch(setWholeChordsState({ chordsState: _chordStore }));
+    }
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+  }
 
   onVolumeChange(event: any) {
     // Use the updated volume value as needed (e.g., set audio volume)

@@ -1,6 +1,7 @@
 import { maximRandomNumber, minimumNotesToMakeChord } from '@app/config/global_variables/rules';
 import { chromaticScale, tuning } from '@app/config/global_variables/tuning';
 import { Chord, NotePosition } from '@app/models/chord.model';
+import { ChordsState } from '@app/store/state/chords.state';
 
 export function noteName(stringNumber: number, fret: number): string {
   const openNote = tuning[6 - stringNumber]; // convert to index
@@ -127,6 +128,42 @@ export function removeNonDesiredValuesFromNotesArray(chords: Chord[]) {
     };
   });
 }
+
+function isChordState(value: unknown): value is ChordsState {
+  console.log(value);
+  if (typeof value !== 'object' || value === null) {
+    return false;
+  }
+
+  const v = value as Record<string, unknown>;
+  console.log(v);
+  console.log(
+    Array.isArray(v['currentChords']) &&
+      typeof v['chordSelected'] === 'number' &&
+      Array.isArray(v['alternativeChords']) &&
+      typeof v['alternativeChordSelected'] === 'number' &&
+      Array.isArray(v['handbookChords']) &&
+      typeof v['handbookChordsSelected'] === 'number' &&
+      typeof v['message'] === 'string' &&
+      typeof v['loading'] === 'boolean'
+  );
+
+  return (
+    Array.isArray(v['currentChords']) &&
+    typeof v['chordSelected'] === 'number' &&
+    Array.isArray(v['alternativeChords']) &&
+    typeof v['alternativeChordSelected'] === 'number' &&
+    Array.isArray(v['handbookChords']) &&
+    typeof v['handbookChordsSelected'] === 'number' &&
+    typeof v['message'] === 'string' &&
+    typeof v['loading'] === 'boolean'
+  );
+}
+function isNotePosition(value: unknown): value is NotePosition {
+  return (
+    typeof value === 'object' && value !== null && 'string' in value // ajusta a tu modelo real
+  );
+}
 export const chordsHelper = {
   noteName,
   sortNotePosition,
@@ -141,4 +178,6 @@ export const chordsHelper = {
   generateId,
   checkAndGenerateID,
   removeNonDesiredValuesFromNotesArray,
+  isChordState,
+  isNotePosition,
 };
