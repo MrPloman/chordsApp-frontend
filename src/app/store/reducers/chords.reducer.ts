@@ -1,6 +1,7 @@
 import { Chord, NotePosition } from '@app/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
 
+import { setLocalStorage } from '@app/helpers/local-storage.helper';
 import * as chordsHelper from '../../helpers/chords.helper';
 import {
   addChordToCurrentChords,
@@ -56,6 +57,7 @@ export const chordsReducer = createReducer(
   // Selection section
   on(setChordSelected, (state, props) => {
     if (props.chordSelected === state.chordSelected) return { ...state };
+    setLocalStorage('chords', state);
     return {
       ...state,
       chordSelected: props.chordSelected,
