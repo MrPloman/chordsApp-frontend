@@ -1,14 +1,13 @@
 import { Component, inject, model, Signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
 import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslatePipe } from '@ngx-translate/core';
 import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
 import { chordsHelper } from './helpers/chords.helper';
 import { languageHelper } from './helpers/language.helper';
@@ -40,43 +39,20 @@ import { selectedModeType } from './types/index.types';
 })
 export class AppComponent {
   private store = inject(Store);
-  private translate = inject(TranslateService);
-  private iconService = inject(IconService);
+  public iconService = inject(IconService);
   private lazyTranslate = inject(LazyTranslateService);
   public router = inject(Router);
 
   public selectedMode: Signal<selectedModeType | undefined> = model(undefined);
-  public loading = false;
-  private loaderSubscription: Subscription = new Subscription();
-  private subscriptionFunctionStore: Subscription = new Subscription();
 
   constructor() {
     const _language = getLocalStorage('language');
+    const _chordStore = getLocalStorage('chords');
     if (languageHelper.languageIsEmptyObject(_language)) this.store.dispatch(setLanguageAction({ language: 'en' }));
     else this.store.dispatch(setLanguageAction({ language: _language }));
-    const _chordStore = getLocalStorage('chords');
-    // if (_language !== {}) this.store.dispatch(setLanguageAction({ language: _language }));
-    // else this.store.dispatch(setLanguageAction({ language: 'en' }));
-
-    if (chordsHelper.isChordState(_chordStore)) {
-      console.log('entra');
-      this.store.dispatch(setWholeChordsState({ chordsState: _chordStore }));
-    }
+    if (chordsHelper.isChordState(_chordStore)) this.store.dispatch(setWholeChordsState({ chordsState: _chordStore }));
   }
 
-  ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-  }
-
-  onVolumeChange(event: any) {
-    // Use the updated volume value as needed (e.g., set audio volume)
-  }
-
-  ngOnDestroy(): void {
-    this.subscriptionFunctionStore.unsubscribe();
-    this.loaderSubscription.unsubscribe();
-  }
   ngAfterViewInit() {
     requestIdleCallback(() => {
       this.lazyTranslate.initDefaultLanguage();

@@ -210,7 +210,7 @@ export const chordsReducer = createReducer(
 
   // Guesser section
   on(guessCurrentChords, (state, props) => {
-    setLocalStorage('chords', { ...state, loading: true });
+    setLocalStorage('chords', { ...state, loading: false });
     return { ...state, loading: true };
   }),
   on(guessCurrentChordsSuccess, (state, props) => {
@@ -241,7 +241,7 @@ export const chordsReducer = createReducer(
       return { ...state, error: 'Chords not guessed yet' };
     setLocalStorage('chords', {
       ...state,
-      loading: true,
+      loading: false,
     });
     return { ...state, loading: true };
   }),
@@ -277,7 +277,7 @@ export const chordsReducer = createReducer(
       ...state,
       alternativeChords: [],
       alternativeChordSelected: -1,
-      loading: true,
+      loading: false,
     });
     return { ...state, alternativeChords: [], alternativeChordSelected: -1, loading: true };
   }),
@@ -384,7 +384,7 @@ export const chordsReducer = createReducer(
 
   // Handbook section
   on(getHandbookChords, (state, props) => {
-    setLocalStorage('chords', { ...state, handbookChords: [], handbookChordsSelected: -1, loading: true });
+    setLocalStorage('chords', { ...state, handbookChords: [], handbookChordsSelected: -1, loading: false });
     return {
       ...state,
       handbookChords: [],

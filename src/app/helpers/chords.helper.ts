@@ -130,24 +130,11 @@ export function removeNonDesiredValuesFromNotesArray(chords: Chord[]) {
 }
 
 function isChordState(value: unknown): value is ChordsState {
-  console.log(value);
   if (typeof value !== 'object' || value === null) {
     return false;
   }
 
   const v = value as Record<string, unknown>;
-  console.log(v);
-  console.log(
-    Array.isArray(v['currentChords']) &&
-      typeof v['chordSelected'] === 'number' &&
-      Array.isArray(v['alternativeChords']) &&
-      typeof v['alternativeChordSelected'] === 'number' &&
-      Array.isArray(v['handbookChords']) &&
-      typeof v['handbookChordsSelected'] === 'number' &&
-      typeof v['message'] === 'string' &&
-      typeof v['loading'] === 'boolean'
-  );
-
   return (
     Array.isArray(v['currentChords']) &&
     typeof v['chordSelected'] === 'number' &&
