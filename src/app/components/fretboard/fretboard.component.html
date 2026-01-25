@@ -10,7 +10,8 @@
           <span
             class="noteName"
             [ngClass]="{
-              selected: isThisNoteSelected(note, getChords(chordsState), getChordSelected(chordsState)),
+              selected:
+                selectionMode() && isThisNoteSelected(note, getChords(chordsState), getChordSelected(chordsState)),
             }"
             >{{ note.name }}</span
           >
