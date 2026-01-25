@@ -39,12 +39,12 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
   const chords = state.currentChords.filter((chord: Chord, index: number) => index !== chordToRemove);
   setLocalStorage('chords', {
     ...state,
-    chordSelected: 0,
+    chordSelected: chords.length - 1,
     currentChords: chords,
   });
   return {
     ...state,
-    chordSelected: 0,
+    chordSelected: chords.length - 1,
     currentChords: chords,
   };
 }
@@ -83,8 +83,8 @@ export const chordsReducer = createReducer(
     };
   }),
   on(addChordToCurrentChords, (state, props) => {
-    const _chordSelected = state.chordSelected < 0 ? 0 : state.chordSelected;
     const chords = chordsHelper.checkAndGenerateID([...state.currentChords, props.newChord]);
+    const _chordSelected = chords.length - 1;
     setLocalStorage('chords', { ...state, currentChords: chords, chordSelected: _chordSelected });
     return { ...state, currentChords: chords, chordSelected: _chordSelected };
   }),
