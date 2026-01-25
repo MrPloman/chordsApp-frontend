@@ -1,8 +1,9 @@
 import { inject, Injectable } from '@angular/core';
+import { chordsNamesAreUnknown } from '@app/helpers/chords.helper';
 import { AIService } from '@app/services/AIService/ai-service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, concatMap, from, map, of, switchMap, withLatestFrom } from 'rxjs';
+import { catchError, EMPTY, expand, from, map, of, switchMap, takeLast, withLatestFrom } from 'rxjs';
 import {
   getAlternativeChordsOptions,
   getChordProgression,
@@ -33,7 +34,16 @@ export class ChordsEffects {
       withLatestFrom(this.store.select(selectCurrentChords), this.store.select(selectLanguage)),
       switchMap(([_, currentChords, language]) =>
         from(this.aiService.guessMyChords({ chords: currentChords }, language)).pipe(
-          concatMap((response) => [guessCurrentChordsSuccess({ currentChords: response.chords, message: '' })]),
+          expand((response) => {
+            if (chordsNamesAreUnknown(response.chords)) {
+              return this.aiService.guessMyChords({ chords: response.chords }, language);
+            }
+            return EMPTY;
+          }),
+          takeLast(1),
+          map((response) => {
+            return guessCurrentChordsSuccess({ currentChords: response.chords, message: '' });
+          }),
           catchError((error) => of(guessCurrentChordsError({ currentChords: currentChords, error: error })))
         )
       )

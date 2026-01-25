@@ -129,6 +129,14 @@ export function removeNonDesiredValuesFromNotesArray(chords: Chord[]) {
   });
 }
 
+export function chordsNamesAreUnknown(chords: Chord[]) {
+  let unknownChord = false;
+  chords.forEach((chord: Chord) => {
+    if (chord.name === 'Unknown') unknownChord = true;
+  });
+  return unknownChord;
+}
+
 function isChordState(value: unknown): value is ChordsState {
   if (typeof value !== 'object' || value === null) {
     return false;
@@ -167,4 +175,5 @@ export const chordsHelper = {
   removeNonDesiredValuesFromNotesArray,
   isChordState,
   isNotePosition,
+  chordsNamesAreUnknown,
 };
