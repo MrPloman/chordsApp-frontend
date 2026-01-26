@@ -7,18 +7,27 @@ h1 {
   word-spacing: 25px;
   padding: 30px;
 }
-#goBackButton {
-  margin: 1%;
-  margin-left: 5%;
-}
+
 #message {
   width: 90%;
   text-align: center;
   margin: 0 auto;
-  margin-top: 5%;
-  margin-bottom: 100px;
+  margin-top: 1%;
+  margin-bottom: 1%;
   font-size: 20px;
   letter-spacing: 2.5px;
   word-spacing: 15px;
   line-height: 35px;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 60px;
+    text-align: center;
+  }
+  #message {
+    width: 90%;
+    margin: 0 auto;
+    font-size: 16px;
+  }
 }
