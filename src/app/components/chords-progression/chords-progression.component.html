@@ -1,15 +1,13 @@
 @let chordsState = chordsStore | async;
 <div id="chordProgression">
-  <section id="information"></section>
-  <h2 id="sectionTitle">{{ 'progression_title' | translate }}</h2>
+  <section id="information">
+    <h2 id="sectionTitle">{{ 'progression_title' | translate }}</h2>
 
-  @if (chordsState?.message) {
-    <span class="message">{{ chordsState?.message }}</span>
-  } @else {
-    <span class="message">{{ 'progression_description' | translate }}</span>
-  }
-  <section id="chordSection">
-    <app-chords-grid></app-chords-grid>
+    @if (chordsState?.message) {
+      <span class="message">{{ chordsState?.message }}</span>
+    } @else {
+      <span class="message">{{ 'progression_description' | translate }}</span>
+    }
     <form id="promptSection" [formGroup]="progressionForm">
       <app-input-instruction
         [disabled]="chordsState?.loading ?? false"
@@ -27,5 +25,10 @@
         (click)="enableSubmitButton(chordsState) && askNewChordProgression()"
       ></app-submit-button>
     </form>
+  </section>
+  <section id="chordSection">
+    <h3>{{ 'my_chords' | translate }}</h3>
+
+    <app-chords-grid></app-chords-grid>
   </section>
 </div>
