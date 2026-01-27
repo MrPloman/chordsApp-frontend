@@ -1,14 +1,10 @@
 @let chordsState = chordsStore | async;
 
 <form id="chordsOptions-container">
-  <section id="information">
+  <section id="optionsColumn">
     <h2 id="sectionTitle">{{ 'exchanger_title' | translate }}</h2>
-
     <span id="message">{{ 'exchanger_description' | translate }}</span>
-  </section>
-  <section id="chordsSection">
-    <app-chords-grid></app-chords-grid>
-
+    <app-chords-grid id="optionsChords"></app-chords-grid>
     <div id="buttonsSection">
       <app-submit-button
         (click)="!chordsState?.loading && getOtherOptions()"
@@ -25,5 +21,9 @@
         [label]="'exchanger_button' | translate"
       ></app-submit-button>
     </div>
+  </section>
+  <section id="chordsSection">
+    <h3>{{ 'my_chords' | translate }}</h3>
+    <app-chords-grid [forceOnlyCurrentChordsToBeShown]="true"></app-chords-grid>
   </section>
 </form>

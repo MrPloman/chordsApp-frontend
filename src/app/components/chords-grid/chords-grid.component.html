@@ -16,7 +16,11 @@
       }
     }
     @case ('options') {
-      <ng-container *ngTemplateOutlet="optionsTemplate"></ng-container>
+      @if (forceOnlyCurrentChordsToBeShown) {
+        <ng-container *ngTemplateOutlet="guesserAndProgressionTemplate"></ng-container>
+      } @else {
+        <ng-container *ngTemplateOutlet="optionsTemplate"></ng-container>
+      }
     }
   }
 </ng-container>

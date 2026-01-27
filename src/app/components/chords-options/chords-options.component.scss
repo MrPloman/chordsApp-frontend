@@ -1,14 +1,16 @@
-@use "../../../variables.scss" as globalVars;
+@use '../../../variables.scss' as globalVars;
 
 #chordsOptions-container {
   margin-top: 5%;
   width: 100%;
   display: flex;
   flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: space-between;
   align-items: flex-start;
-  #information {
-    width: 35%;
+  #optionsColumn {
+    padding-left: 5%;
+
+    width: 40%;
     display: flex;
     flex-direction: column;
     #sectionTitle {
@@ -17,17 +19,18 @@
     }
     #message {
       width: 100%;
-      margin: 0 auto;
-      font-size: 20px;
-      font-weight: 300;
-      line-height: 30px;
       text-align: left;
-      padding: 10px 0;
+      margin: 0 auto;
+      margin-top: 1%;
+      margin-bottom: 1%;
+      font-size: 20px;
+      letter-spacing: 3.5px;
+      word-spacing: 20px;
+      line-height: 40px;
     }
-  }
-  #chordsSection {
-    width: 50%;
-
+    #optionsChords {
+      margin-top: 2%;
+    }
     #buttonsSection {
       display: flex;
       flex-direction: row;
@@ -36,6 +39,14 @@
       #exchangeButton {
         margin: 20px;
       }
+    }
+  }
+  #chordsSection {
+    width: 50%;
+    h3 {
+      text-align: left;
+      font-size: 40px;
+      color: rgba(0, 0, 0, 0.463);
     }
   }
 }
