@@ -1,6 +1,6 @@
 import { CdkDrag, CdkDragDrop, CdkDropList } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Component, inject, Signal } from '@angular/core';
+import { Component, inject, Input, Signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
@@ -24,6 +24,7 @@ import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
+import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
 import { maximChords } from '../../config/global_variables/rules';
 import { ChordCardComponent } from '../chord-card/chord-card.component';
@@ -40,11 +41,15 @@ import { ChordCardComponent } from '../chord-card/chord-card.component';
     MatIconModule,
     MatProgressSpinnerModule,
     ChordCardComponent,
+    TranslateModule,
   ],
   templateUrl: './chords-grid.component.html',
   styleUrl: './chords-grid.component.scss',
 })
 export class ChordsGridComponent {
+  // Only for handbook and options
+  @Input() forceOnlyCurrentChordsToBeShown?: boolean = false;
+
   // services
   private chordsService = chordsHelper;
 

@@ -1,13 +1,12 @@
 @let chordsState = chordsStore | async;
 
 <form id="chordsHandbook-container">
-  <section id="information">
+  <section id="handbookColumn">
     <h2 id="sectionTitle">{{ 'handbook_title' | translate }}</h2>
 
     <span id="message">{{ 'handbook_description' | translate }}</span>
-  </section>
-  <section id="chordsSection">
-    <app-chords-grid></app-chords-grid>
+
+    <app-chords-grid id="handbookChords"></app-chords-grid>
     <form id="formSection" [formGroup]="chordRequestForm">
       <div id="inputSection">
         <app-input-selector
@@ -41,5 +40,9 @@
         ></app-submit-button>
       </div>
     </form>
+  </section>
+  <section id="currentChordsColumn">
+    <h3>{{ 'my_chords' | translate }}</h3>
+    <app-chords-grid [forceOnlyCurrentChordsToBeShown]="true"></app-chords-grid>
   </section>
 </form>

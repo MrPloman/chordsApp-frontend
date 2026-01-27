@@ -1,7 +1,8 @@
 @use '../../../variables.scss' as globalVars;
 
 .newChordButton {
-  margin: 10px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   border: 2px solid grey;
   padding: 20px;
   border-radius: 10px;
@@ -21,7 +22,8 @@
   transition: 0.5s color;
   animation: slideIn 0.5s ease-in-out;
 
-  margin: 10px;
+  margin-right: 20px;
+  margin-bottom: 20px;
   border: 2px solid globalVars.$secondary-color;
   padding: 20px;
   border-radius: 10px;
