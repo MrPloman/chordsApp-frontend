@@ -50,3 +50,51 @@
     }
   }
 }
+@media (max-width: 768px) {
+  #chordsOptions-container {
+    margin-top: 5%;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap-reverse;
+    justify-content: center;
+    align-items: center;
+    #optionsColumn {
+      width: 90%;
+      margin: 0 auto;
+      padding-left: 0%;
+      #sectionTitle {
+        text-align: left;
+        font-size: 30px;
+      }
+      #message {
+        font-size: 12px;
+        letter-spacing: 1.5px;
+        word-spacing: 10px;
+        line-height: 20px;
+      }
+      #optionsChords {
+        margin-top: 2%;
+      }
+      #buttonsSection {
+        width: 90%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        margin-bottom: 20px;
+        #getOtherOptionsButton,
+        #exchangeButton {
+          margin: 0px;
+        }
+      }
+    }
+    #chordsSection {
+      width: 90%;
+      h3 {
+        text-align: left;
+        font-size: 30px;
+        color: rgba(0, 0, 0, 0.463);
+      }
+    }
+  }
+}

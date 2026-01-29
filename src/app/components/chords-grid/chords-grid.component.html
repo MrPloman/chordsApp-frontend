@@ -77,9 +77,6 @@
   }
 </ng-template>
 <ng-template #optionsTemplate>
-  @if ((chordsState?.alternativeChords?.length ?? 0) > 0) {
-    <span id="separation"></span>
-  }
   @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
   } @else {
