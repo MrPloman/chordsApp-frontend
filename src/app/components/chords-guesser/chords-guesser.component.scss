@@ -47,8 +47,35 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    #information {
+    #informationColumn {
       width: 90%;
+      margin: 0 auto;
+      padding-left: 0%;
+
+      #sectionTitle {
+        text-align: left;
+        font-size: 30px;
+      }
+      #message {
+        font-size: 10px;
+        letter-spacing: 1.5px;
+        word-spacing: 10px;
+        line-height: 20px;
+      }
+    }
+    #chordsSection {
+      width: 90%;
+      justify-content: center;
+      h3 {
+        text-align: left;
+        font-size: 30px;
+        color: rgba(0, 0, 0, 0.463);
+      }
+      #submitButton {
+        margin: 0 auto;
+        margin-top: 30px;
+        margin-bottom: 5%;
+      }
     }
   }
 }

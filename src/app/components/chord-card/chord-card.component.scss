@@ -153,3 +153,75 @@
     opacity 300ms ease-out,
     transform 300ms ease-out;
 }
+
+@media (max-width: 768px) {
+  .newChordButton {
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 10px;
+    width: 100px;
+    height: 180px;
+    margin: 5px;
+
+    h2 {
+      font-size: 50px;
+    }
+  }
+  .chord {
+    padding: 10px;
+    border-radius: 10px;
+    margin: 0;
+    min-height: 75px;
+    width: 100px;
+    height: 180px;
+    margin: 5px;
+
+    .header {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: space-between;
+      .deleteButton {
+        cursor: pointer;
+        font-size: 10px;
+      }
+      .chordName {
+        font-size: 12px;
+      }
+    }
+
+    .chordStructure {
+      margin: 5px 0 5px;
+      font-size: 10px;
+
+      .chordFigure {
+        margin: 5px 0 5px 0;
+        span {
+          margin-left: 5px;
+          margin-right: 5px;
+        }
+        .removeNote {
+          padding: 2.5px;
+          width: 7.5px;
+          border-radius: 5px;
+        }
+        .removeNote:hover {
+          background-color: rgba(159, 3, 3, 0.589);
+        }
+      }
+    }
+
+    .soundIcon {
+      padding: 0px;
+      border-radius: 20px;
+      width: 15px;
+      height: 15px;
+    }
+  }
+  .selected {
+    .soundIcon {
+      width: 15px;
+      height: 15px;
+    }
+  }
+}
