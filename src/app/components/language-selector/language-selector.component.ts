@@ -1,13 +1,15 @@
+import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { setLanguageAction } from '@app/store/actions/language.actions';
 import { selectLanguage } from '@app/store/selectors/language.selector';
+import { languageType } from '@app/types/index.types';
 import { Store } from '@ngrx/store';
-import { TranslatePipe, TranslateService } from '@ngx-translate/core';
+import { TranslateModule, TranslateService } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-language-selector',
-  imports: [MatButtonToggleModule, TranslatePipe],
+  imports: [MatButtonToggleModule, CommonModule, TranslateModule],
   standalone: true,
   templateUrl: './language-selector.component.html',
   styleUrl: './language-selector.component.scss',
@@ -17,7 +19,7 @@ export class LanguageSelectorComponent {
   private store = inject(Store);
   public languageStore = this.store.select(selectLanguage);
 
-  public selectLanguage(language: 'es' | 'en') {
+  public selectLanguage(language: languageType) {
     this.translate.use(language);
     this.store.dispatch(setLanguageAction({ language }));
   }
