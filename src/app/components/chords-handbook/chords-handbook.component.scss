@@ -94,17 +94,23 @@
       #formSection {
         margin-top: 15px;
         #inputSection {
-          width: 90%;
-          flex-direction: row;
+          width: 100%;
+          flex-wrap: wrap;
           justify-content: center;
           align-items: center;
           margin: 0 auto;
           font-size: 12px;
+          .input {
+            width: 100%;
+          }
         }
         #buttonsSection {
-          width: 90%;
+          width: 100%;
           margin: 0 auto;
+          display: flex;
+          flex-wrap: wrap;
           app-submit-button {
+            width: 100%;
             margin-top: 0px;
           }
         }
