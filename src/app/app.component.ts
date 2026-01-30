@@ -14,6 +14,7 @@ import { languageHelper } from './helpers/language.helper';
 import { getLocalStorage } from './helpers/local-storage.helper';
 import { IconService } from './services/IconService/icon-service';
 import { LazyTranslateService } from './services/LazyTranslateService/lazy-translate-service';
+import { SelectedModeService } from './services/SelectedMode/selected-mode-service';
 import { setWholeChordsState } from './store/actions/chords.actions';
 import { setLanguageAction } from './store/actions/language.actions';
 import { selectedModeType } from './types/index.types';
@@ -42,12 +43,15 @@ export class AppComponent {
   public iconService = inject(IconService);
   private lazyTranslate = inject(LazyTranslateService);
   public router = inject(Router);
+  private selectedModeService = inject(SelectedModeService);
 
   public selectedMode: Signal<selectedModeType | undefined> = model(undefined);
 
   constructor() {
     const _language = getLocalStorage('language');
     const _chordStore = getLocalStorage('chords');
+    const _selectedMode = getLocalStorage('selectedMode');
+    this.selectedModeService.setSelectedMode(_selectedMode);
     if (languageHelper.languageIsEmptyObject(_language)) this.store.dispatch(setLanguageAction({ language: 'en' }));
     else this.store.dispatch(setLanguageAction({ language: _language }));
     if (chordsHelper.isChordState(_chordStore))
