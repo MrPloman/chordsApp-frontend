@@ -27,6 +27,8 @@
   }
   #chordsSection {
     width: 50%;
+    display: flex;
+    flex-direction: column;
     h3 {
       text-align: left;
       font-size: 40px;
@@ -36,6 +38,7 @@
       margin: 0 auto;
       margin-top: 30px;
       margin-bottom: 5%;
+      width: 30%;
     }
   }
 }
