@@ -58,10 +58,10 @@
 }
 @media (max-width: 768px) {
   #chordsOptions-container {
-    margin-top: 5%;
+    margin-top: 10%;
     width: 100%;
     display: flex;
-    flex-wrap: wrap-reverse;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     #optionsColumn {
@@ -71,8 +71,10 @@
       #sectionTitle {
         text-align: left;
         font-size: 30px;
+        margin-left: 4%;
       }
       #message {
+        width: 90%;
         font-size: 12px;
         letter-spacing: 1.5px;
         word-spacing: 10px;
