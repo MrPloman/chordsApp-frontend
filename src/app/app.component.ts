@@ -17,7 +17,7 @@ import { LazyTranslateService } from './services/LazyTranslateService/lazy-trans
 import { SelectedModeService } from './services/SelectedMode/selected-mode-service';
 import { setWholeChordsState } from './store/actions/chords.actions';
 import { setLanguageAction } from './store/actions/language.actions';
-import { selectedModeType } from './types/index.types';
+import { languageType, selectedModeType } from './types/index.types';
 
 @Component({
   selector: 'app-root',
@@ -46,21 +46,27 @@ export class AppComponent {
   private selectedModeService = inject(SelectedModeService);
 
   public selectedMode: Signal<selectedModeType | undefined> = model(undefined);
+  private language: languageType = 'en';
 
   constructor() {
     const _language = getLocalStorage('language');
     const _chordStore = getLocalStorage('chords');
     const _selectedMode = getLocalStorage('selectedMode');
     this.selectedModeService.setSelectedMode(_selectedMode);
-    if (languageHelper.languageIsEmptyObject(_language)) this.store.dispatch(setLanguageAction({ language: 'en' }));
-    else this.store.dispatch(setLanguageAction({ language: _language }));
+    if (languageHelper.languageIsEmptyObject(_language)) {
+      this.language = 'en';
+      this.store.dispatch(setLanguageAction({ language: 'en' }));
+    } else {
+      this.language = _language;
+      this.store.dispatch(setLanguageAction({ language: _language }));
+    }
     if (chordsHelper.isChordState(_chordStore))
       this.store.dispatch(setWholeChordsState({ chords: { ..._chordStore } }));
   }
 
   ngAfterViewInit() {
     requestIdleCallback(() => {
-      this.lazyTranslate.initDefaultLanguage();
+      this.lazyTranslate.initDefaultLanguage(this.language);
     });
   }
 }
