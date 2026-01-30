@@ -67,6 +67,9 @@ export class ChordsGridComponent {
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   ngOnInit(): void {
+    this.chordsStore.subscribe((c) => {
+      console.log(c);
+    });
     // if (this.selectedMode() === 'options') this.getNewAlternativeChords();
   }
 
@@ -84,9 +87,9 @@ export class ChordsGridComponent {
     this.store.dispatch(setCurrentChordSelectedAndCheckAlternativeChords({ chordSelected: position }));
   }
 
-  private setAlternativeChords(currentChordSelected: number) {
-    this.store.dispatch(setChordSelected({ chordSelected: currentChordSelected }));
-  }
+  // private setAlternativeChords(currentChordSelected: number) {
+  //   this.store.dispatch(setChordSelected({ chordSelected: currentChordSelected }));
+  // }
 
   public selectAlternativeChord(position: number) {
     this.store.dispatch(setAlternativeChordSelected({ alternativeChordSelected: position }));

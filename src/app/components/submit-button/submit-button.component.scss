@@ -27,3 +27,9 @@
     color: white;
   }
 }
+@media (max-width: 768px) {
+  .button-container {
+    margin-top: 0px;
+    font-size: 12px;
+  }
+}

@@ -85,13 +85,15 @@
         width: 90%;
         margin: 0 auto;
         display: flex;
-        flex-direction: row;
-        justify-content: space-evenly;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
         margin-bottom: 20px;
         #getOtherOptionsButton,
         #exchangeButton {
-          width: 30%;
+          width: 90%;
           margin: 0px;
+          margin-top: 20px;
         }
       }
     }

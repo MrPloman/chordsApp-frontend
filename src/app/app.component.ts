@@ -51,7 +51,7 @@ export class AppComponent {
     if (languageHelper.languageIsEmptyObject(_language)) this.store.dispatch(setLanguageAction({ language: 'en' }));
     else this.store.dispatch(setLanguageAction({ language: _language }));
     if (chordsHelper.isChordState(_chordStore))
-      this.store.dispatch(setWholeChordsState({ chordsState: { ..._chordStore } }));
+      this.store.dispatch(setWholeChordsState({ chords: { ..._chordStore } }));
   }
 
   ngAfterViewInit() {

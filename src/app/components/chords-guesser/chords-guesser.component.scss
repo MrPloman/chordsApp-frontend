@@ -58,8 +58,11 @@
       #sectionTitle {
         text-align: left;
         font-size: 30px;
+        margin-left: 4%;
       }
       #message {
+        text-align: justify;
+        width: 90%;
         font-size: 12px;
         letter-spacing: 1.5px;
         word-spacing: 10px;
@@ -72,12 +75,15 @@
       h3 {
         text-align: left;
         font-size: 30px;
+        margin-left: 4%;
+
         color: rgba(0, 0, 0, 0.463);
       }
       #submitButton {
         margin: 0 auto;
         margin-top: 30px;
         margin-bottom: 5%;
+        width: 90%;
       }
     }
   }

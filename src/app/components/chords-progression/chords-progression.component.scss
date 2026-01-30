@@ -70,8 +70,11 @@
       #sectionTitle {
         text-align: left;
         font-size: 30px;
+        margin-left: 4%;
       }
       .message {
+        text-align: justify;
+        width: 90%;
         font-size: 12px;
         letter-spacing: 1.5px;
         word-spacing: 10px;
@@ -83,7 +86,7 @@
         align-items: center;
         width: 90%;
         margin: 0 auto;
-        margin-top: 7%;
+        margin-top: 6%;
         app-input-instruction {
           width: 100%;
         }
@@ -97,7 +100,9 @@
     #chordSection {
       width: 90%;
       justify-content: center;
+      margin-bottom: 8%;
       h3 {
+        margin-left: 4%;
         text-align: left;
         font-size: 30px;
         color: rgba(0, 0, 0, 0.463);
