@@ -1,7 +1,13 @@
 @let chordsState = chordsStore | async;
 <div id="fretboard">
   @for (dot of currentDots; track $index; let indexDot = $index) {
-    <img class="dot" [src]="dot.src" alt="dot" [style.left]="dot.left" [style.top]="dot.top" />
+    <img
+      class="dot"
+      [src]="dot.src"
+      alt="dot"
+      [style.left]="screenWidth785px ? makeitMobile(dot.left) + 'px' : dot.left + 'px'"
+      [style.top]="screenWidth785px ? makeitMobile(dot.top) + 'px' : dot.top + 'px'"
+    />
   }
   @for (string of currentFretboard; track $index; let indexDot = $index) {
     <div class="stringBoard">
@@ -24,7 +30,7 @@
   <div class="positions">
     @for (item of currentFretboard[0]; track $index; let indexItem = $index) {
       <div class="fretPosition">
-        <span>
+        <span class="numberPosition">
           {{ item.position }}
         </span>
       </div>

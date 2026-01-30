@@ -1,43 +1,56 @@
 @let chordsState = chordsStore | async;
 
-<div class="chordGrid">
-  <section class="chords" (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListOrientation="mixed">
-    @for (chord of chordsState?.currentChords; track trackById(chordIndex, chord); let chordIndex = $index) {
-      <app-chord-card
-        cdkDrag
-        [visible]="chord.visible !== undefined ? chord.visible : true"
-        [newChordUI]="false"
-        [selectedMode]="selectedMode"
-        [currentChordsLength]="chordsState?.currentChords?.length ?? 0"
-        [chord]="chord"
-        [chordPosition]="chordIndex"
-        [isSelected]="chordIndex === chordsState?.chordSelected"
-        (click)="selectChord(chordIndex)"
-        (emitDeleteChord)="deleteChord(chordIndex)"
-        (emitRemoveNote)="removeNote($event.notePosition, $event.chordPosition)"
-      ></app-chord-card>
-    }
-    @if (selectedMode() === 'guesser' && (chordsState?.currentChords?.length ?? 0) <= maxChords) {
-      <app-chord-card [newChordUI]="true" (emitNewChord)="addNewChord($event)"></app-chord-card>
-    }
-  </section>
-</div>
-
 <ng-container>
   @switch (selectedMode()) {
+    @case ('guesser') {
+      <ng-container *ngTemplateOutlet="guesserAndProgressionTemplate"></ng-container>
+    }
+    @case ('progression') {
+      <ng-container *ngTemplateOutlet="guesserAndProgressionTemplate"></ng-container>
+    }
     @case ('handbook') {
-      <ng-container *ngTemplateOutlet="handbookTemplate"></ng-container>
+      @if (forceOnlyCurrentChordsToBeShown) {
+        <ng-container *ngTemplateOutlet="guesserAndProgressionTemplate"></ng-container>
+      } @else {
+        <ng-container *ngTemplateOutlet="handbookTemplate"></ng-container>
+      }
     }
     @case ('options') {
-      <ng-container *ngTemplateOutlet="optionsTemplate"></ng-container>
+      @if (forceOnlyCurrentChordsToBeShown) {
+        <ng-container *ngTemplateOutlet="guesserAndProgressionTemplate"></ng-container>
+      } @else {
+        <ng-container *ngTemplateOutlet="optionsTemplate"></ng-container>
+      }
     }
   }
 </ng-container>
 
+<ng-template #guesserAndProgressionTemplate>
+  <div class="chordGrid">
+    <section class="chords" (cdkDropListDropped)="drop($event)" cdkDropList cdkDropListOrientation="mixed">
+      @for (chord of chordsState?.currentChords; track trackById(chordIndex, chord); let chordIndex = $index) {
+        <app-chord-card
+          cdkDrag
+          [visible]="chord.visible !== undefined ? chord.visible : true"
+          [newChordUI]="false"
+          [selectedMode]="selectedMode"
+          [currentChordsLength]="chordsState?.currentChords?.length ?? 0"
+          [chord]="chord"
+          [chordPosition]="chordIndex"
+          [isSelected]="chordIndex === chordsState?.chordSelected"
+          (click)="selectChord(chordIndex)"
+          (emitDeleteChord)="deleteChord(chordIndex)"
+          (emitRemoveNote)="removeNote($event.notePosition, $event.chordPosition)"
+        ></app-chord-card>
+      }
+      @if (selectedMode() === 'guesser' && (chordsState?.currentChords?.length ?? 0) <= maxChords) {
+        <app-chord-card [newChordUI]="true" (emitNewChord)="addNewChord($event)"></app-chord-card>
+      }
+    </section>
+  </div>
+</ng-template>
+
 <ng-template #handbookTemplate>
-  @if ((chordsState?.handbookChords?.length ?? 0) > 0 && (chordsState?.handbookChords?.length ?? 0) > 0) {
-    <span id="separation"></span>
-  }
   @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
   } @else {
@@ -64,9 +77,6 @@
   }
 </ng-template>
 <ng-template #optionsTemplate>
-  @if ((chordsState?.alternativeChords?.length ?? 0) > 0) {
-    <span id="separation"></span>
-  }
   @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
   } @else {

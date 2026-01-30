@@ -1,4 +1,4 @@
-@use "../../../variables.scss" as globalVars;
+@use '../../../variables.scss' as globalVars;
 #fretboard {
   border-top: 1px solid;
   display: flex;
@@ -74,6 +74,51 @@
     }
     .fretPosition:first-of-type {
       min-width: 45px;
+    }
+  }
+}
+@media (max-width: 768px) {
+  #fretboard {
+    .dot {
+      width: 12.5px;
+      height: 12.5px;
+    }
+    .stringBoard {
+      width: 1000px;
+
+      .fret {
+        border-left: 2.5px solid rgb(102, 102, 102);
+        min-width: 50px;
+        height: 25px;
+
+        .noteName {
+          margin-bottom: 7.5px;
+          font-size: 6px;
+        }
+        .selected {
+          width: 12.5px;
+          padding: 2.5px;
+          border-radius: 5px;
+        }
+        .stringLine {
+          height: 1px;
+        }
+      }
+      .fret:first-of-type {
+        min-width: 20px;
+      }
+    }
+    .positions {
+      width: 1000px;
+
+      .fretPosition {
+        border-top: 1px solid rgb(59, 42, 5);
+        min-width: 52.5px;
+        font-size: 10px;
+      }
+      .fretPosition:first-of-type {
+        min-width: 22.5px;
+      }
     }
   }
 }

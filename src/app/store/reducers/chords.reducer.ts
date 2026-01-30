@@ -63,9 +63,9 @@ export const chordsReducer = createReducer(
   // Set Whole Chords State from Local Storage
   on(setWholeChordsState, (state, props) => {
     return {
-      ...props.chordsState,
-      lastNoteSelected: props.chordsState.lastNoteSelected
-        ? props.chordsState.lastNoteSelected
+      ...props.chords,
+      lastNoteSelected: props.chords.lastNoteSelected
+        ? props.chords.lastNoteSelected
         : { name: '', position: -1, stringNumber: -1 },
     };
   }),

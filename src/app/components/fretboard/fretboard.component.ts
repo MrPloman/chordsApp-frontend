@@ -1,3 +1,4 @@
+import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Signal } from '@angular/core';
 import { dots } from '@app/config/global_variables/dots';
@@ -15,14 +16,14 @@ import { Observable } from 'rxjs';
 @Component({
   selector: 'app-fretboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, LayoutModule],
   templateUrl: './fretboard.component.html',
   styleUrl: './fretboard.component.scss',
 })
 export class FretboardComponent {
   // Rules
   public currentFretboard = fretboard;
-  public currentDots = dots;
+  public currentDots = [...dots];
 
   private selectedModeService = inject(SelectedModeService);
   private store = inject(Store);
@@ -31,7 +32,19 @@ export class FretboardComponent {
   public selectionMode: Signal<selectedModeType | undefined> = this.selectedModeService.selectedMode;
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
+  private breakpointObserver = inject(BreakpointObserver);
+  screenWidth785px: boolean = false;
+
   constructor() {}
+  public makeitMobile(value: any) {
+    return String(Number(value / 2));
+  }
+  ngOnInit(): void {
+    const bPoint768px = '(max-width: 768px)';
+    this.breakpointObserver.observe(bPoint768px).subscribe((x) => {
+      this.screenWidth785px = x.breakpoints[bPoint768px];
+    });
+  }
 
   public selectNote(note: NotePosition, chords: Chord[], chordPosition: number) {
     this.makeItSound(note);

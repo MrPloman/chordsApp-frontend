@@ -3,7 +3,7 @@ import { createAction, props } from '@ngrx/store';
 import { ChordsState } from '../state/chords.state';
 
 // Set Whole Chords State
-export const setWholeChordsState = createAction('[Set Whole Chords State]', props<{ chordsState: ChordsState }>());
+export const setWholeChordsState = createAction('[Set Whole Chords State]', props<{ chords: ChordsState }>());
 
 // Set Chords
 export const setChordSelected = createAction(

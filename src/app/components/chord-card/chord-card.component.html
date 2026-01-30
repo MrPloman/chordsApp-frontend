@@ -9,7 +9,6 @@
       <header class="header">
         @if (
           selectedMode() === 'guesser' ||
-          selectedMode() === 'handbook' ||
           (selectedMode() === 'progression' && currentChordsLength > minimumChordsToMakeProgression)
         ) {
           <span class="deleteButton" (click)="deleteChord()">X</span>

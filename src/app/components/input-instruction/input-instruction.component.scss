@@ -3,3 +3,10 @@ mat-form-field {
   width: 100%;
   justify-self: center;
 }
+@media (max-width: 768px) {
+  mat-form-field {
+    input {
+      font-size: 12px;
+    }
+  }
+}
