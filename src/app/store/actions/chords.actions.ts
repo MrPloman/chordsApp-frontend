@@ -1,4 +1,4 @@
-import { Chord, NotePosition } from '@app/models/chord.model';
+import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import { createAction, props } from '@ngrx/store';
 import { ChordsState } from '../state/chords.state';
 

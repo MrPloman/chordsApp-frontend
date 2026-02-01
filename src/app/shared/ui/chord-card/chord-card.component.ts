@@ -4,7 +4,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { FadeAndSlideDirective } from '@app/directives/fade-and-slide/fade-and-slide.directive';
 import { chordsHelper } from '@app/helpers/chords.helper';
-import { Chord, NotePosition } from '@app/models/chord.model';
+import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import { selectedModeType } from '@app/types/index.types';
 
 @Component({

@@ -2,14 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
+import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
 import { exchangeChordOptionForCurrenChord, getAlternativeChordsOptions } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
-import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 
 @Component({
   selector: 'app-chords-options',

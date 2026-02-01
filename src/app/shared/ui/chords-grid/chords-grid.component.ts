@@ -5,10 +5,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { maximChords, minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
 import { chordsHelper } from '@app/helpers/chords.helper';
-import { Chord, NotePosition } from '@app/models/chord.model';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
+import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import {
   addChordToCurrentChords,
   changeChordsOrder,
@@ -26,7 +26,6 @@ import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';
-import { maximChords } from '../../config/global_variables/rules';
 import { ChordCardComponent } from '../chord-card/chord-card.component';
 
 @Component({

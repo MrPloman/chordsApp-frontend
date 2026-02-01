@@ -1,4 +1,4 @@
-import { Chord } from '@app/models/chord.model';
+import { Chord } from '@app/shared/models/chord.model';
 
 export interface ChordsState {
   currentChords: Chord[];

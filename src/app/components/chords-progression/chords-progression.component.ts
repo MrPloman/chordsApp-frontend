@@ -1,18 +1,18 @@
 import { Component, inject } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { InputInstructionComponent } from '../input-instruction/input-instruction.component';
-import { SubmitButtonComponent } from '../submit-button/submit-button.component';
 
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { chordsHelper } from '@app/helpers/chords.helper';
+import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
+import { InputInstructionComponent } from '@app/shared/ui/input-instruction/input-instruction.component';
+import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
 import { getChordProgression, resetMessages } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
 import { TranslatePipe } from '@ngx-translate/core';
-import * as chordsHelper from '../../helpers/chords.helper';
-import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
 
 @Component({
   selector: 'app-chords-progression',

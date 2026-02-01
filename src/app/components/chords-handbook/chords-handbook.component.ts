@@ -2,7 +2,12 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { noteForms } from '@app/config/global_variables/noteForms.options';
+import { noteOptions } from '@app/config/global_variables/notes.options';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
+import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
+import { InputSelectorComponent } from '@app/shared/ui/input-selector/input-selector.component';
+import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
 import {
   addHandbookChordToCurrentChords,
   getHandbookChords,
@@ -13,11 +18,7 @@ import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable, Subscription } from 'rxjs';
-import { noteForms } from '../../config/global_variables/noteForms.options';
-import { noteOptions } from '../../config/global_variables/notes.options';
-import { ChordsGridComponent } from '../chords-grid/chords-grid.component';
-import { InputSelectorComponent } from '../input-selector/input-selector.component';
-import { SubmitButtonComponent } from '../submit-button/submit-button.component';
+
 @Component({
   selector: 'app-chords-handbook',
   standalone: true,
@@ -31,7 +32,6 @@ import { SubmitButtonComponent } from '../submit-button/submit-button.component'
     InputSelectorComponent,
     SubmitButtonComponent,
     SubmitButtonComponent,
-    ChordsGridComponent,
     ReactiveFormsModule,
     TranslatePipe,
     CommonModule,
