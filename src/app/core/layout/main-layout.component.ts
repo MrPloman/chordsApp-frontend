@@ -1,11 +1,11 @@
 import { Component, inject, model, OnInit, Signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
-import { FretboardComponent } from '@app/components/fretboard/fretboard.component';
-import { FunctionSelectorComponent } from '@app/components/function-selector/function-selector.component';
-import { LanguageSelectorComponent } from '@app/components/language-selector/language-selector.component';
+import { LanguageSelectorComponent } from '@app/core/layout/components/language-selector/language-selector.component';
 import { selectedModeType } from '@app/types/index.types';
 import { TranslatePipe } from '@ngx-translate/core';
 import { SelectedModeService } from '../../services/SelectedMode/selected-mode-service';
+import { FretboardComponent } from './components/fretboard/fretboard.component';
+import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 
 @Component({
   standalone: true,
