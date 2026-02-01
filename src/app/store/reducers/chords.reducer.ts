@@ -39,12 +39,12 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
   const chords = state.currentChords.filter((chord: Chord, index: number) => index !== chordToRemove);
   setLocalStorage('chords', {
     ...state,
-    chordSelected: chords.length - 1,
+    currentChordSelected: chords.length - 1,
     currentChords: chords,
   });
   return {
     ...state,
-    chordSelected: chords.length - 1,
+    currentChordSelected: chords.length - 1,
     currentChords: chords,
   };
 }
@@ -69,21 +69,21 @@ export const chordsReducer = createReducer(
 
   // Selection section
   on(setChordSelected, (state, props) => {
-    if (props.chordSelected === state.chordSelected) return { ...state };
+    if (props.currentChordSelected === state.currentChordSelected) return { ...state };
     setLocalStorage('chords', {
       ...state,
-      chordSelected: props.chordSelected,
+      currentChordSelected: props.currentChordSelected,
     });
     return {
       ...state,
-      chordSelected: props.chordSelected,
+      currentChordSelected: props.currentChordSelected,
     };
   }),
   on(addChordToCurrentChords, (state, props) => {
     const chords = chordsHelper.checkAndGenerateID([...state.currentChords, props.newChord]);
-    const _chordSelected = chords.length - 1;
-    setLocalStorage('chords', { ...state, currentChords: chords, chordSelected: _chordSelected });
-    return { ...state, currentChords: chords, chordSelected: _chordSelected };
+    const _currentChordSelected = chords.length - 1;
+    setLocalStorage('chords', { ...state, currentChords: chords, currentChordSelected: _currentChordSelected });
+    return { ...state, currentChords: chords, currentChordSelected: _currentChordSelected };
   }),
   on(removeChord, (state, props) => {
     const _state = removeChordHelper(state, props.chordToRemove);
@@ -92,7 +92,7 @@ export const chordsReducer = createReducer(
   on(removeNoteFromChord, (state, props) => {
     if (!state.currentChords) return state;
     const newChords = state.currentChords.map((chordElement: Chord, chordIndex: number) => {
-      if (chordIndex !== props.chordSelected) {
+      if (chordIndex !== props.currentChordSelected) {
         return chordElement;
       }
       const notes: NotePosition[] = chordsHelper.sortNotePosition(
@@ -109,14 +109,18 @@ export const chordsReducer = createReducer(
         _id: chordElement._id,
       };
     });
-    if (newChords[props.chordSelected].notes.length === 0) {
-      return removeChordHelper({ ...state, currentChords: newChords }, props.chordSelected);
+    if (newChords[props.currentChordSelected].notes.length === 0) {
+      return removeChordHelper({ ...state, currentChords: newChords }, props.currentChordSelected);
     }
     setLocalStorage('chords', { ...state, currentChords: newChords });
     return { ...state, currentChords: newChords };
   }),
   on(editNoteFromChord, (state, props) => {
-    if (!state.currentChords || state.chordSelected === undefined || !state.currentChords[state.chordSelected])
+    if (
+      !state.currentChords ||
+      state.currentChordSelected === undefined ||
+      !state.currentChords[state.currentChordSelected]
+    )
       return { ...state };
 
     // Setting variable add a note in a missing string
@@ -124,7 +128,7 @@ export const chordsReducer = createReducer(
     let repeatedNote: NotePosition | undefined = undefined;
 
     // Iteration inside all the chords finding which is the chord to modify its notes
-    let notesModified = state.currentChords[state.chordSelected].notes.map((notePosition: NotePosition) => {
+    let notesModified = state.currentChords[state.currentChordSelected].notes.map((notePosition: NotePosition) => {
       // checking every string if they are supposed to be modified
       if (notePosition.stringNumber === props.notePosition.stringNumber) {
         // setting this variable because means the string has a note position inside the chord array, otherwise the chord array would not have any object with that stringnumber
@@ -161,7 +165,7 @@ export const chordsReducer = createReducer(
     }
     // time to infer these notes inside the notes value of the desired chord.
     let chordsLeft = state.currentChords.map((chord: Chord, index) => {
-      if (index === props.chordSelected) {
+      if (index === props.currentChordSelected) {
         return new Chord(notesModified, [], chord.name, chord._id);
       }
       return chord;
@@ -169,18 +173,18 @@ export const chordsReducer = createReducer(
 
     // remove chord if there are no notes inside of it
     if (notesModified.length === 0) {
-      chordsLeft = chordsLeft.filter((chord, index) => index !== props.chordSelected);
+      chordsLeft = chordsLeft.filter((chord, index) => index !== props.currentChordSelected);
     }
 
     setLocalStorage('chords', {
       ...state,
-      chordSelected: props.chordSelected,
+      currentChordSelected: props.currentChordSelected,
       currentChords: [...chordsLeft],
     });
 
     return {
       ...state,
-      chordSelected: props.chordSelected,
+      currentChordSelected: props.currentChordSelected,
       currentChords: [...chordsLeft],
     };
   }),
@@ -192,13 +196,13 @@ export const chordsReducer = createReducer(
 
     setLocalStorage('chords', {
       ...state,
-      chordSelected: props.destinationChordPosition,
+      currentChordSelected: props.destinationChordPosition,
       currentChords: copyOfCurrentChords,
     });
 
     return {
       ...state,
-      chordSelected: props.destinationChordPosition,
+      currentChordSelected: props.destinationChordPosition,
       currentChords: copyOfCurrentChords,
     };
   }),
@@ -279,7 +283,7 @@ export const chordsReducer = createReducer(
   on(setAlternativeChordsOptionsSuccess, (state, props) => {
     const _alternativeChords = cleaningChordsArray(props.alternativeChords);
     const _currentChords = state.currentChords.map((_chord: Chord, index: number) => {
-      if (index === state.chordSelected) {
+      if (index === state.currentChordSelected) {
         return {
           ..._chord,
           alternativeChords: _alternativeChords,
@@ -325,18 +329,18 @@ export const chordsReducer = createReducer(
     if (
       state.currentChords.length < 0 ||
       state.alternativeChords.length < 0 ||
-      state.chordSelected < 0 ||
+      state.currentChordSelected < 0 ||
       state.alternativeChordSelected < 0
     )
       return { ...state };
     let newCurrentChords = state.currentChords;
     let newAlternativeChords = state.alternativeChords;
 
-    const currentChord = state.currentChords[state.chordSelected];
+    const currentChord = state.currentChords[state.currentChordSelected];
     const alternativeChord = state.alternativeChords[state.alternativeChordSelected];
 
     newCurrentChords = newCurrentChords.map((chord: Chord, position: number) => {
-      if (position === state.chordSelected) return alternativeChord;
+      if (position === state.currentChordSelected) return alternativeChord;
       else return chord;
     });
     newAlternativeChords = newAlternativeChords.map((chord: Chord, position: number) => {
@@ -344,7 +348,7 @@ export const chordsReducer = createReducer(
       else return chord;
     });
     newCurrentChords = newCurrentChords.map((chord: Chord, index: number) => {
-      if (index === state.chordSelected) {
+      if (index === state.currentChordSelected) {
         const _chord = { ...chord, alternativeChords: newAlternativeChords };
         return _chord;
       }
@@ -363,16 +367,22 @@ export const chordsReducer = createReducer(
   }),
 
   on(setCurrentChordSelectedAndCheckAlternativeChords, (state, props) => {
-    const _alternativeChords = [...state.currentChords[props.chordSelected].alternativeChords];
+    const _alternativeChords = [...state.currentChords[props.currentChordSelected].alternativeChords];
     let _state = state;
     if (_alternativeChords.length > 0)
       _state = {
         ...state,
         alternativeChords: _alternativeChords,
         alternativeChordSelected: 0,
-        chordSelected: props.chordSelected,
+        currentChordSelected: props.currentChordSelected,
       };
-    else _state = { ...state, alternativeChords: [], alternativeChordSelected: -1, chordSelected: props.chordSelected };
+    else
+      _state = {
+        ...state,
+        alternativeChords: [],
+        alternativeChordSelected: -1,
+        currentChordSelected: props.currentChordSelected,
+      };
     setLocalStorage('chords', { ..._state });
     return { ..._state };
   }),
@@ -433,16 +443,16 @@ export const chordsReducer = createReducer(
   }),
   on(addHandbookChordToCurrentChords, (state, props) => {
     if (state.handbookChords.length === 0 || state.handbookChordsSelected < 0) return { ...state };
-    const _chordSelected = state.chordSelected < 0 ? 0 : state.chordSelected;
+    const _currentChordSelected = state.currentChordSelected < 0 ? 0 : state.currentChordSelected;
     setLocalStorage('chords', {
       ...state,
       currentChords: [...state.currentChords, state.handbookChords[state.handbookChordsSelected]],
-      chordSelected: _chordSelected,
+      currentChordSelected: _currentChordSelected,
     });
     return {
       ...state,
       currentChords: [...state.currentChords, state.handbookChords[state.handbookChordsSelected]],
-      chordSelected: _chordSelected,
+      currentChordSelected: _currentChordSelected,
     };
   }),
   on(hideChord, (state, { chordPosition }) => {

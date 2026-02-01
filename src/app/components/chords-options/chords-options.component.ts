@@ -41,7 +41,7 @@ export class ChordsOptionsComponent {
       !chordState ||
       (chordState?.loading ?? false) ||
       (chordState?.alternativeChordSelected ?? -1) < 0 ||
-      (chordState?.chordSelected ?? -1) < 0
+      (chordState?.currentChordSelected ?? -1) < 0
     )
       return false;
     else {

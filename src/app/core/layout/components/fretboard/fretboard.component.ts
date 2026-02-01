@@ -57,7 +57,7 @@ export class FretboardComponent {
         this.store.dispatch(
           editNoteFromChord({
             notePosition: { ...note, _id },
-            chordSelected: chordPosition,
+            currentChordSelected: chordPosition,
           })
         );
         break;
@@ -83,7 +83,7 @@ export class FretboardComponent {
 
   public getChordSelected(chordState: ChordsState | null): number {
     if (!chordState) return -1;
-    return chordState.chordSelected;
+    return chordState.currentChordSelected;
   }
   public getChords(chordState: ChordsState | null) {
     if (!chordState) return [];

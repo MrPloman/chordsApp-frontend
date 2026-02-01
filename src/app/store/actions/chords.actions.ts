@@ -8,7 +8,7 @@ export const setWholeChordsState = createAction('[Set Whole Chords State]', prop
 // Set Chords
 export const setChordSelected = createAction(
   '[Set Chord selected] Set Chord Selected',
-  props<{ chordSelected: number }>()
+  props<{ currentChordSelected: number }>()
 );
 export const addChordToCurrentChords = createAction(
   '[Add Current Chord] Add Current Chord',
@@ -17,11 +17,11 @@ export const addChordToCurrentChords = createAction(
 export const removeChord = createAction('[Remove Chord] Remove Chord', props<{ chordToRemove: number }>());
 export const removeNoteFromChord = createAction(
   '[Remove Note From Chord] Remove Note From Chord',
-  props<{ noteToRemove: number; chordSelected: number }>()
+  props<{ noteToRemove: number; currentChordSelected: number }>()
 );
 export const editNoteFromChord = createAction(
   '[Edit Note From Chord] Edit Note From Chord',
-  props<{ notePosition: NotePosition; chordSelected: number }>()
+  props<{ notePosition: NotePosition; currentChordSelected: number }>()
 );
 export const changeChordsOrder = createAction(
   '[Change Chords Order] Change Chords Order',
@@ -70,7 +70,7 @@ export const exchangeChordOptionForCurrenChord = createAction(
 );
 export const setCurrentChordSelectedAndCheckAlternativeChords = createAction(
   '[Set Current Chord Selected and Check Alternative Chords]',
-  props<{ chordSelected: number }>()
+  props<{ currentChordSelected: number }>()
 );
 
 // Handbook Section

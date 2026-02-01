@@ -37,7 +37,7 @@
           [currentChordsLength]="chordsState?.currentChords?.length ?? 0"
           [chord]="chord"
           [chordPosition]="chordIndex"
-          [isSelected]="chordIndex === chordsState?.chordSelected"
+          [isSelected]="chordIndex === chordsState?.currentChordSelected"
           (click)="selectChord(chordIndex)"
           (emitDeleteChord)="deleteChord(chordIndex)"
           (emitRemoveNote)="removeNote($event.notePosition, $event.chordPosition)"

@@ -2,7 +2,7 @@ import { Chord } from '@app/models/chord.model';
 
 export interface ChordsState {
   currentChords: Chord[];
-  chordSelected: number;
+  currentChordSelected: number;
   alternativeChords: Chord[];
   alternativeChordSelected: number;
   handbookChords: Chord[];
@@ -14,7 +14,7 @@ export interface ChordsState {
 
 export const chordsInitialState: ChordsState = {
   currentChords: [],
-  chordSelected: -1,
+  currentChordSelected: -1,
   alternativeChords: [],
   alternativeChordSelected: -1,
   handbookChords: [],

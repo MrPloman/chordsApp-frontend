@@ -9,12 +9,12 @@ export const selectHandbookChords = createSelector(selectChordState, (state) => 
 export const selectAlternativeChords = createSelector(selectChordState, (state) => state.alternativeChords);
 export const selectLoading = createSelector(selectChordState, (state) => state.loading);
 export const selectAlternativeChordsParams = createSelector(selectChordState, (state) => {
-  (state.currentChords, state.chordSelected);
+  (state.currentChords, state.currentChordSelected);
 });
 export const selectHasAlternativeChordsForSelected = createSelector(
   selectChordState,
   (state) =>
-    state.chordSelected > -1 &&
+    state.currentChordSelected > -1 &&
     state.currentChords.length > 0 &&
-    state.currentChords[state.chordSelected]?.alternativeChords?.length > 0
+    state.currentChords[state.currentChordSelected]?.alternativeChords?.length > 0
 );

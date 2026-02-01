@@ -145,7 +145,7 @@ function isChordState(value: unknown): value is ChordsState {
   const v = value as Record<string, unknown>;
   return (
     Array.isArray(v['currentChords']) &&
-    typeof v['chordSelected'] === 'number' &&
+    typeof v['currentChordSelected'] === 'number' &&
     Array.isArray(v['alternativeChords']) &&
     typeof v['alternativeChordSelected'] === 'number' &&
     Array.isArray(v['handbookChords']) &&

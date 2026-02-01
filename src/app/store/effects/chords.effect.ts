@@ -75,7 +75,7 @@ export class ChordsEffects {
       switchMap(([_, state]) => {
         return from(
           this.aiService.getOtherChordOptions({
-            chord: state.currentChords[state.chordSelected],
+            chord: state.currentChords[state.currentChordSelected],
           })
         ).pipe(
           map((response) =>

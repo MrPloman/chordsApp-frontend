@@ -82,13 +82,13 @@ export class ChordsGridComponent {
   }
 
   public selectChord(position: number) {
-    this.store.dispatch(setChordSelected({ chordSelected: position }));
+    this.store.dispatch(setChordSelected({ currentChordSelected: position }));
     if (!this.selectedMode() || this.selectedMode() !== 'options') return;
-    this.store.dispatch(setCurrentChordSelectedAndCheckAlternativeChords({ chordSelected: position }));
+    this.store.dispatch(setCurrentChordSelectedAndCheckAlternativeChords({ currentChordSelected: position }));
   }
 
   // private setAlternativeChords(currentChordSelected: number) {
-  //   this.store.dispatch(setChordSelected({ chordSelected: currentChordSelected }));
+  //   this.store.dispatch(setChordSelected({ currentChordSelected: currentChordSelected }));
   // }
 
   public selectAlternativeChord(position: number) {
@@ -110,7 +110,7 @@ export class ChordsGridComponent {
     this.store.dispatch(
       removeNoteFromChord({
         noteToRemove: notePosition,
-        chordSelected: chordPosition,
+        currentChordSelected: chordPosition,
       })
     );
   }
