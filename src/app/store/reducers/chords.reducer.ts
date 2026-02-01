@@ -64,9 +64,6 @@ export const chordsReducer = createReducer(
   on(setWholeChordsState, (state, props) => {
     return {
       ...props.chords,
-      lastNoteSelected: props.chords.lastNoteSelected
-        ? props.chords.lastNoteSelected
-        : { name: '', position: -1, stringNumber: -1 },
     };
   }),
 
@@ -179,14 +176,12 @@ export const chordsReducer = createReducer(
       ...state,
       chordSelected: props.chordSelected,
       currentChords: [...chordsLeft],
-      lastNoteSelected: props.notePosition,
     });
 
     return {
       ...state,
       chordSelected: props.chordSelected,
       currentChords: [...chordsLeft],
-      lastNoteSelected: props.notePosition,
     };
   }),
   on(changeChordsOrder, (state, props) => {

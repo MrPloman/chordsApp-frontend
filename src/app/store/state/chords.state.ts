@@ -1,7 +1,6 @@
-import { Chord, NotePosition } from '@app/models/chord.model';
+import { Chord } from '@app/models/chord.model';
 
 export interface ChordsState {
-  lastNoteSelected: NotePosition;
   currentChords: Chord[];
   chordSelected: number;
   alternativeChords: Chord[];
@@ -14,7 +13,6 @@ export interface ChordsState {
 }
 
 export const chordsInitialState: ChordsState = {
-  lastNoteSelected: { stringNumber: -1, position: -1, name: '' },
   currentChords: [],
   chordSelected: -1,
   alternativeChords: [],
