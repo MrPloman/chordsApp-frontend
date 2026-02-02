@@ -1,4 +1,4 @@
-import { Chord, NotePosition } from '@app/shared/models/chord.model';
+import { Chord, NotePosition } from '@app/core/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
 
 import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';

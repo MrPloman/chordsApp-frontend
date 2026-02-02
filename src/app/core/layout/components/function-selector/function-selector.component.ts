@@ -5,10 +5,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
+import { selectedModeType } from '@app/core/types/index.types';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { selectChordState } from '@app/store/selectors/chords.selector';
-import { selectedModeType } from '@app/types/index.types';
 import { Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 @Component({

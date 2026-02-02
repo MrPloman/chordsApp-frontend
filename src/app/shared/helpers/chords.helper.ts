@@ -1,6 +1,6 @@
 import { maximRandomNumber, minimumNotesToMakeChord } from '@app/core/constants/rules';
 import { chromaticScale, tuning } from '@app/core/constants/tuning';
-import { Chord, NotePosition } from '@app/shared/models/chord.model';
+import { Chord, NotePosition } from '@app/core/models/chord.model';
 import { ChordsState } from '@app/store/state/chords.state';
 
 export function noteName(stringNumber: number, fret: number): string {

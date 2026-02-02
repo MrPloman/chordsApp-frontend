@@ -3,13 +3,13 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, Signal } from '@angular/core';
 import { dots } from '@app/core/constants/dots';
 import { fretboard } from '@app/core/constants/fretboard';
+import { Chord, NotePosition } from '@app/core/models/chord.model';
+import { selectedModeType } from '@app/core/types/index.types';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
-import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import { editNoteFromChord } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
-import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 

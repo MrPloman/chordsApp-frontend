@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { QueryResponse } from '@app/shared/models/queryResponse.model';
+import { QueryResponse } from '@app/core/models/queryResponse.model';
 import { firstValueFrom, Observable } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })

@@ -6,9 +6,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { maximChords, minimumChordsToMakeProgression } from '@app/core/constants/rules';
+import { Chord, NotePosition } from '@app/core/models/chord.model';
+import { selectedModeType } from '@app/core/types/index.types';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
-import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import {
   addChordToCurrentChords,
   changeChordsOrder,
@@ -22,7 +23,6 @@ import {
 } from '@app/store/actions/chords.actions';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';
-import { selectedModeType } from '@app/types/index.types';
 import { select, Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';

@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { languageType } from '@app/core/types/index.types';
 import { setLanguageAction } from '@app/store/actions/language.actions';
 import { selectLanguage } from '@app/store/selectors/language.selector';
-import { languageType } from '@app/types/index.types';
 import { Store } from '@ngrx/store';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 

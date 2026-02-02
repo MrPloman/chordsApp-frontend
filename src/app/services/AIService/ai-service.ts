@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Chord } from '@app/shared/models/chord.model';
-import { queryOptions } from '@app/shared/models/queryOptions.model';
-import { queryPrompt } from '@app/shared/models/queryPrompt.model';
-import { QueryResponse } from '@app/shared/models/queryResponse.model';
+import { Chord } from '@app/core/models/chord.model';
+import { queryOptions } from '@app/core/models/queryOptions.model';
+import { queryPrompt } from '@app/core/models/queryPrompt.model';
+import { QueryResponse } from '@app/core/models/queryResponse.model';
 import { environment } from 'environments/environment';
 import { HTTPService } from '../HttpService/httpservice';
 
