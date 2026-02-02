@@ -1,4 +1,4 @@
-import { chordsHelper } from '@app/helpers/chords.helper';
+import { chordsHelper } from '@app/shared/helpers/chords.helper';
 
 export class NotePosition {
   stringNumber: number;

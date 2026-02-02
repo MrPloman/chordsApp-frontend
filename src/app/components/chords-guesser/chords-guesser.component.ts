@@ -1,10 +1,10 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
 
-import { chordsHelper } from '@app/helpers/chords.helper';
-import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
+import { chordsHelper } from '@app/shared/helpers/chords.helper';
+import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
 import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
 import { guessCurrentChords } from '@app/store/actions/chords.actions';

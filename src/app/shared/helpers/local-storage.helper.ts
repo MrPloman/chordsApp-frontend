@@ -1,5 +1,5 @@
+import { languageType, selectedModeType, storeTypes } from '@app/shared/types/index.types';
 import { ChordsState } from '@app/store/state/chords.state';
-import { languageType, selectedModeType, storeTypes } from '@app/types/index.types';
 
 export function getLocalStorage(key: storeTypes) {
   const storedData = localStorage.getItem(key);

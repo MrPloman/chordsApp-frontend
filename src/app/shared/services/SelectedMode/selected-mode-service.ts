@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
-import { setLocalStorage } from '@app/helpers/local-storage.helper';
-import { selectedModeType } from '@app/types/index.types';
+import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';
+import { selectedModeType } from '@app/shared/types/index.types';
 
 @Injectable({ providedIn: 'root' })
 export class SelectedModeService {

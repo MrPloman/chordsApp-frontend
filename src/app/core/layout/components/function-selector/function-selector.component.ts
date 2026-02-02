@@ -4,11 +4,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
-import { chordsHelper } from '@app/helpers/chords.helper';
-import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
+import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
+import { chordsHelper } from '@app/shared/helpers/chords.helper';
+import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
+import { selectedModeType } from '@app/shared/types/index.types';
 import { selectChordState } from '@app/store/selectors/chords.selector';
-import { selectedModeType } from '@app/types/index.types';
 import { Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 @Component({
