@@ -1,5 +1,5 @@
-import { maximRandomNumber, minimumNotesToMakeChord } from '@app/config/global_variables/rules';
-import { chromaticScale, tuning } from '@app/config/global_variables/tuning';
+import { maximRandomNumber, minimumNotesToMakeChord } from '@app/core/constants/rules';
+import { chromaticScale, tuning } from '@app/core/constants/tuning';
 import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import { ChordsState } from '@app/store/state/chords.state';
 

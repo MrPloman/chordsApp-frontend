@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
 import { chordsHelper } from '@app/helpers/chords.helper';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import { selectChordState } from '@app/store/selectors/chords.selector';

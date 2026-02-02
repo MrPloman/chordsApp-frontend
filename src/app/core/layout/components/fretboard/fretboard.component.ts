@@ -1,8 +1,8 @@
 import { BreakpointObserver, LayoutModule } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { Component, inject, Signal } from '@angular/core';
-import { dots } from '@app/config/global_variables/dots';
-import { fretboard } from '@app/config/global_variables/fretboard';
+import { dots } from '@app/core/constants/dots';
+import { fretboard } from '@app/core/constants/fretboard';
 import { chordsHelper } from '@app/helpers/chords.helper';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
 import { Chord, NotePosition } from '@app/shared/models/chord.model';

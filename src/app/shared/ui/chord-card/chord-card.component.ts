@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
 import { FadeAndSlideDirective } from '@app/directives/fade-and-slide/fade-and-slide.directive';
 import { chordsHelper } from '@app/helpers/chords.helper';
 import { Chord, NotePosition } from '@app/shared/models/chord.model';

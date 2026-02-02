@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { minimumChordsToMakeProgression } from '@app/config/global_variables/rules';
+import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
 
 import { chordsHelper } from '@app/helpers/chords.helper';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
