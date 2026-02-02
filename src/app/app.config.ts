@@ -2,10 +2,10 @@ import { ApplicationConfig, isDevMode, provideZoneChangeDetection } from '@angul
 import { provideRouter, withComponentInputBinding } from '@angular/router';
 
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { AIHttpInterceptor } from '@app/core/interceptors/AiHttpInterceptor.interceptor';
 import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
-import { AIHttpInterceptor } from 'interceptors/AiHttpInterceptor.interceptor';
 import { routes } from './app.routes';
 import { ChordsEffects } from './store/effects/chords.effect';
 import { chordsReducer } from './store/reducers/chords.reducer';
