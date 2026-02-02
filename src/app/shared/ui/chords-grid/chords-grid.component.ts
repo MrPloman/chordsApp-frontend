@@ -6,8 +6,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { maximChords, minimumChordsToMakeProgression } from '@app/core/constants/rules';
-import { chordsHelper } from '@app/helpers/chords.helper';
 import { SelectedModeService } from '@app/services/SelectedMode/selected-mode-service';
+import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import {
   addChordToCurrentChords,

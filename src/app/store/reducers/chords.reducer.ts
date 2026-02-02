@@ -1,8 +1,8 @@
 import { Chord, NotePosition } from '@app/shared/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
 
-import { setLocalStorage } from '@app/helpers/local-storage.helper';
-import * as chordsHelper from '../../helpers/chords.helper';
+import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';
+import * as chordsHelper from '../../shared/helpers/chords.helper';
 import {
   addChordToCurrentChords,
   addHandbookChordToCurrentChords,

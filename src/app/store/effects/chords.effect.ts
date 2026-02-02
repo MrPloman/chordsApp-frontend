@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
-import { chordsNamesAreUnknown } from '@app/helpers/chords.helper';
 import { AIService } from '@app/services/AIService/ai-service';
+import { chordsNamesAreUnknown } from '@app/shared/helpers/chords.helper';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, EMPTY, expand, from, map, of, switchMap, takeLast, withLatestFrom } from 'rxjs';

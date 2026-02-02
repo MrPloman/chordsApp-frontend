@@ -5,7 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
-import { chordsHelper } from '@app/helpers/chords.helper';
+import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
 import { InputInstructionComponent } from '@app/shared/ui/input-instruction/input-instruction.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
