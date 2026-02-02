@@ -7,11 +7,11 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { LazyTranslateService } from './core/i18n/lazy-translate-service';
 import { MainLayoutComponent } from './core/layout/main-layout.component';
 import { languageType } from './core/types/index.types';
-import { IconService } from './services/IconService/icon-service';
-import { SelectedModeService } from './services/SelectedMode/selected-mode-service';
 import { chordsHelper } from './shared/helpers/chords.helper';
 import { languageHelper } from './shared/helpers/language.helper';
 import { getLocalStorage } from './shared/helpers/local-storage.helper';
+import { IconService } from './shared/services/IconService/icon-service';
+import { SelectedModeService } from './shared/services/SelectedMode/selected-mode-service';
 import { setWholeChordsState } from './store/actions/chords.actions';
 import { setLanguageAction } from './store/actions/language.actions';
 
