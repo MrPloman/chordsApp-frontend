@@ -1,6 +1,7 @@
-import { Chord, NotePosition } from '@app/core/models/chord.model';
+import { Chord } from '@app/domain/chords/models/chord.model';
 import { createReducer, on } from '@ngrx/store';
 
+import { NotePosition } from '@app/domain/chords/models/note-position.model';
 import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';
 import * as chordsHelper from '../../shared/helpers/chords.helper';
 import {

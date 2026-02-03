@@ -2,8 +2,9 @@ import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output, Signal, signal } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
-import { Chord, NotePosition } from '@app/core/models/chord.model';
 import { selectedModeType } from '@app/core/types/index.types';
+import { Chord } from '@app/domain/chords/models/chord.model';
+import { NotePosition } from '@app/domain/chords/models/note-position.model';
 import { FadeAndSlideDirective } from '@app/shared/directives/fade-and-slide/fade-and-slide.directive';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
 

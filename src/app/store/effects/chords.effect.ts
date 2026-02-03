@@ -4,6 +4,7 @@ import { AIService } from '@app/shared/services/AIService/ai-service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, EMPTY, expand, from, map, of, switchMap, takeLast, withLatestFrom } from 'rxjs';
+import { selectLanguage } from '../../core/store/language/language.selector';
 import {
   getAlternativeChordsOptions,
   getChordProgression,
@@ -19,7 +20,6 @@ import {
   setAlternativeChordsOptionsSuccess,
 } from '../actions/chords.actions';
 import { selectChordState, selectCurrentChords } from '../selectors/chords.selector';
-import { selectLanguage } from '../selectors/language.selector';
 import { AppState } from '../state';
 @Injectable({
   providedIn: 'root',

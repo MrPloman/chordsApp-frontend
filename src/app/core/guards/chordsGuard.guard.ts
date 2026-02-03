@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
-import { Chord } from '@app/core/models/chord.model';
+import { Chord } from '@app/domain/chords/models/chord.model';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { selectChordState } from '@app/store/selectors/chords.selector';
 import { ChordsState } from '@app/store/state/chords.state';

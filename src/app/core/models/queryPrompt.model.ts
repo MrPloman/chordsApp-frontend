@@ -1,4 +1,4 @@
-import { Chord } from './chord.model';
+import { Chord } from '../../domain/chords/models/chord.model';
 
 export class queryPrompt {
   chords: Chord[];

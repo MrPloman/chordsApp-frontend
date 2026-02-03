@@ -1,8 +1,8 @@
 import { createReducer, on } from '@ngrx/store';
 
 import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';
-import { setLanguageAction } from '../actions/language.actions';
-import { languageInitialState } from '../state/language.state';
+import { setLanguageAction } from './language.actions';
+import { languageInitialState } from './language.state';
 export const languageReducer = createReducer(
   languageInitialState,
   on(setLanguageAction, (state, props) => {

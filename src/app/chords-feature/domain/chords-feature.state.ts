@@ -1,4 +1,4 @@
-import { Chord } from '@app/core/models/chord.model';
+import { Chord } from '@app/domain/chords/models/chord.model';
 
 export interface ChordsFeatureState {
   workspace: ChordsWorkspaceState;
