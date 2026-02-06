@@ -1,64 +1,38 @@
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { queryOptions } from '@app/core/models/queryOptions.model';
-import { queryPrompt } from '@app/core/models/queryPrompt.model';
-import { QueryResponse } from '@app/core/models/queryResponse.model';
 import { Chord } from '@app/domain/chords/models/chord.model';
-import { HTTPService } from '@app/shared/services/HttpService/httpservice';
+import { AiResponse, ChordsAiPort } from '@app/domain/chords/ports/chords.ports';
 import { environment } from 'environments/environment';
+import { firstValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChordsAIService {
-  private _httpService: HTTPService;
+export class AIService implements ChordsAiPort {
+  constructor(private http: HttpClient) {}
 
-  constructor(httpService: HTTPService) {
-    this._httpService = httpService;
-  }
-
-  public async guessMyChords(_body: queryPrompt, language: 'es' | 'en') {
-    const { body, status, statusText } = await this._httpService.post(`${environment.API}/guesser`, {
-      ..._body,
+  public async guessChords(chords: Chord[], language: 'es' | 'en') {
+    const response = await this.http.post<AiResponse>(`${environment.API}/guesser`, {
+      chords: chords,
       language: language,
     });
-    if (status === 200 && body) {
-      const { chords, clarification, response } = body;
-      return new QueryResponse(chords, clarification, response);
-    } else return new QueryResponse([], statusText);
+    return firstValueFrom(response);
   }
-  public async makeChordsProgression(_body: queryPrompt, language: 'es' | 'en') {
-    if (!_body.prompt) return;
-    let chords = _body.chords.map((chord: Chord) => {
-      return {
-        name: chord.name,
-        notes: chord.notes,
-        _id: chord._id,
-        alternativeChords: [],
-      };
-    });
-    const { body, status, statusText } = await this._httpService.post(`${environment.API}/progression`, {
-      prompt: _body.prompt,
+  public async getProgression(chords: Chord[], prompt: string, language: 'es' | 'en') {
+    const response = await this.http.post<AiResponse>(`${environment.API}/progression`, {
+      prompt,
       chords,
-      language: language,
+      language,
     });
-    if (status === 200 && body && body.chords) {
-      const { chords, clarification, response } = body;
-      return new QueryResponse(chords, clarification, response);
-    } else return new QueryResponse([], statusText);
+    return firstValueFrom(response);
   }
 
-  public async getOtherChordOptions(_body: queryOptions) {
-    const { body, status, statusText } = await this._httpService.post(`${environment.API}/options`, _body);
-    if (status === 200 && body) {
-      const { chords, clarification, response } = body;
-      return new QueryResponse(chords, clarification, response);
-    } else return new QueryResponse([], statusText);
+  public async getAlternativeChords(chord: Chord) {
+    const response = await this.http.post<AiResponse>(`${environment.API}/options`, { chord });
+    return firstValueFrom(response);
   }
-  public async getFullHandbookChord(_body: { chordName: string }) {
-    const { body, status, statusText } = await this._httpService.post(`${environment.API}/forms`, _body);
-    if (status === 200 && body) {
-      const { chords } = body;
-      return new QueryResponse(chords, '');
-    } else return new QueryResponse([], statusText);
+  public async getHandbookChords(chordName: string) {
+    const response = await this.http.post<AiResponse>(`${environment.API}/forms`, { chordName });
+    return firstValueFrom(response);
   }
 }

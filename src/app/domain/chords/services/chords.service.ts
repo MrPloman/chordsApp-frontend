@@ -61,4 +61,14 @@ export class ChordsService {
       else return chordFiltered;
     });
   }
+  public addAlternativeChordsToResponse(chords: Chord[]) {
+    return chords.map((chord: Chord) => {
+      return {
+        name: chord.name,
+        notes: chord.notes,
+        _id: chord._id,
+        alternativeChords: [],
+      };
+    });
+  }
 }

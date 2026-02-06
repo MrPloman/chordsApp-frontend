@@ -1,8 +1,13 @@
+import { languageType } from '@app/core/types/index.types';
 import { Chord } from '../models/chord.model';
-
+export interface AiResponse {
+  chords: Chord[];
+  clarification: string;
+  response?: string;
+}
 export interface ChordsAiPort {
-  guessChords(chords: Chord[]): Promise<Chord[]>;
-  getAlternativeChords(chord: Chord): Promise<Chord[]>;
-  getHandbookChords(chordName: string): Promise<Chord[]>;
-  getProgression(chords: Chord[], prompt: string): Promise<Chord[]>;
+  guessChords(chords: Chord[], language: languageType): Promise<AiResponse>;
+  getAlternativeChords(chord: Chord): Promise<AiResponse>;
+  getHandbookChords(chordName: string): Promise<AiResponse>;
+  getProgression(chords: Chord[], prompt: string, language: languageType): Promise<AiResponse>;
 }
