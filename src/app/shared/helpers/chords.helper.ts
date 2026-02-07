@@ -110,6 +110,20 @@ function addAlternativeChordsInsideChordStructure(chords: Chord[]) {
     };
   });
 }
+
+function removeDuplicateChords(chords: Chord[]): Chord[] {
+  if (!chords || chords.length === 0) return [];
+  const newChordsArray = new Set();
+  return chords.filter((chord: Chord) => {
+    const keyValue = chord['notes'];
+    if (newChordsArray.has(keyValue)) {
+      return false; // Duplicate
+    } else {
+      newChordsArray.add(keyValue);
+      return true; // Unique
+    }
+  });
+}
 export const chordsHelper = {
   noteName,
   sortNotePosition,
@@ -122,4 +136,5 @@ export const chordsHelper = {
   isChordState,
   isNotePosition,
   addAlternativeChordsInsideChordStructure,
+  removeDuplicateChords,
 };

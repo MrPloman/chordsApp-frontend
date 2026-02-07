@@ -41,7 +41,7 @@ export class ChordsService {
     return unknownChord;
   }
 
-  public checkDuplicateChords(chords: Chord[]): Chord[] {
+  public removeDuplicateChords(chords: Chord[]): Chord[] {
     if (!chords || chords.length === 0) return [];
     const newChordsArray = new Set();
     return chords.filter((chord: Chord) => {

@@ -3,8 +3,8 @@ import { createReducer, on } from '@ngrx/store';
 
 import { NotePosition } from '@app/domain/chords/models/note-position.model';
 import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';
-import * as chordsHelper from '../../../shared/helpers/chords.helper';
 
+import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import {
   addChordToCurrentChords,
   addHandbookChordToCurrentChords,
@@ -53,7 +53,7 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
 
 function cleaningChordsArray(chords: Chord[]) {
   let _currentChords = chordsHelper.getAllNoteChordName(chords);
-  // _currentChords = chordsHelper.checkDuplicateChords(_currentChords);
+  _currentChords = chordsHelper.removeDuplicateChords(chords);
   _currentChords = chordsHelper.checkAndGenerateID(_currentChords);
   _currentChords = chordsHelper.removeNonDesiredValuesFromNotesArray(_currentChords);
   return _currentChords;
