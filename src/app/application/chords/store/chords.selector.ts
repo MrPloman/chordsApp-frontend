@@ -1,6 +1,6 @@
 import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
+import { AppState } from '@app/core/store';
 import { ChordsService } from '@app/domain/chords/services/chords.service';
-import { AppState } from '@app/store';
 import { createSelector } from '@ngrx/store';
 import { ChordsState } from './chords.state';
 
