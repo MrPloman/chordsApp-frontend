@@ -1,4 +1,4 @@
-import { minimumNotesToMakeChord } from '@app/core/constants/rules';
+import { minimumChordsToMakeProgression, minimumNotesToMakeChord } from '@app/core/constants/rules';
 import { Chord } from '../models/chord.model';
 
 export class ChordsService {
@@ -41,24 +41,14 @@ export class ChordsService {
     return unknownChord;
   }
 
-  public removeDuplicateChords(chords: Chord[]): Chord[] {
-    if (!chords || chords.length === 0) return [];
-    const newChordsArray = new Set();
-    return chords.filter((chord: Chord) => {
-      const keyValue = chord['notes'];
-      if (newChordsArray.has(keyValue)) {
-        return false; // Duplicate
-      } else {
-        newChordsArray.add(keyValue);
-        return true; // Unique
-      }
-    });
-  }
   public checkDuplicateChordOptions(chords: Chord[], currentChord: Chord) {
     if (chords.length === 0 || !currentChord || !chords) return [];
     return chords.filter((chordFiltered: Chord) => {
       if (chordFiltered.notes === currentChord.notes) return;
       else return chordFiltered;
     });
+  }
+  public checkMinimumChords(chords: Chord[]): boolean {
+    return chords.length >= minimumChordsToMakeProgression;
   }
 }
