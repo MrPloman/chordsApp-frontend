@@ -53,7 +53,7 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
 
 function cleaningChordsArray(chords: Chord[]) {
   let _currentChords = chordsHelper.getAllNoteChordName(chords);
-  _currentChords = chordsHelper.checkDuplicateChords(_currentChords);
+  // _currentChords = chordsHelper.checkDuplicateChords(_currentChords);
   _currentChords = chordsHelper.checkAndGenerateID(_currentChords);
   _currentChords = chordsHelper.removeNonDesiredValuesFromNotesArray(_currentChords);
   return _currentChords;
@@ -238,8 +238,8 @@ export const chordsReducer = createReducer(
 
   // Progression Section
   on(getChordProgression, (state, props) => {
-    if (!chordsHelper.checkIfChordsAreGuessed(state.currentChords))
-      return { ...state, error: 'Chords not guessed yet' };
+    // if (!chordsHelper.checkIfChordsAreGuessed(state.currentChords))
+    // return { ...state, error: 'Chords not guessed yet' };
     setLocalStorage('chords', {
       ...state,
       loading: false,

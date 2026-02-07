@@ -5,6 +5,8 @@ import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { selectLanguage } from '../../../core/store/language/language.selector';
 import { AppState } from '../../../store';
 import { GuessChordsUseCase } from '../use-cases/guess-chords-use-case.service';
+import { HandbookChordsUseCase } from '../use-cases/handbook-chords-use-case.service';
+import { OtherOptionsChordsUseCase } from '../use-cases/other-options-chords-use-case.service';
 import { ProgressionChordsUseCase } from '../use-cases/progression-chords-use-case.service';
 import {
   getAlternativeChordsOptions,
@@ -30,6 +32,8 @@ export class ChordsEffects {
   private store = inject<Store<AppState>>(Store);
   private guessChordsUseCase = inject(GuessChordsUseCase);
   private progressionChordsUseCase = inject(ProgressionChordsUseCase);
+  private handbookChordsUseCase = inject(HandbookChordsUseCase);
+  private otherChordsOptionsUseCase = inject(OtherOptionsChordsUseCase);
 
   public getChordsGuessing = createEffect(() =>
     this.actions$.pipe(
@@ -69,11 +73,7 @@ export class ChordsEffects {
       ofType(getAlternativeChordsOptions),
       withLatestFrom(this.store.select(selectChordState)),
       switchMap(([_, state]) => {
-        return from(
-          this.aiService.getOtherChordOptions({
-            chord: state.currentChords[state.currentChordSelected],
-          })
-        ).pipe(
+        return from(this.otherChordsOptionsUseCase.execute(state.currentChords[state.currentChordSelected])).pipe(
           map((response) =>
             setAlternativeChordsOptionsSuccess({
               alternativeChords: response?.chords ?? [],
@@ -89,7 +89,7 @@ export class ChordsEffects {
     this.actions$.pipe(
       ofType(getHandbookChords),
       switchMap(({ chordName }) =>
-        from(this.aiService.getFullHandbookChord({ chordName: chordName })).pipe(
+        from(this.handbookChordsUseCase.execute(chordName)).pipe(
           map((response) =>
             getHandbookChordsSuccess({
               handbookChords: response.chords,
