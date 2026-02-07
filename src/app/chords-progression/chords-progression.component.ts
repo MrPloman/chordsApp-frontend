@@ -4,14 +4,15 @@ import { Observable, Subscription } from 'rxjs';
 
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { ChordsState } from '@app/application/chords/store/chords.state';
 import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
 import { InputInstructionComponent } from '@app/shared/ui/input-instruction/input-instruction.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
-import { getChordProgression, resetMessages } from '@app/store/actions/chords.actions';
-import { selectChordState } from '@app/store/selectors/chords.selector';
-import { ChordsState } from '@app/store/state/chords.state';
+
+import { getChordProgression, resetMessages } from '@app/application/chords/store/chords.actions';
+import { selectChordState } from '@app/application/chords/store/chords.selector';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({

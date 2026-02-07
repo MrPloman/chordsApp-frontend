@@ -1,7 +1,6 @@
+import { AppState } from '@app/store';
 import { createSelector } from '@ngrx/store';
-import { ChordsState } from '../state/chords.state';
-
-import { AppState } from '../state/index';
+import { ChordsState } from './chords.state';
 
 export const selectChordState = (appState: AppState): ChordsState => appState.chords;
 export const selectCurrentChords = createSelector(selectChordState, (state) => state.currentChords);

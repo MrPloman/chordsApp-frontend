@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
+import { setWholeChordsState } from './application/chords/store/chords.actions';
 import { LazyTranslateService } from './core/i18n/lazy-translate-service';
 import { MainLayoutComponent } from './core/layout/main-layout.component';
 import { setLanguageAction } from './core/store/language/language.actions';
@@ -13,7 +14,6 @@ import { languageHelper } from './shared/helpers/language.helper';
 import { getLocalStorage } from './shared/helpers/local-storage.helper';
 import { IconService } from './shared/services/IconService/icon-service';
 import { SelectedModeService } from './shared/services/SelectedMode/selected-mode-service';
-import { setWholeChordsState } from './store/actions/chords.actions';
 
 @Component({
   selector: 'app-root',

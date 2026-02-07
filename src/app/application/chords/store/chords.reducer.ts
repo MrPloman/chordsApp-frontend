@@ -3,7 +3,8 @@ import { createReducer, on } from '@ngrx/store';
 
 import { NotePosition } from '@app/domain/chords/models/note-position.model';
 import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';
-import * as chordsHelper from '../../shared/helpers/chords.helper';
+import * as chordsHelper from '../../../shared/helpers/chords.helper';
+
 import {
   addChordToCurrentChords,
   addHandbookChordToCurrentChords,
@@ -31,8 +32,8 @@ import {
   setCurrentChordSelectedAndCheckAlternativeChords,
   setHandbookChordsSelected,
   setWholeChordsState,
-} from '../actions/chords.actions';
-import { chordsInitialState, ChordsState } from '../state/chords.state';
+} from './chords.actions';
+import { chordsInitialState, ChordsState } from './chords.state';
 
 // Helpers
 function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsState {

@@ -1,8 +1,8 @@
+import { ChordsState } from '@app/application/chords/store/chords.state';
 import { maximRandomNumber, minimumNotesToMakeChord } from '@app/core/constants/rules';
 import { chromaticScale, tuning } from '@app/core/constants/tuning';
 import { Chord } from '@app/domain/chords/models/chord.model';
 import { NotePosition } from '@app/domain/chords/models/note-position.model';
-import { ChordsState } from '@app/store/state/chords.state';
 
 export function noteName(stringNumber: number, fret: number): string {
   const openNote = tuning[6 - stringNumber]; // convert to index

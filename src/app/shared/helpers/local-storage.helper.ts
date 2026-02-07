@@ -1,5 +1,5 @@
+import { ChordsState } from '@app/application/chords/store/chords.state';
 import { languageType, selectedModeType, storeTypes } from '@app/core/types/index.types';
-import { ChordsState } from '@app/store/state/chords.state';
 
 export function getLocalStorage(key: storeTypes) {
   const storedData = localStorage.getItem(key);

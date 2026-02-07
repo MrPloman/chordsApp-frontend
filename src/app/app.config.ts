@@ -7,9 +7,9 @@ import { provideEffects } from '@ngrx/effects';
 import { provideStore } from '@ngrx/store';
 import { provideStoreDevtools } from '@ngrx/store-devtools';
 import { routes } from './app.routes';
+import { ChordsEffects } from './application/chords/store/chords.effect';
+import { chordsReducer } from './application/chords/store/chords.reducer';
 import { languageReducer } from './core/store/language/language.reducer';
-import { ChordsEffects } from './store/effects/chords.effect';
-import { chordsReducer } from './store/reducers/chords.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [

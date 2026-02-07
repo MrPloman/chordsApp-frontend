@@ -1,9 +1,9 @@
 import { inject, Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from '@angular/router';
+import { selectChordState } from '@app/application/chords/store/chords.selector';
+import { ChordsState } from '@app/application/chords/store/chords.state';
 import { Chord } from '@app/domain/chords/models/chord.model';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
-import { selectChordState } from '@app/store/selectors/chords.selector';
-import { ChordsState } from '@app/store/state/chords.state';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 

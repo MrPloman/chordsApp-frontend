@@ -5,12 +5,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { ChordsState } from '@app/application/chords/store/chords.state';
 import { maximChords, minimumChordsToMakeProgression } from '@app/core/constants/rules';
 import { selectedModeType } from '@app/core/types/index.types';
 import { Chord } from '@app/domain/chords/models/chord.model';
 import { NotePosition } from '@app/domain/chords/models/note-position.model';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
+
 import {
   addChordToCurrentChords,
   changeChordsOrder,
@@ -21,9 +23,8 @@ import {
   setChordSelected,
   setCurrentChordSelectedAndCheckAlternativeChords,
   setHandbookChordsSelected,
-} from '@app/store/actions/chords.actions';
-import { selectChordState } from '@app/store/selectors/chords.selector';
-import { ChordsState } from '@app/store/state/chords.state';
+} from '@app/application/chords/store/chords.actions';
+import { selectChordState } from '@app/application/chords/store/chords.selector';
 import { select, Store } from '@ngrx/store';
 import { TranslateModule } from '@ngx-translate/core';
 import { Observable } from 'rxjs';

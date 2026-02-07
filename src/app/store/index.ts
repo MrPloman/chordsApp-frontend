@@ -1,5 +1,5 @@
-import { languageInitialState } from '../../core/store/language/language.state';
-import { chordsInitialState, ChordsState } from './chords.state';
+import { chordsInitialState, ChordsState } from '../application/chords/store/chords.state';
+import { languageInitialState } from '../core/store/language/language.state';
 
 export interface AppState {
   chords: ChordsState;

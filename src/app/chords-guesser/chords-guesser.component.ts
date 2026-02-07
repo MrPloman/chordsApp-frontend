@@ -3,13 +3,14 @@ import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
 
+import { ChordsState } from '@app/application/chords/store/chords.state';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
 import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
-import { guessCurrentChords } from '@app/store/actions/chords.actions';
-import { selectChordState } from '@app/store/selectors/chords.selector';
-import { ChordsState } from '@app/store/state/chords.state';
+
+import { guessCurrentChords } from '@app/application/chords/store/chords.actions';
+import { selectChordState } from '@app/application/chords/store/chords.selector';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 import { Observable } from 'rxjs/internal/Observable';
