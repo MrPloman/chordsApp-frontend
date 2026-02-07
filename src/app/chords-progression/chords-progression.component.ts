@@ -56,7 +56,7 @@ export class ChordsProgressionComponent {
       chordsState.loading ||
       !chordsState.currentChords ||
       chordsState.currentChords.length < minimumChordsToMakeProgression ||
-      !this.chordsService.checkIfChordsAreGuessed(chordsState.currentChords) ||
+      // !this.chordsService.checkIfChordsAreGuessed(chordsState.currentChords) ||
       !this.progressionForm.valid
     )
       return false;

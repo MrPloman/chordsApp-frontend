@@ -1,11 +1,11 @@
 import { inject, Injectable } from '@angular/core';
-import { chordsNamesAreUnknown } from '@app/shared/helpers/chords.helper';
-import { AIService } from '@app/shared/services/AIService/ai-service';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
-import { catchError, EMPTY, expand, from, map, of, switchMap, takeLast, withLatestFrom } from 'rxjs';
+import { catchError, from, map, of, switchMap, withLatestFrom } from 'rxjs';
 import { selectLanguage } from '../../../core/store/language/language.selector';
 import { AppState } from '../../../store';
+import { GuessChordsUseCase } from '../use-cases/guess-chords-use-case.service';
+import { ProgressionChordsUseCase } from '../use-cases/progression-chords-use-case.service';
 import {
   getAlternativeChordsOptions,
   getChordProgression,
@@ -28,20 +28,15 @@ import { selectChordState, selectCurrentChords } from './chords.selector';
 export class ChordsEffects {
   private actions$ = inject(Actions);
   private store = inject<Store<AppState>>(Store);
-  private aiService = inject(AIService);
+  private guessChordsUseCase = inject(GuessChordsUseCase);
+  private progressionChordsUseCase = inject(ProgressionChordsUseCase);
+
   public getChordsGuessing = createEffect(() =>
     this.actions$.pipe(
       ofType(guessCurrentChords),
       withLatestFrom(this.store.select(selectCurrentChords), this.store.select(selectLanguage)),
       switchMap(([_, currentChords, language]) =>
-        from(this.aiService.guessMyChords({ chords: currentChords }, language)).pipe(
-          expand((response) => {
-            if (chordsNamesAreUnknown(response.chords)) {
-              return this.aiService.guessMyChords({ chords: response.chords }, language);
-            }
-            return EMPTY;
-          }),
-          takeLast(1),
+        from(this.guessChordsUseCase.execute(currentChords, language)).pipe(
           map((response) => {
             return guessCurrentChordsSuccess({ currentChords: response.chords, message: '' });
           }),
@@ -55,7 +50,7 @@ export class ChordsEffects {
       ofType(getChordProgression),
       withLatestFrom(this.store.select(selectCurrentChords), this.store.select(selectLanguage)),
       switchMap(([props, currentChords, language]) =>
-        from(this.aiService.makeChordsProgression({ prompt: props.prompt, chords: currentChords }, language)).pipe(
+        from(this.progressionChordsUseCase.execute(currentChords, props.prompt, language)).pipe(
           map((response) =>
             getChordProgressionSuccess({
               currentChords: response?.chords ?? [],

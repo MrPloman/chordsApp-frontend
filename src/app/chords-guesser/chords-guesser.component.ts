@@ -40,13 +40,14 @@ export class ChordsGuesserComponent {
   }
 
   public enableSubmitButton(chordsState: ChordsState | null): boolean {
-    if (
-      !chordsState ||
-      !chordsState.currentChords ||
-      chordsState?.currentChords.length < minimumChordsToMakeProgression ||
-      !this.chordsService.areEveryChordsValid(chordsState?.currentChords)
-    )
-      return false;
-    else return true;
+    return true;
+    // if (
+    //   !chordsState ||
+    //   !chordsState.currentChords ||
+    //   chordsState?.currentChords.length < minimumChordsToMakeProgression ||
+    //   !this.chordsService.areEveryChordsValid(chordsState?.currentChords)
+    // )
+    //   return false;
+    // else return true;
   }
 }

@@ -24,11 +24,13 @@ export class FunctionSelectorComponent {
   private chordsService = chordsHelper;
 
   public minimumChordsToMakeProgression = minimumChordsToMakeProgression;
-  public validChords = this.chordsService.areEveryChordsValid;
-  public chordsAreGuessed = this.chordsService.checkIfChordsAreGuessed;
+  // public validChords = this.chordsService.areEveryChordsValid;
+  // public chordsAreGuessed = this.chordsService.checkIfChordsAreGuessed;
   public chordsStore = this.store.select(selectChordState);
 
   public selectOption(option: selectedModeType) {
     this.selectedModeService.setSelectedMode(option);
   }
+  chordsAreGuessed = ([]) => true;
+  validChords = ([]) => true;
 }

@@ -3,7 +3,6 @@ import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from
 import { selectChordState } from '@app/application/chords/store/chords.selector';
 import { ChordsState } from '@app/application/chords/store/chords.state';
 import { Chord } from '@app/domain/chords/models/chord.model';
-import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { select, Store } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
 
@@ -23,8 +22,10 @@ export class ChordsGuard implements CanActivate {
   }
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): boolean {
     if (
-      (state.url === '/options' || state.url === '/progression') &&
-      !chordsHelper.checkIfChordsAreGuessed(this.chords)
+      state.url === '/options' ||
+      state.url === '/progression'
+      // &&
+      // !chordsHelper.checkIfChordsAreGuessed(this.chords)
     ) {
       this.router.navigate(['/']);
     }
