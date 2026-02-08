@@ -1,28 +1,24 @@
-import { Component, inject, model, Signal } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Component, inject } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { FretboardComponent } from './components/fretboard/fretboard.component';
-import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 
 import { provideTranslateService } from '@ngx-translate/core';
 import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 
-import { TranslatePipe } from '@ngx-translate/core';
-import { LanguageSelectorComponent } from './components/language-selector/language-selector.component';
-import { chordsHelper } from './helpers/chords.helper';
-import { languageHelper } from './helpers/language.helper';
-import { getLocalStorage } from './helpers/local-storage.helper';
-import { IconService } from './services/IconService/icon-service';
-import { LazyTranslateService } from './services/LazyTranslateService/lazy-translate-service';
-import { SelectedModeService } from './services/SelectedMode/selected-mode-service';
-import { setWholeChordsState } from './store/actions/chords.actions';
-import { setLanguageAction } from './store/actions/language.actions';
-import { languageType, selectedModeType } from './types/index.types';
+import { setWholeChordsState } from './application/chords/store/chords.actions';
+import { LazyTranslateService } from './core/i18n/lazy-translate-service';
+import { MainLayoutComponent } from './core/layout/main-layout.component';
+import { IconService } from './core/services/IconService/icon-service';
+import { SelectedModeService } from './core/services/SelectedMode/selected-mode-service';
+import { setLanguageAction } from './core/store/language/language.actions';
+import { languageType } from './core/types/index.types';
+import { chordsHelper } from './shared/helpers/chords.helper';
+import { languageHelper } from './shared/helpers/language.helper';
+import { getLocalStorage } from './shared/helpers/local-storage.helper';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FretboardComponent, FunctionSelectorComponent, LanguageSelectorComponent, TranslatePipe, RouterOutlet],
+  imports: [MainLayoutComponent],
   providers: [
     LazyTranslateService,
     provideTranslateService({
@@ -34,18 +30,13 @@ import { languageType, selectedModeType } from './types/index.types';
       lang: 'en',
     }),
   ],
-
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
+  template: `<app-main-layout></app-main-layout> `,
 })
 export class AppComponent {
   private store = inject(Store);
   public iconService = inject(IconService);
   private lazyTranslate = inject(LazyTranslateService);
-  public router = inject(Router);
   private selectedModeService = inject(SelectedModeService);
-
-  public selectedMode: Signal<selectedModeType | undefined> = model(undefined);
   private language: languageType = 'en';
 
   constructor() {

@@ -1,0 +1,27 @@
+import { Component, inject, model, OnInit, Signal } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
+import { LanguageSelectorComponent } from '@app/core/layout/components/language-selector/language-selector.component';
+import { selectedModeType } from '@app/core/types/index.types';
+import { TranslatePipe } from '@ngx-translate/core';
+import { SelectedModeService } from '../services/SelectedMode/selected-mode-service';
+import { FretboardComponent } from './components/fretboard/fretboard.component';
+import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
+
+@Component({
+  standalone: true,
+  selector: 'app-main-layout',
+  templateUrl: './main-layout.component.html',
+  styleUrls: ['./main-layout.component.scss'],
+  imports: [FretboardComponent, FunctionSelectorComponent, LanguageSelectorComponent, TranslatePipe, RouterOutlet],
+})
+export class MainLayoutComponent implements OnInit {
+  public router = inject(Router);
+  public selectedMode: Signal<selectedModeType | undefined> = model(undefined);
+  private selectedModeService = inject(SelectedModeService);
+
+  constructor() {}
+
+  ngOnInit(): void {
+    this.selectedMode = this.selectedModeService.selectedMode;
+  }
+}

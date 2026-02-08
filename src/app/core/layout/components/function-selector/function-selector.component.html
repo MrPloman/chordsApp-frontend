@@ -1,0 +1,33 @@
+@let allowedForProgressionStatus = allowedForProgression | async;
+@let chordsGuessedStatus = chordsAreGuessed | async;
+
+<div class="button-container">
+  <button mat-fab extended (click)="selectOption('guesser')" [routerLink]="'guesser'">
+    {{ 'guesser_title' | translate }}
+    <mat-icon svgIcon="local_library"></mat-icon>
+  </button>
+  <button mat-fab extended (click)="selectOption('handbook')" [routerLink]="'handbook'">
+    {{ 'handbook_title' | translate }} <mat-icon svgIcon="book"></mat-icon>
+  </button>
+  <button
+    [routerLink]="'options'"
+    mat-fab
+    extended
+    (click)="selectOption('options')"
+    [disabled]="!chordsGuessedStatus"
+    [routerLink]="'options'"
+  >
+    {{ 'exchanger_title' | translate }}
+    <mat-icon svgIcon="auto_stories"></mat-icon>
+  </button>
+  <button
+    mat-fab
+    extended
+    (click)="selectOption('progression')"
+    [routerLink]="'progression'"
+    [disabled]="!allowedForProgressionStatus"
+  >
+    {{ 'progression_title' | translate }}
+    <mat-icon svgIcon="auto_awesome"></mat-icon>
+  </button>
+</div>

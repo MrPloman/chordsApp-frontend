@@ -1,35 +1,28 @@
 import { Routes } from '@angular/router';
-import { ChordsGuard } from './guards/chordsGuard.guard';
+import { ChordsOptionsGuard } from './core/guards/chordsOptionsGuard.guard';
+import { ChordsProgressionGuard } from './core/guards/chordsProgressionGuard.guard';
 
 export const routes: Routes = [
   {
     path: 'guesser',
     loadComponent: () =>
-      import('./components/chords-guesser/chords-guesser.component').then(
-        (c) => c.ChordsGuesserComponent
-      ),
+      import('./features/chords-guesser/chords-guesser.component').then((c) => c.ChordsGuesserComponent),
   },
   {
     path: 'progression',
-    canActivate: [ChordsGuard],
+    canActivate: [ChordsProgressionGuard],
     loadComponent: () =>
-      import(
-        './components/chords-progression/chords-progression.component'
-      ).then((c) => c.ChordsProgressionComponent),
+      import('./features/chords-progression/chords-progression.component').then((c) => c.ChordsProgressionComponent),
   },
   {
     path: 'options',
-    canActivate: [ChordsGuard],
+    canActivate: [ChordsOptionsGuard],
     loadComponent: () =>
-      import('./components/chords-options/chords-options.component').then(
-        (c) => c.ChordsOptionsComponent
-      ),
+      import('./features/chords-options/chords-options.component').then((c) => c.ChordsOptionsComponent),
   },
   {
     path: 'handbook',
     loadComponent: () =>
-      import('./components/chords-handbook/chords-handbook.component').then(
-        (c) => c.ChordsHandbookComponent
-      ),
+      import('./features/chords-handbook/chords-handbook.component').then((c) => c.ChordsHandbookComponent),
   },
 ];
