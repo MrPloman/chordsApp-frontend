@@ -1,14 +1,12 @@
-import { Injectable } from '@angular/core';
 import { languageType } from '@app/core/types/index.types';
 import { Chord } from '@app/domain/chords/models/chord.model';
-import { ChordsService } from '@app/domain/chords/services/chords.service';
-import { AIService } from '@app/infrastructure/chords/chords-ai.service';
+import { ChordsAiPort } from '@app/domain/chords/ports/chords.ports';
+import { ChordsAnalyzerService } from '@app/domain/chords/services/chords-analyzer.service';
 
-@Injectable({ providedIn: 'root' })
 export class ProgressionChordsUseCase {
   constructor(
-    private chordsService: ChordsService,
-    private aiService: AIService
+    private readonly chordsService: ChordsAnalyzerService,
+    private readonly aiPort: ChordsAiPort
   ) {}
   execute(chords: Chord[], prompt: string, language: languageType) {
     if (!language) throw new Error('Language is required');
@@ -21,6 +19,6 @@ export class ProgressionChordsUseCase {
       !this.chordsService.checkIfChordsAreGuessed(chords)
     )
       throw new Error('Chords must be guessed');
-    return this.aiService.getProgression(chords, prompt, language);
+    return this.aiPort.getProgression(chords, prompt, language);
   }
 }

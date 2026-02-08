@@ -14,10 +14,10 @@
     <app-chords-grid id="guesserChords"></app-chords-grid>
 
     <app-submit-button
-      (click)="enableSubmitButton(chordsState) && guessMyChords()"
+      (click)="minimumChordsStatus && guessMyChords()"
       id="submitButton"
       [loading]="chordsState?.loading ?? false"
-      [disabled]="!enableSubmitButton(chordsState)"
+      [disabled]="!minimumChordsStatus"
       [label]="'guesser_button' | translate"
     ></app-submit-button>
   </section>

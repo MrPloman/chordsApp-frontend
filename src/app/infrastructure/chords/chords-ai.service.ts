@@ -4,13 +4,9 @@ import { Chord } from '@app/domain/chords/models/chord.model';
 import { AiResponse, ChordsAiPort } from '@app/domain/chords/ports/chords.ports';
 import { environment } from 'environments/environment';
 import { firstValueFrom } from 'rxjs';
-
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class AIService implements ChordsAiPort {
   constructor(private http: HttpClient) {}
-
   public async guessChords(chords: Chord[], language: 'es' | 'en') {
     const response = await this.http.post<AiResponse>(`${environment.API}/guesser`, {
       chords: chords,

@@ -1,7 +1,7 @@
 import { minimumChordsToMakeProgression, minimumNotesToMakeChord } from '@app/core/constants/rules';
 import { Chord } from '../models/chord.model';
 
-export class ChordsService {
+export class ChordsAnalyzerService {
   public isThisValidChord(chord: Chord): boolean {
     if (!chord || !chord.notes || chord.notes.length < minimumNotesToMakeChord) return false;
     if (chord.notes.length >= minimumNotesToMakeChord) {

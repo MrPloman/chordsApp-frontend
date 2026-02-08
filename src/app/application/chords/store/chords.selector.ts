@@ -1,10 +1,10 @@
 import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
 import { AppState } from '@app/core/store';
-import { ChordsService } from '@app/domain/chords/services/chords.service';
+import { ChordsAnalyzerService } from '@app/domain/chords/services/chords-analyzer.service';
 import { createSelector } from '@ngrx/store';
 import { ChordsState } from './chords.state';
 
-const chordsService = new ChordsService();
+const chordsService = new ChordsAnalyzerService();
 
 export const selectChordState = (appState: AppState): ChordsState => appState.chords;
 export const selectCurrentChords = createSelector(selectChordState, (state) => state.currentChords);

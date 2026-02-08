@@ -1,18 +1,17 @@
-import { Injectable } from '@angular/core';
 import { languageType } from '@app/core/types/index.types';
 import { Chord } from '@app/domain/chords/models/chord.model';
-import { ChordsService } from '@app/domain/chords/services/chords.service';
-import { AIService } from '@app/infrastructure/chords/chords-ai.service';
+import { ChordsAiPort } from '@app/domain/chords/ports/chords.ports';
+import { ChordsAnalyzerService } from '@app/domain/chords/services/chords-analyzer.service';
 
-@Injectable({ providedIn: 'root' })
 export class GuessChordsUseCase {
   constructor(
-    private chordsService: ChordsService,
-    private aiService: AIService
+    private readonly chordsService: ChordsAnalyzerService,
+    private readonly aiPort: ChordsAiPort
   ) {}
   execute(chords: Chord[], language: languageType) {
     if (!language) throw new Error('Language is required');
     if (!this.chordsService.areEveryChordsValid(chords)) throw new Error('Needs more note positions in the chord');
-    return this.aiService.guessChords(chords, language);
+    if (!this.chordsService.checkMinimumChords(chords)) throw new Error('Minimum Chords not match');
+    return this.aiPort.guessChords(chords, language);
   }
 }
