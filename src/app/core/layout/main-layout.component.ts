@@ -2,8 +2,8 @@ import { Component, inject, model, OnInit, Signal } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { LanguageSelectorComponent } from '@app/core/layout/components/language-selector/language-selector.component';
 import { selectedModeType } from '@app/core/types/index.types';
-import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
 import { TranslatePipe } from '@ngx-translate/core';
+import { SelectedModeService } from '../services/SelectedMode/selected-mode-service';
 import { FretboardComponent } from './components/fretboard/fretboard.component';
 import { FunctionSelectorComponent } from './components/function-selector/function-selector.component';
 

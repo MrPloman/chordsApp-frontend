@@ -5,8 +5,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterLink } from '@angular/router';
 import { selectAllowedForProgression, selectChordsAreGuessed } from '@app/application/chords/store/chords.selector';
+import { SelectedModeService } from '@app/core/services/SelectedMode/selected-mode-service';
 import { selectedModeType } from '@app/core/types/index.types';
-import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
 import { select, Store } from '@ngrx/store';
 import { TranslatePipe } from '@ngx-translate/core';
 @Component({

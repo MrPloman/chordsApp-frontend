@@ -6,11 +6,11 @@ import { selectChordState } from '@app/application/chords/store/chords.selector'
 import { ChordsState } from '@app/application/chords/store/chords.state';
 import { dots } from '@app/core/constants/dots';
 import { fretboard } from '@app/core/constants/fretboard';
+import { SelectedModeService } from '@app/core/services/SelectedMode/selected-mode-service';
 import { selectedModeType } from '@app/core/types/index.types';
 import { Chord } from '@app/domain/chords/models/chord.model';
 import { NotePosition } from '@app/domain/chords/models/note-position.model';
 import { chordsHelper } from '@app/shared/helpers/chords.helper';
-import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
 
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';

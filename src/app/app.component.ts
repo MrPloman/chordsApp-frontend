@@ -7,13 +7,13 @@ import { provideTranslateHttpLoader } from '@ngx-translate/http-loader';
 import { setWholeChordsState } from './application/chords/store/chords.actions';
 import { LazyTranslateService } from './core/i18n/lazy-translate-service';
 import { MainLayoutComponent } from './core/layout/main-layout.component';
+import { IconService } from './core/services/IconService/icon-service';
+import { SelectedModeService } from './core/services/SelectedMode/selected-mode-service';
 import { setLanguageAction } from './core/store/language/language.actions';
 import { languageType } from './core/types/index.types';
 import { chordsHelper } from './shared/helpers/chords.helper';
 import { languageHelper } from './shared/helpers/language.helper';
 import { getLocalStorage } from './shared/helpers/local-storage.helper';
-import { IconService } from './shared/services/IconService/icon-service';
-import { SelectedModeService } from './shared/services/SelectedMode/selected-mode-service';
 
 @Component({
   selector: 'app-root',

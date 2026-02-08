@@ -11,7 +11,7 @@ import { selectChordState } from '@app/application/chords/store/chords.selector'
 import { ChordsState } from '@app/application/chords/store/chords.state';
 import { noteForms } from '@app/core/constants/noteForms.options';
 import { noteOptions } from '@app/core/constants/notes.options';
-import { SelectedModeService } from '@app/shared/services/SelectedMode/selected-mode-service';
+import { SelectedModeService } from '@app/core/services/SelectedMode/selected-mode-service';
 import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
 import { InputSelectorComponent } from '@app/shared/ui/input-selector/input-selector.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
