@@ -53,7 +53,7 @@ function removeChordHelper(state: ChordsState, chordToRemove: number): ChordsSta
 
 function cleaningChordsArray(chords: Chord[]) {
   let _currentChords = chordsHelper.getAllNoteChordName(chords);
-  _currentChords = chordsHelper.removeDuplicateChords(chords);
+  _currentChords = chordsHelper.removeDuplicateChords(_currentChords);
   _currentChords = chordsHelper.checkAndGenerateID(_currentChords);
   _currentChords = chordsHelper.removeNonDesiredValuesFromNotesArray(_currentChords);
   return _currentChords;

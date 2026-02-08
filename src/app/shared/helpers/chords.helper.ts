@@ -41,7 +41,7 @@ export function getAllNoteChordName(chords: Chord[]): Chord[] {
       };
     });
     return {
-      notes: newNotes,
+      notes: [...newNotes],
       name: chord.name,
       _id: chord._id,
       alternativeChords: [],
