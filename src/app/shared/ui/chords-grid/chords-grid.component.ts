@@ -68,9 +68,6 @@ export class ChordsGridComponent {
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   ngOnInit(): void {
-    this.chordsStore.subscribe((c) => {
-      console.log(c);
-    });
     // if (this.selectedMode() === 'options') this.getNewAlternativeChords();
   }
 

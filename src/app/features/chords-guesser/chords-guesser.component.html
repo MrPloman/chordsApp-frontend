@@ -1,4 +1,5 @@
 @let chordsState = chordsStore | async;
+@let minimumChords = minimumChordsStatus | async;
 <form id="chordGuesser-container">
   <section id="informationColumn">
     <h2 id="sectionTitle">{{ 'guesser_title' | translate }}</h2>
@@ -14,10 +15,10 @@
     <app-chords-grid id="guesserChords"></app-chords-grid>
 
     <app-submit-button
-      (click)="minimumChordsStatus && guessMyChords()"
+      (click)="minimumChords && guessMyChords()"
       id="submitButton"
       [loading]="chordsState?.loading ?? false"
-      [disabled]="!minimumChordsStatus"
+      [disabled]="!minimumChords"
       [label]="'guesser_button' | translate"
     ></app-submit-button>
   </section>

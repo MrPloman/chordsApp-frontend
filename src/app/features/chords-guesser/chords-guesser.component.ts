@@ -21,10 +21,10 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class ChordsGuesserComponent {
   private store = inject(Store);
-  public minimumChordsStatus: Observable<boolean> = this.store.pipe(select(selectMinimumChordsStatus));
-
-  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
   private selectedModeService = inject(SelectedModeService);
+
+  public minimumChordsStatus: Observable<boolean> = this.store.pipe(select(selectMinimumChordsStatus));
+  public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
   constructor() {
     this.selectedModeService.setSelectedMode('guesser');
   }
