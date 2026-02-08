@@ -67,10 +67,6 @@ export class ChordsGridComponent {
   // Observavbles for NGRX Store
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
-  ngOnInit(): void {
-    // if (this.selectedMode() === 'options') this.getNewAlternativeChords();
-  }
-
   public addNewChord(chord: Chord) {
     this.store.dispatch(
       addChordToCurrentChords({
@@ -84,10 +80,6 @@ export class ChordsGridComponent {
     if (!this.selectedMode() || this.selectedMode() !== 'options') return;
     this.store.dispatch(setCurrentChordSelectedAndCheckAlternativeChords({ currentChordSelected: position }));
   }
-
-  // private setAlternativeChords(currentChordSelected: number) {
-  //   this.store.dispatch(setChordSelected({ currentChordSelected: currentChordSelected }));
-  // }
 
   public selectAlternativeChord(position: number) {
     this.store.dispatch(setAlternativeChordSelected({ alternativeChordSelected: position }));
