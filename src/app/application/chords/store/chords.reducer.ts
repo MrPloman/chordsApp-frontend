@@ -375,7 +375,8 @@ export const chordsReducer = createReducer(
       _state = {
         ...state,
         alternativeChords: _alternativeChords,
-        alternativeChordSelected: 0,
+        alternativeChordSelected:
+          props.currentChordSelected === state.currentChordSelected ? state.alternativeChordSelected : 0,
         currentChordSelected: props.currentChordSelected,
       };
     else
