@@ -1,4 +1,5 @@
-@let chordsState = chordsStore | async;
+@let allowedForProgressionStatus = allowedForProgression | async;
+@let chordsGuessedStatus = chordsAreGuessed | async;
 
 <div class="button-container">
   <button mat-fab extended (click)="selectOption('guesser')" [routerLink]="'guesser'">
@@ -13,7 +14,7 @@
     mat-fab
     extended
     (click)="selectOption('options')"
-    [disabled]="!chordsAreGuessed(chordsState?.currentChords ?? [])"
+    [disabled]="!chordsGuessedStatus"
     [routerLink]="'options'"
   >
     {{ 'exchanger_title' | translate }}
@@ -24,11 +25,7 @@
     extended
     (click)="selectOption('progression')"
     [routerLink]="'progression'"
-    [disabled]="
-      (chordsState?.currentChords ?? []).length < minimumChordsToMakeProgression ||
-      !validChords(chordsState?.currentChords ?? []) ||
-      !chordsAreGuessed(chordsState?.currentChords ?? [])
-    "
+    [disabled]="!allowedForProgressionStatus"
   >
     {{ 'progression_title' | translate }}
     <mat-icon svgIcon="auto_awesome"></mat-icon>

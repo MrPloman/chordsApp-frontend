@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
-import { ChordsGuard } from './core/guards/chordsGuard.guard';
+import { ChordsOptionsGuard } from './core/guards/chordsOptionsGuard.guard';
+import { ChordsProgressionGuard } from './core/guards/chordsProgressionGuard.guard';
 
 export const routes: Routes = [
   {
@@ -9,13 +10,13 @@ export const routes: Routes = [
   },
   {
     path: 'progression',
-    canActivate: [ChordsGuard],
+    canActivate: [ChordsProgressionGuard],
     loadComponent: () =>
       import('./features/chords-progression/chords-progression.component').then((c) => c.ChordsProgressionComponent),
   },
   {
     path: 'options',
-    canActivate: [ChordsGuard],
+    canActivate: [ChordsOptionsGuard],
     loadComponent: () =>
       import('./features/chords-options/chords-options.component').then((c) => c.ChordsOptionsComponent),
   },

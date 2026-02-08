@@ -25,7 +25,7 @@ export class ChordsAnalyzerService {
   }
 
   public checkIfChordsAreGuessed(chords: Chord[]): boolean {
-    if (!chords || chords.length < 2) return false;
+    if (!chords || chords.length === 0) return false;
     let allChecked = true;
     chords.forEach((chord: Chord) => {
       if (!chord.name) allChecked = false;

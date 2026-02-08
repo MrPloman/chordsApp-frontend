@@ -1,4 +1,6 @@
 @let chordsState = chordsStore | async;
+@let allowedForProgressionStatus = allowedForProgression | async;
+{{ !allowedForProgressionStatus }}
 <div id="chordProgression">
   <section id="information">
     <h2 id="sectionTitle">{{ 'progression_title' | translate }}</h2>
@@ -18,11 +20,11 @@
       <app-submit-button
         id="getProgressionButton"
         [loading]="chordsState?.loading ?? false"
-        [disabled]="!enableSubmitButton(chordsState)"
+        [disabled]="!allowedForProgressionStatus"
         [label]="'progression_button' | translate"
         [type]="'submit'"
         [icon]="'auto_awesome'"
-        (click)="enableSubmitButton(chordsState) && askNewChordProgression()"
+        (click)="allowedForProgressionStatus && askNewChordProgression()"
       ></app-submit-button>
     </form>
   </section>

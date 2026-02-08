@@ -5,14 +5,12 @@ import { Observable, Subscription } from 'rxjs';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ChordsState } from '@app/application/chords/store/chords.state';
-import { minimumChordsToMakeProgression } from '@app/core/constants/rules';
-import { chordsHelper } from '@app/shared/helpers/chords.helper';
 import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
 import { InputInstructionComponent } from '@app/shared/ui/input-instruction/input-instruction.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
 
 import { getChordProgression, resetMessages } from '@app/application/chords/store/chords.actions';
-import { selectChordState } from '@app/application/chords/store/chords.selector';
+import { selectAllowedForProgression, selectChordState } from '@app/application/chords/store/chords.selector';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -32,7 +30,7 @@ import { TranslatePipe } from '@ngx-translate/core';
 })
 export class ChordsProgressionComponent {
   private store = inject(Store);
-  private chordsService = chordsHelper;
+  public allowedForProgression: Observable<boolean> = this.store.pipe(select(selectAllowedForProgression));
 
   public progressionForm = new FormGroup({
     prompt: new FormControl('', [Validators.required]),
@@ -50,18 +48,18 @@ export class ChordsProgressionComponent {
     });
   }
 
-  public enableSubmitButton(chordsState: ChordsState | null): boolean {
-    if (
-      !chordsState ||
-      chordsState.loading ||
-      !chordsState.currentChords ||
-      chordsState.currentChords.length < minimumChordsToMakeProgression ||
-      // !this.chordsService.checkIfChordsAreGuessed(chordsState.currentChords) ||
-      !this.progressionForm.valid
-    )
-      return false;
-    else return true;
-  }
+  // public enableSubmitButton(chordsState: ChordsState | null): boolean {
+  //   if (
+  //     !chordsState ||
+  //     chordsState.loading ||
+  //     !chordsState.currentChords ||
+  //     chordsState.currentChords.length < minimumChordsToMakeProgression ||
+  //     // !this.chordsService.checkIfChordsAreGuessed(chordsState.currentChords) ||
+  //     !this.progressionForm.valid
+  //   )
+  //     return false;
+  //   else return true;
+  // }
   public askNewChordProgression() {
     if (this.progressionForm.invalid || !this.progressionForm.controls.prompt.value) return;
     this.store.dispatch(getChordProgression({ prompt: this.progressionForm.controls.prompt.value }));
