@@ -48,18 +48,6 @@ export class ChordsProgressionComponent {
     });
   }
 
-  // public enableSubmitButton(chordsState: ChordsState | null): boolean {
-  //   if (
-  //     !chordsState ||
-  //     chordsState.loading ||
-  //     !chordsState.currentChords ||
-  //     chordsState.currentChords.length < minimumChordsToMakeProgression ||
-  //     // !this.chordsService.checkIfChordsAreGuessed(chordsState.currentChords) ||
-  //     !this.progressionForm.valid
-  //   )
-  //     return false;
-  //   else return true;
-  // }
   public askNewChordProgression() {
     if (this.progressionForm.invalid || !this.progressionForm.controls.prompt.value) return;
     this.store.dispatch(getChordProgression({ prompt: this.progressionForm.controls.prompt.value }));

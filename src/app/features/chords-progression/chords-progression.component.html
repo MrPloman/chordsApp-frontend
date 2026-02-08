@@ -19,7 +19,7 @@
       <app-submit-button
         id="getProgressionButton"
         [loading]="chordsState?.loading ?? false"
-        [disabled]="!allowedForProgressionStatus"
+        [disabled]="!allowedForProgressionStatus || !progressionForm.controls.prompt.value"
         [label]="'progression_button' | translate"
         [type]="'submit'"
         [icon]="'auto_awesome'"
