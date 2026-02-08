@@ -51,54 +51,54 @@
 </ng-template>
 
 <ng-template #handbookTemplate>
-  @if (chordsState?.loading) {
+  <!-- @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
-  } @else {
-    <div class="handbookChordsGrid">
-      <div class="handbookChords">
-        @for (
-          handbookChord of chordsState?.handbookChords;
-          track trackById(handbookIndex, handbookChord);
-          let handbookIndex = $index
-        ) {
-          <app-chord-card
-            [newChordUI]="false"
-            [selectedMode]="selectedMode"
-            [currentChordsLength]="chordsState?.handbookChords?.length ?? 0"
-            [chord]="handbookChord"
-            [chordPosition]="handbookIndex"
-            [isSelected]="handbookIndex === chordsState?.handbookChordsSelected"
-            (click)="selectHandbookChord(handbookIndex)"
-            [visible]="handbookChord.visible !== undefined ? handbookChord.visible : true"
-          ></app-chord-card>
-        }
-      </div>
+  } @else { -->
+  <div class="handbookChordsGrid">
+    <div class="handbookChords">
+      @for (
+        handbookChord of chordsState?.handbookChords;
+        track trackById(handbookIndex, handbookChord);
+        let handbookIndex = $index
+      ) {
+        <app-chord-card
+          [newChordUI]="false"
+          [selectedMode]="selectedMode"
+          [currentChordsLength]="chordsState?.handbookChords?.length ?? 0"
+          [chord]="handbookChord"
+          [chordPosition]="handbookIndex"
+          [isSelected]="handbookIndex === chordsState?.handbookChordsSelected"
+          (click)="selectHandbookChord(handbookIndex)"
+          [visible]="handbookChord.visible !== undefined ? handbookChord.visible : true"
+        ></app-chord-card>
+      }
     </div>
-  }
+  </div>
+  <!-- } -->
 </ng-template>
 <ng-template #optionsTemplate>
-  @if (chordsState?.loading) {
+  <!-- @if (chordsState?.loading) {
     <mat-spinner id="spinner"></mat-spinner>
-  } @else {
-    <div class="alternativeChordsGrid">
-      <div class="alternativeChords">
-        @for (
-          alternativeChord of chordsState?.alternativeChords;
-          track trackById(alternativeChordIndex, alternativeChord);
-          let alternativeChordIndex = $index
-        ) {
-          <app-chord-card
-            [newChordUI]="false"
-            [selectedMode]="selectedMode"
-            [currentChordsLength]="chordsState?.alternativeChords?.length ?? 0"
-            [chord]="alternativeChord"
-            [chordPosition]="alternativeChordIndex"
-            [isSelected]="alternativeChordIndex === chordsState?.alternativeChordSelected"
-            (click)="selectAlternativeChord(alternativeChordIndex)"
-            [visible]="alternativeChord.visible !== undefined ? alternativeChord.visible : true"
-          ></app-chord-card>
-        }
-      </div>
+  } @else { -->
+  <div class="alternativeChordsGrid">
+    <div class="alternativeChords">
+      @for (
+        alternativeChord of chordsState?.alternativeChords;
+        track trackById(alternativeChordIndex, alternativeChord);
+        let alternativeChordIndex = $index
+      ) {
+        <app-chord-card
+          [newChordUI]="false"
+          [selectedMode]="selectedMode"
+          [currentChordsLength]="chordsState?.alternativeChords?.length ?? 0"
+          [chord]="alternativeChord"
+          [chordPosition]="alternativeChordIndex"
+          [isSelected]="alternativeChordIndex === chordsState?.alternativeChordSelected"
+          (click)="selectAlternativeChord(alternativeChordIndex)"
+          [visible]="alternativeChord.visible !== undefined ? alternativeChord.visible : true"
+        ></app-chord-card>
+      }
     </div>
-  }
+  </div>
+  <!-- } -->
 </ng-template>

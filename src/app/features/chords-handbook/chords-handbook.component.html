@@ -25,6 +25,7 @@
       </div>
       <div id="buttonsSection">
         <app-submit-button
+          [loading]="chordsState?.loading ?? false"
           (click)="getAllFormsChord(chordsState?.loading ?? false)"
           id="getAllFormsChord"
           [disabled]="disableRequestButton(chordsState?.loading ?? false)"

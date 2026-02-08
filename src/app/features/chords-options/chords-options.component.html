@@ -7,6 +7,7 @@
     <app-chords-grid id="optionsChords"></app-chords-grid>
     <div id="buttonsSection">
       <app-submit-button
+        [loading]="chordsState?.loading ?? false"
         (click)="!chordsState?.loading && getOtherOptions()"
         id="getOtherOptionsButton"
         [disabled]="chordsState?.loading ?? false"
