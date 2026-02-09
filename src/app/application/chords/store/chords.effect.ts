@@ -46,7 +46,10 @@ export class ChordsEffects {
           map((response) => {
             return guessCurrentChordsSuccess({ currentChords: response.chords, message: '' });
           }),
-          catchError((error) => of(guessCurrentChordsError({ currentChords: currentChords, error: error })))
+          catchError((error) => {
+            console.error(error);
+            return of(guessCurrentChordsError({ currentChords: currentChords, error: error }));
+          })
         );
       })
     )
@@ -65,7 +68,10 @@ export class ChordsEffects {
               response: response?.response ?? '',
             })
           ),
-          catchError((error) => of(getChordProgressionError({ currentChords: currentChords, error })))
+          catchError((error) => {
+            console.error(error);
+            return of(getChordProgressionError({ currentChords: currentChords, error }));
+          })
         );
       })
     )
@@ -83,7 +89,10 @@ export class ChordsEffects {
               alternativeChords: response?.chords ?? [],
             })
           ),
-          catchError((error) => of(setAlternativeChordsOptionsError({ error })))
+          catchError((error) => {
+            console.error(error);
+            return of(setAlternativeChordsOptionsError({ error }));
+          })
         );
       })
     )
@@ -100,7 +109,10 @@ export class ChordsEffects {
               handbookChords: response.chords,
             })
           ),
-          catchError((error) => of(getHandbookChordsError({ error })))
+          catchError((error) => {
+            console.error(error);
+            return of(getHandbookChordsError({ error }));
+          })
         );
       })
     )

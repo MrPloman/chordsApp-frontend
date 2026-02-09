@@ -87,6 +87,7 @@ export const setHandbookChordsSelected = createAction(
   props<{ handbookChordsSelected: number }>()
 );
 export const addHandbookChordToCurrentChords = createAction('[Add New Handbook to Current Chords]');
+export const setLoadingStatus = createAction('[Set Loading Status]');
 
 // Reset section
 export const resetMessages = createAction('[Reset Messages]');

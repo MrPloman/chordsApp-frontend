@@ -31,6 +31,7 @@ import {
   setChordSelected,
   setCurrentChordSelectedAndCheckAlternativeChords,
   setHandbookChordsSelected,
+  setLoadingStatus,
   setWholeChordsState,
 } from './chords.actions';
 import { chordsInitialState, ChordsState } from './chords.state';
@@ -215,7 +216,8 @@ export const chordsReducer = createReducer(
     return { ...state, loading: true };
   }),
   on(guessCurrentChordsSuccess, (state, props) => {
-    const _currentChords = chordsHelper.checkAndGenerateID(props.currentChords);
+    let _currentChords = chordsHelper.checkAndGenerateID(props.currentChords);
+    _currentChords = chordsHelper.getAllNoteChordName(_currentChords);
     setLocalStorage('chords', {
       ...state,
       currentChords: _currentChords,
@@ -238,8 +240,6 @@ export const chordsReducer = createReducer(
 
   // Progression Section
   on(getChordProgression, (state, props) => {
-    // if (!chordsHelper.checkIfChordsAreGuessed(state.currentChords))
-    // return { ...state, error: 'Chords not guessed yet' };
     setLocalStorage('chords', {
       ...state,
       loading: false,
@@ -386,7 +386,7 @@ export const chordsReducer = createReducer(
         alternativeChordSelected: -1,
         currentChordSelected: props.currentChordSelected,
       };
-    setLocalStorage('chords', { ..._state });
+    setLocalStorage('chords', { ..._state, loading: false });
     return { ..._state };
   }),
 
@@ -473,6 +473,13 @@ export const chordsReducer = createReducer(
     };
   }),
 
+  on(setLoadingStatus, (state) => {
+    setLocalStorage('chords', {
+      ...state,
+      loading: false,
+    });
+    return { ...state, loading: false };
+  }),
   // Reset Section
 
   on(resetMessages, (state) => {
