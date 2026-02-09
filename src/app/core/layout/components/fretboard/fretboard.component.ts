@@ -35,7 +35,7 @@ export class FretboardComponent {
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
 
   private breakpointObserver = inject(BreakpointObserver);
-  screenWidth785px: boolean = false;
+  public screenWidth785px: boolean = false;
 
   constructor() {}
   public makeitMobile(value: any) {

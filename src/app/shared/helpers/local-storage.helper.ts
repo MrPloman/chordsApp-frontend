@@ -10,4 +10,6 @@ export function setLocalStorage(key: storeTypes, dataToStore: ChordsState | lang
   const dataStringify = JSON.stringify(dataToStore);
   localStorage.setItem(key, dataStringify);
 }
-export function clearLocalStorage() {}
+export function clearLocalStorage(key: storeTypes) {
+  localStorage.removeItem(key);
+}

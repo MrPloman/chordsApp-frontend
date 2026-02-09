@@ -24,6 +24,7 @@ import {
   hideChord,
   removeChord,
   removeNoteFromChord,
+  resetHandbookChords,
   resetMessages,
   setAlternativeChordSelected,
   setAlternativeChordsOptionsError,
@@ -433,6 +434,9 @@ export const chordsReducer = createReducer(
       handbookChordsSelected: -1,
       error: props.error,
     };
+  }),
+  on(resetHandbookChords, (state) => {
+    return { ...state, handbookChords: [], handbookChordsSelected: -1 };
   }),
   on(setHandbookChordsSelected, (state, props) => {
     setLocalStorage('chords', {

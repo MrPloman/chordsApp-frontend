@@ -5,7 +5,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import {
   addHandbookChordToCurrentChords,
   getHandbookChords,
-  setHandbookChordsSelected,
+  resetHandbookChords,
 } from '@app/application/chords/store/chords.actions';
 import { selectChordState } from '@app/application/chords/store/chords.selector';
 import { ChordsState } from '@app/application/chords/store/chords.state';
@@ -65,8 +65,7 @@ export class ChordsHandbookComponent {
     this.selectedModeService.setSelectedMode('handbook');
   }
   ngOnDestroy(): void {
-    this.store.dispatch(setHandbookChordsSelected({ handbookChordsSelected: -1 }));
-
+    this.store.dispatch(resetHandbookChords());
     this.chordStoreSubscription.unsubscribe();
   }
   public addNewChord(loading: boolean, handbookChordSelected: number) {
