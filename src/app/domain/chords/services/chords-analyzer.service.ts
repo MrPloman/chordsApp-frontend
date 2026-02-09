@@ -3,7 +3,7 @@ import { Chord } from '../models/chord.model';
 
 export class ChordsAnalyzerService {
   public isThisValidChord(chord: Chord): boolean {
-    if (!chord || !chord.notes || chord.notes.length < minimumNotesToMakeChord) return false;
+    if (!chord || !chord.notes) return false;
     if (chord.notes.length >= minimumNotesToMakeChord) {
       const notes: string[] = chord.notes.map((note) => note.name);
       const repeatedNotes: Record<string, number> = {};
