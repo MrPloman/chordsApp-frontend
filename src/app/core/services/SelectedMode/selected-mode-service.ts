@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { selectedModeType } from '@app/core/types/index.types';
-import { setLocalStorage } from '@app/shared/helpers/local-storage.helper';
+import { clearLocalStorage, setLocalStorage } from '@app/shared/helpers/local-storage.helper';
 
 @Injectable({ providedIn: 'root' })
 export class SelectedModeService {
@@ -8,7 +8,11 @@ export class SelectedModeService {
   public selectedMode = this._selectedModeData.asReadonly();
 
   public setSelectedMode(mode: selectedModeType | undefined) {
-    if (!mode) return;
+    if (!mode) {
+      clearLocalStorage('selectedMode');
+      this._selectedModeData.set(undefined);
+      return;
+    }
     setLocalStorage('selectedMode', mode);
     this._selectedModeData.set(mode);
   }

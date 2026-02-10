@@ -24,4 +24,7 @@ export class MainLayoutComponent implements OnInit {
   ngOnInit(): void {
     this.selectedMode = this.selectedModeService.selectedMode;
   }
+  ngAfterViewInit(): void {
+    if (this.router.url === '/') this.selectedModeService.setSelectedMode(undefined);
+  }
 }
