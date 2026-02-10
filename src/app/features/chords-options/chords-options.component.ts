@@ -2,12 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { Router } from '@angular/router';
 import {
   exchangeChordOptionForCurrenChord,
   getAlternativeChordsOptions,
 } from '@app/application/chords/store/chords.actions';
 import { selectChordState } from '@app/application/chords/store/chords.selector';
 import { ChordsState } from '@app/application/chords/store/chords.state';
+import { SelectedModeService } from '@app/core/services/SelectedMode/selected-mode-service';
 import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
 
@@ -30,8 +32,16 @@ import { Observable } from 'rxjs';
   styleUrl: './chords-options.component.scss',
 })
 export class ChordsOptionsComponent {
+  private router = inject(Router);
   private store = inject(Store);
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
+  private selectedModeService = inject(SelectedModeService);
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    if (!this.selectedModeService.selectedMode()) this.router.navigate(['/']);
+  }
 
   public exchangeChords() {
     this.store.dispatch(exchangeChordOptionForCurrenChord());

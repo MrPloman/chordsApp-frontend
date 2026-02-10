@@ -9,8 +9,10 @@ import { ChordsGridComponent } from '@app/shared/ui/chords-grid/chords-grid.comp
 import { InputInstructionComponent } from '@app/shared/ui/input-instruction/input-instruction.component';
 import { SubmitButtonComponent } from '@app/shared/ui/submit-button/submit-button.component';
 
+import { Router } from '@angular/router';
 import { getChordProgression, resetMessages } from '@app/application/chords/store/chords.actions';
 import { selectAllowedForProgression, selectChordState } from '@app/application/chords/store/chords.selector';
+import { SelectedModeService } from '@app/core/services/SelectedMode/selected-mode-service';
 import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
@@ -37,6 +39,8 @@ export class ChordsProgressionComponent {
   });
   public chordsStore: Observable<ChordsState> = this.store.pipe(select(selectChordState));
   private chordStoreSubscription!: Subscription;
+  private selectedModeService = inject(SelectedModeService);
+  private router = inject(Router);
 
   constructor() {
     this.chordStoreSubscription = this.chordsStore.subscribe((chordState: ChordsState) => {
@@ -46,6 +50,12 @@ export class ChordsProgressionComponent {
         this.progressionForm.controls.prompt.setErrors(null);
       } else this.progressionForm.disable();
     });
+  }
+
+  ngOnInit(): void {
+    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
+    //Add 'implements OnInit' to the class.
+    if (!this.selectedModeService.selectedMode()) this.router.navigate(['/']);
   }
 
   public askNewChordProgression() {
